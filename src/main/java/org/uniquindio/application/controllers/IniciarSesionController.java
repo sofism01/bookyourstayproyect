@@ -32,7 +32,14 @@ public class IniciarSesionController {
                 Main.setUsuarioActual(contrasena);
                 Main.actualizarVista(Paths.VISTA_CLIENTE);
                 break;
+            default:
+                Main.mostrarMensaje("Email o contraseña incorrecto");
         }
+
+    }
+
+    @FXML
+    void initialize() {
 
     }
 
