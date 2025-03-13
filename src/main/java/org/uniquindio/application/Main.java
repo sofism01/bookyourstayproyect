@@ -1,4 +1,4 @@
-package org.uniquindio.application.application;
+package org.uniquindio.application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

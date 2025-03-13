@@ -1,18 +1,23 @@
 package org.uniquindio.application.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import org.uniquindio.application.application.Main;
+import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.BookYourStay;
 import org.uniquindio.application.utils.Paths;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class IniciarSesionController {
 
     @FXML
-    private TextField txtBIENVENIDO;
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
 
     @FXML
     private TextField txtContrasena;

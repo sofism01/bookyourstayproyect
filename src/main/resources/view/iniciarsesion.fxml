@@ -18,7 +18,7 @@
                   <Font name="Playbill" size="30.0" />
                </font>
             </Label>
-            <Button layoutX="86.0" layoutY="191.0" mnemonicParsing="false" onAction="#iniciarSesion" style="-fx-background-color: 9E9E9E;" text="Iniciar Sesion" />
+            <Button layoutX="86.0" layoutY="191.0" mnemonicParsing="false" onAction="#iniciarSesion" style="-fx-background-color: #9E9E9E;" text="Iniciar Sesion" />
             <TextField fx:id="txtEmail" layoutX="86.0" layoutY="82.0" />
             <TextField fx:id="txtContrasena" layoutX="87.0" layoutY="129.0" />
             <Label layoutX="33.0" layoutY="86.0" text="Email:" />
@@ -27,7 +27,7 @@
       </AnchorPane>
       <ImageView fitHeight="319.0" fitWidth="258.0" layoutX="23.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../IMAGEN/img.png" />
+            <Image url="@../imagen/img.png" />
          </image>
       </ImageView>
    </children>
