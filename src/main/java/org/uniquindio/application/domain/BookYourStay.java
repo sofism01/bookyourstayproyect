@@ -8,6 +8,8 @@ public class BookYourStay {
     private static BookYourStay bookYourStay;
     private ArrayList<Alojamiento> alojamientos;
 
+
+
     public static BookYourStay getInstance() {
         if (bookYourStay == null) {
             bookYourStay = new BookYourStay();
@@ -16,12 +18,21 @@ public class BookYourStay {
 
     }
 
+    private BookYourStay(){
+
+        iniciarApp();
+    }
+
     private void iniciarApp() {
         administrador = new Administrador();
         cliente = new Cliente();
         alojamientos = new ArrayList<>();
-
+        administrador.
     }
+
+
+
+
 
     public static String iniciarSesion(String email, String contrasena) {
 

@@ -44,6 +44,12 @@ public class IniciarSesionController {
     }
 
     @FXML
+
+    void regresarHomeInicioSesion (ActionEvent event) throws IOException {
+        Main.actualizarVista(Paths.HOME);
+    }
+
+    @FXML
     void initialize() {
 
     }

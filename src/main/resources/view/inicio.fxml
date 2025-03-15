@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #718691;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.HomeController">
+   <children>
+      <Button layoutX="262.0" layoutY="256.0" mnemonicParsing="false" onAction="#iniciarSesionHome" prefHeight="35.0" prefWidth="101.0" style="-fx-background-color: #FFFFFF;" text="Iniciar Sesión" />
+      <Button layoutX="265.0" layoutY="339.0" mnemonicParsing="false" onAction="#iniciarRegistro" prefHeight="35.0" prefWidth="94.0" style="-fx-background-color: #FFFFFF;" text="Registrarme" />
+      <ScrollPane layoutX="27.0" layoutY="80.0" prefHeight="164.0" prefWidth="546.0">
+         <content>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox prefHeight="208.0" prefWidth="800.0">
+                     <children>
+                        <ImageView fitHeight="148.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagen/img_1.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="150.0" fitWidth="236.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagen/img_2.png" />
+                           </image></ImageView>
+                        <ImageView fitHeight="148.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagen/img_3.png" />
+                           </image></ImageView>
+                        <ImageView fitHeight="148.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagen/img_4.png" />
+                           </image></ImageView>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagen/img_5.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="150.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagen/img_6.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children></HBox>
+         </content>
+      </ScrollPane>
+      <HBox layoutX="61.0" layoutY="14.0" prefHeight="35.0" prefWidth="502.0">
+         <children>
+            <ComboBox fx:id="combCiudad" editable="true" onAction="#seleccionarCiudad" prefHeight="34.0" prefWidth="185.0" promptText="Seleccione la ciudad" />
+            <TextField prefHeight="35.0" prefWidth="363.0" />
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #FFFFFF;" text="Buscar" />
+         </children>
+      </HBox>
+      <Label layoutX="250.0" layoutY="308.0" text="¿No tienes una cuenta?" />
+   </children>
+</AnchorPane>

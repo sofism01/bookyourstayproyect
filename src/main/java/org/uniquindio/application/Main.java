@@ -28,7 +28,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         main = this;
         view = stage;
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(Paths.INICIAR_SESION)));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(Paths.HOME)));
         Pane pane = (Pane) loader.load();
         Scene scene = new Scene(pane);
         stage.setScene(scene);
