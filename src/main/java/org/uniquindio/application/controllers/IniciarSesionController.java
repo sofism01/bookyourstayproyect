@@ -31,14 +31,12 @@ public class IniciarSesionController {
         String contrasena = txtContrasena.getText();
         String rol = BookYourStay.iniciarSesion(email, contrasena);
 
-        switch (rol) {
-            case "CLIENTE":
-                Main.setUsuarioActual(email);
-                Main.setUsuarioActual(contrasena);
-                Main.actualizarVista(Paths.VISTA_CLIENTE);
-                break;
-            default:
-                Main.mostrarMensaje("Email o contraseña incorrecto");
+        if (rol.equals("ADMINISTRADOR")) {
+            Main.setUsuarioActual(email);
+            Main.setUsuarioActual(contrasena);
+            Main.actualizarVista(Paths.VISTA_ADMIN);
+        } else {
+            Main.mostrarMensaje("Email o contraseña incorrecto");
         }
 
     }

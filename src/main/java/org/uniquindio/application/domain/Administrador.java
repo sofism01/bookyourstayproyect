@@ -19,4 +19,12 @@ public class Administrador implements Persona {
     public String getContrasena(){
         return contrasena;
     }
+
+ public void setEmail(String email){
+        this.email = email;
+ }
+
+ public void setContrasena(String contrasena){
+        this.contrasena = contrasena;
+ }
 }

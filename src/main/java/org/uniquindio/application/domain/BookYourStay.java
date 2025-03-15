@@ -1,15 +1,18 @@
 package org.uniquindio.application.domain;
 
+import org.uniquindio.application.domain.interfaces.Persona;
+
 import java.util.ArrayList;
 
 public class BookYourStay {
     private Administrador administrador;
     private Cliente cliente;
     private static BookYourStay bookYourStay;
-    private ArrayList<Alojamiento> alojamientos;
+    public ArrayList<Alojamiento> alojamientos;
+    private ArrayList<Persona> personas;
 
 
-
+//singleton
     public static BookYourStay getInstance() {
         if (bookYourStay == null) {
             bookYourStay = new BookYourStay();
@@ -27,7 +30,10 @@ public class BookYourStay {
         administrador = new Administrador();
         cliente = new Cliente();
         alojamientos = new ArrayList<>();
-        administrador.
+        administrador.setEmail("Lau@bookyourstay.com");
+        administrador.setContrasena("12345678");
+        assert personas != null;
+        personas.add(administrador);
     }
 
 
@@ -41,8 +47,8 @@ public class BookYourStay {
 
     public String login(String email, String contrasena) {
 
-        if (cliente.getEmail().equals(email) && cliente.getContrasena().equals(contrasena)) {
-            return "CLIENTE";
+        if (administrador.getEmail().equals(email) && administrador.getContrasena().equals(contrasena)) {
+            return "ADMINISTRADOR";
 
         }
         return null;

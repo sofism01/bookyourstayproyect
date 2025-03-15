@@ -42,8 +42,10 @@ public class Main extends Application {
         view.show();
     }
     public static void setUsuarioActual(String usuarioActual) {
+
         Main.usuarioActual = usuarioActual;
     }
+
     public static void mostrarMensaje(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Book Your Stay");

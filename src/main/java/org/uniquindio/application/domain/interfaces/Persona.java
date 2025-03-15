@@ -1,10 +1,13 @@
 package org.uniquindio.application.domain.interfaces;
 
+import lombok.AllArgsConstructor;
+
+
 public interface Persona {
-    public String getCedula();
-    public String getNombre();
-    public String getTelefono();
+
     public String getEmail();
     public String getContrasena();
+
+
 }
 
