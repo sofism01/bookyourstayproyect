@@ -9,8 +9,11 @@ import java.io.IOException;
 
 public class RegistroController {
     @FXML
-    void registroListo(ActionEvent event) {
+    void registroListo(ActionEvent event) throws IOException{
+        //Guardar los datos
+        //enviar el correo
 
+        Main.navegarLogin(Paths.INICIAR_SESION, true);
     }
 
     @FXML

@@ -27,7 +27,7 @@ public class HomeController {
 
     @FXML
     void iniciarSesionHome(ActionEvent event) throws IOException {
-        Main.actualizarVista(Paths.INICIAR_SESION);
+        Main.navegarLogin(Paths.INICIAR_SESION, false);
 
     }
 

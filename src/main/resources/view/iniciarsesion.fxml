@@ -17,11 +17,13 @@
                   <Font name="Playbill" size="30.0" />
                </font>
             </Label>
-            <Button layoutX="86.0" layoutY="191.0" mnemonicParsing="false" onAction="#iniciarSesion" style="-fx-background-color: #FFFFFF;" text="Iniciar Sesion" />
+            <Button layoutX="75.0" layoutY="218.0" mnemonicParsing="false" onAction="#iniciarSesion" style="-fx-background-color: #FFFFFF;" text="Iniciar Sesion" />
             <TextField fx:id="txtEmail" layoutX="86.0" layoutY="82.0" />
             <TextField fx:id="txtContrasena" layoutX="87.0" layoutY="129.0" />
-            <Label layoutX="33.0" layoutY="86.0" text="Email:" />
+            <Label layoutX="21.0" layoutY="86.0" text="Email:" />
             <Label layoutX="17.0" layoutY="133.0" text="Contraseña:" />
+            <TextField fx:id="txtCodigo"  layoutX="86.0" layoutY="173.0" />
+            <Label fx:id="labelCodigo" layoutX="16.0" layoutY="177.0" text="Código:" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="319.0" fitWidth="258.0" layoutX="23.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">

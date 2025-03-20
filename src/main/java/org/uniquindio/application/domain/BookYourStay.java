@@ -27,12 +27,12 @@ public class BookYourStay {
     }
 
     private void iniciarApp() {
+        personas = new ArrayList<>();
         administrador = new Administrador();
         cliente = new Cliente();
         alojamientos = new ArrayList<>();
         administrador.setEmail("Lau@bookyourstay.com");
         administrador.setContrasena("12345678");
-        assert personas != null;
         personas.add(administrador);
     }
 
@@ -53,6 +53,7 @@ public class BookYourStay {
         }
         return null;
     }
+
 }
 
 

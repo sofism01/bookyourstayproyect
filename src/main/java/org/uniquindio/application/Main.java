@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
+import org.uniquindio.application.controllers.IniciarSesionController;
 import org.uniquindio.application.utils.Paths;
 
 import java.io.IOException;
@@ -41,6 +42,16 @@ public class Main extends Application {
         view.setScene(scene);
         view.show();
     }
+    public static void navegarLogin(String path, boolean nuevo) throws IOException {
+        FXMLLoader loader = new FXMLLoader((Main.class.getResource(path)));
+        Pane pane = (Pane) loader.load();
+        IniciarSesionController controller = loader.getController();
+        controller.mostrarCodigoNuevoUsuario(nuevo);
+        Scene scene = new Scene(pane);
+        view.setScene(scene);
+        view.show();
+    }
+
     public static void setUsuarioActual(String usuarioActual) {
 
         Main.usuarioActual = usuarioActual;

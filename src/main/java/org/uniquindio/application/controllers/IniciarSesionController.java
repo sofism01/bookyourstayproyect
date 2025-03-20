@@ -2,6 +2,7 @@ package org.uniquindio.application.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.BookYourStay;
@@ -13,6 +14,8 @@ import java.util.ResourceBundle;
 
 public class IniciarSesionController {
 
+    public TextField txtCodigo;
+    public Label labelCodigo;
     @FXML
     private ResourceBundle resources;
 
@@ -25,11 +28,16 @@ public class IniciarSesionController {
     @FXML
     private TextField txtEmail;
 
+
+    private boolean mostrarCodigo;
+
+
     @FXML
     void iniciarSesion(ActionEvent event) throws IOException {
         String email = txtEmail.getText();
         String contrasena = txtContrasena.getText();
         String rol = BookYourStay.iniciarSesion(email, contrasena);
+        System.out.print(rol);
 
         if (rol.equals("ADMINISTRADOR")) {
             Main.setUsuarioActual(email);
@@ -38,7 +46,6 @@ public class IniciarSesionController {
         } else {
             Main.mostrarMensaje("Email o contraseña incorrecto");
         }
-
     }
 
     @FXML
@@ -50,6 +57,16 @@ public class IniciarSesionController {
     @FXML
     void initialize() {
 
+        if(!mostrarCodigo){
+            labelCodigo.setVisible(false);
+            txtCodigo.setVisible(false);
+        }
+    }
+
+    public void mostrarCodigoNuevoUsuario(boolean mostrarCodigo) {
+        this.mostrarCodigo = mostrarCodigo;
+        labelCodigo.setVisible(mostrarCodigo);
+        txtCodigo.setVisible(mostrarCodigo);
     }
 
 }

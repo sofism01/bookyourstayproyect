@@ -18,7 +18,8 @@ public class Cliente implements Persona {
     private String telefono;
     private String email;
     private String contrasena;
-    ArrayList<Reserva> reservas;
+    private ArrayList<Reserva> reservas;
+    private boolean activo;
 
 
     public Cliente() {
