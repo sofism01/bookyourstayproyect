@@ -3,11 +3,12 @@ package org.uniquindio.application.domain;
 import org.uniquindio.application.domain.interfaces.Persona;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookYourStay {
     private Administrador administrador;
     private Cliente cliente;
-    private static BookYourStay bookYourStay;
+    public static BookYourStay bookYourStay;
     public ArrayList<Alojamiento> alojamientos;
     private ArrayList<Persona> personas;
 
@@ -52,6 +53,19 @@ public class BookYourStay {
 
         }
         return null;
+    }
+
+    public List<Alojamiento> listarAlojamientos() {
+        return alojamientos;
+
+    }
+    public ArrayList<String> listarTipos() {
+        ArrayList<String> tipo = new ArrayList<>();
+        tipo.add("Casa");
+        tipo.add("Apartamento");
+        tipo.add("Hotel");
+
+        return tipo;
     }
 
 }

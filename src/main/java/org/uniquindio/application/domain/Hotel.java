@@ -9,7 +9,7 @@ public class Hotel extends Alojamiento {
     private ArrayList<Habitacion> habitaciones;
 
     public Hotel(String nombre, String ubicacion, Ciudad ciudad, String descripcion, double precioPorNoche,
-    int capacidadMax, Servicio servicio) {
+                 int capacidadMax, Servicio servicio) {
         super(nombre, ubicacion, ciudad, descripcion, precioPorNoche, capacidadMax, servicio);
         this.habitaciones = new ArrayList<>();
     }

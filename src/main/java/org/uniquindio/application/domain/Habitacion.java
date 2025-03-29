@@ -12,6 +12,7 @@ public class Habitacion {
     private int capacidad;
     private String descripcion;
 
+
     @Override
     public String toString() {
         return "Habitacion{" +

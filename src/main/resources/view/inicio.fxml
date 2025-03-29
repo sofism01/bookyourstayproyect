@@ -20,29 +20,29 @@
                <children>
                   <HBox prefHeight="208.0" prefWidth="800.0">
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../imagen/img_1.png" />
+                              <Image url="@../imagen/img_7.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="236.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imagen/img_2.png" />
                            </image></ImageView>
-                        <ImageView fitHeight="148.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imagen/img_3.png" />
                            </image></ImageView>
-                        <ImageView fitHeight="148.0" fitWidth="305.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imagen/img_4.png" />
                            </image></ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imagen/img_5.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imagen/img_6.png" />
                            </image>

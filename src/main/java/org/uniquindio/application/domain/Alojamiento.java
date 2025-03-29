@@ -8,6 +8,7 @@ import org.uniquindio.application.enums.Servicio;
 
 
 public abstract class Alojamiento {
+
     protected String nombre;
     protected String ubicacion;
     protected Ciudad ciudad;
@@ -15,6 +16,7 @@ public abstract class Alojamiento {
     protected double precioPorNoche;
     protected int capacidadMax;
     protected Servicio servicio;
+
 
 
 

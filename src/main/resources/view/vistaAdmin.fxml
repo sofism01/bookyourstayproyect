@@ -1,14 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.uniquindio.application.controllers.VistaAdminController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="480.0" prefWidth="642.0" style="-fx-background-color: #BDBDBD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.VistaAdminController">
+   <children>
+      <VBox prefHeight="606.0" prefWidth="813.0">
+         <children>
+            <Label text="Bienvenido administrador">
+               <VBox.margin>
+                  <Insets left="300.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Playbill" size="30.0" />
+               </font>
+            </Label>
+            <Label text="Gestione sus alojamientos">
+               <font>
+                  <Font name="Playbill" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="320.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="418.0" prefWidth="642.0">
+               <children>
+                  <GridPane hgap="30.0" maxWidth="600.0" prefHeight="409.0" prefWidth="346.0" style="-fx-padding: 20px" vgap="15.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="74.59998168945313" minHeight="10.0" prefHeight="60.199987792968756" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="130.40001220703124" minHeight="10.0" prefHeight="45.60000839233399" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="46.600012207031256" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="53.399993896484375" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="44.600006103515625" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="63.20000915527345" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="57.20000915527345" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="57.20000915527345" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="57.20000915527345" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="250.39999999999998" minHeight="10.0" prefHeight="57.20000915527345" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Tipo:">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin></Label>
+                        <Label text="Nombre:" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin></Label>
+                        <Label text="Ciudad:" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin></Label>
+                        <Label text="Descripción" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Precio por noche:" GridPane.rowIndex="5">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Capacidad máxima:" GridPane.rowIndex="6">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Servicios:" GridPane.rowIndex="4">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <ComboBox fx:id="cmbTipo" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ComboBox fx:id="cmbCiudad" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="cmbCapacidad" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="cmbServicios" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Button fx:id="btnElegirFoto" mnemonicParsing="false" onAction="#fileChooser" text="Elegir foto" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <GridPane.margin>
+                              <Insets left="35.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <Label text="Foto:" GridPane.rowIndex="7">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Número de habitación:" GridPane.rowIndex="8" />
+                        <Label text="Costo adicional:" GridPane.rowIndex="9" />
+                        <ComboBox fx:id="cmbNumHabitacion" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                     </children>
+                  </GridPane>
+                  <VBox prefHeight="418.0" prefWidth="454.0">
+                     <children>
+                        <TableView fx:id="tablaAlojamientos" prefHeight="200.0" prefWidth="455.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Nombre" />
+                            <TableColumn prefWidth="75.0" text="Ciudad" />
+                              <TableColumn prefWidth="75.0" text="Descripción" />
+                              <TableColumn prefWidth="75.0" text="Servicios" />
+                              <TableColumn prefWidth="75.0" text="Precio" />
+                              <TableColumn prefWidth="75.0" text="Capacidad" />
+                          </columns>
+                           <VBox.margin>
+                              <Insets top="25.0" />
+                           </VBox.margin>
+                        </TableView>
+                        <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <VBox.margin>
+                              <Insets left="100.0" top="20.0" />
+                           </VBox.margin>
+                        </ImageView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#guardarAlojamiento" text="Guardar">
+                     <HBox.margin>
+                        <Insets left="150.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#eliminarAlojamiento" text="Eliminar">
+                     <HBox.margin>
+                        <Insets left="150.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#editarAlojamiento" text="Editar">
+                     <HBox.margin>
+                        <Insets left="150.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
