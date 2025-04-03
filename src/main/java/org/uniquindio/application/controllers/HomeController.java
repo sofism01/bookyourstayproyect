@@ -2,7 +2,12 @@ package org.uniquindio.application.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.utils.Paths;
@@ -15,6 +20,8 @@ import java.util.ResourceBundle;
 
 public class HomeController {
 
+    @FXML
+    private HBox alojamientosInicio;
 
     @FXML
     private ResourceBundle resources;
@@ -46,5 +53,21 @@ public class HomeController {
     void initialize() {
         this.combCiudad.getItems().addAll("ARMENIA", "PEREIRA", "MEDELLIN", "BOGOTA", "CARTAGENA");
 
+        try {
+
+            for (int i = 0; i < 5; i++) {
+                alojamientosInicio.getChildren().add(
+                        itemAlojamiento()
+                );
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public Node itemAlojamiento() throws Exception{
+        FXMLLoader loader = new FXMLLoader((Main.class.getResource("/view/itemAlojamiento.fxml")));
+        return loader.load();
     }
 }

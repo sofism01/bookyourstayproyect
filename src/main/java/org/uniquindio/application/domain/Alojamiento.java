@@ -1,37 +1,29 @@
 package org.uniquindio.application.domain;
 
+import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
+import org.uniquindio.application.enums.Tipo;
+
+import java.util.List;
 
 @AllArgsConstructor
-
-
+@Getter
+@Setter
 public abstract class Alojamiento {
 
+    public Tipo tipo;
     protected String nombre;
-    protected String ubicacion;
     protected Ciudad ciudad;
     protected String descripcion;
     protected double precioPorNoche;
     protected int capacidadMax;
-    protected Servicio servicio;
+    public Image imagen;
+    protected List<Servicio> servicio;
 
 
-
-
-    //método con el que cada tipo de alojamiento calcula el precio de forma diferente
-    public abstract double calcularCostoTotal();
-
-    @Override
-    public String toString() {
-        return "Alojamiento{" +
-                "nombre='" + nombre + '\'' +
-                ", ciudad=" + ciudad +
-                ", descripcion='" + descripcion + '\'' +
-                ", precioPorNoche=" + precioPorNoche +
-                ", capacidadMax=" + capacidadMax +
-                ", servicio=" + servicio +
-                '}';
-    }
 }

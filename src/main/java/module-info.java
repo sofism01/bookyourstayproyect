@@ -2,6 +2,7 @@ module org.uniquindio.application {
     requires javafx.controls;
     requires javafx.fxml;
     requires static lombok;
+    requires org.controlsfx.controls;
 
 
     opens org.uniquindio.application to javafx.fxml;

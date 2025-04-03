@@ -16,40 +16,7 @@
       <Button layoutX="265.0" layoutY="339.0" mnemonicParsing="false" onAction="#iniciarRegistro" prefHeight="35.0" prefWidth="94.0" style="-fx-background-color: #FFFFFF;" text="Registrarme" />
       <ScrollPane layoutX="27.0" layoutY="80.0" prefHeight="162.0" prefWidth="546.0">
          <content>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <HBox prefHeight="208.0" prefWidth="800.0">
-                     <children>
-                        <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagen/img_7.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagen/img_2.png" />
-                           </image></ImageView>
-                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagen/img_3.png" />
-                           </image></ImageView>
-                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagen/img_4.png" />
-                           </image></ImageView>
-                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagen/img_5.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="132.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagen/img_6.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-               </children></HBox>
+            <HBox fx:id="alojamientosInicio" prefHeight="100.0" prefWidth="200.0"></HBox>
          </content>
       </ScrollPane>
       <HBox layoutX="61.0" layoutY="14.0" prefHeight="35.0" prefWidth="502.0">

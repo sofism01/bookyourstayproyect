@@ -1,16 +1,21 @@
 package org.uniquindio.application.domain;
 
+import lombok.Builder;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
+import org.uniquindio.application.enums.Tipo;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Hotel extends Alojamiento {
     private ArrayList<Habitacion> habitaciones;
 
-    public Hotel(String nombre, String ubicacion, Ciudad ciudad, String descripcion, double precioPorNoche,
-                 int capacidadMax, Servicio servicio) {
-        super(nombre, ubicacion, ciudad, descripcion, precioPorNoche, capacidadMax, servicio);
+    @Builder
+    public Hotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+                 int capacidadMax, Image imagen, List<Servicio> servicio) {
+        super(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
         this.habitaciones = new ArrayList<>();
     }
 
@@ -18,13 +23,4 @@ public class Hotel extends Alojamiento {
         habitaciones.add(habitacion);
     }
 
-    @Override
-    public double calcularCostoTotal() {
-        return habitaciones.stream().mapToDouble(Habitacion::getPrecio).sum();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + ", Tipo : Hotel, Habitaciones: " + habitaciones.size();
-    }
 }

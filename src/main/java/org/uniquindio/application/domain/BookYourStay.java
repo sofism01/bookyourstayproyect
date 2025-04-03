@@ -1,6 +1,10 @@
 package org.uniquindio.application.domain;
 
+import javafx.scene.image.Image;
 import org.uniquindio.application.domain.interfaces.Persona;
+import org.uniquindio.application.enums.Ciudad;
+import org.uniquindio.application.enums.Servicio;
+import org.uniquindio.application.enums.Tipo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +36,10 @@ public class BookYourStay {
         administrador = new Administrador();
         cliente = new Cliente();
         alojamientos = new ArrayList<>();
-        administrador.setEmail("Lau@bookyourstay.com");
-        administrador.setContrasena("12345678");
+        administrador.setEmail("a");
+        administrador.setContrasena("a");
         personas.add(administrador);
     }
-
-
-
 
 
     public static String iniciarSesion(String email, String contrasena) {
@@ -68,6 +69,38 @@ public class BookYourStay {
         return tipo;
     }
 
+    public void agreagrApartamento(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+                                   int capacidadMax, Image image, List<String> servicios, double costoMantenimiento) {
+
+        List<Servicio> serviciosLista = servicios.stream().map( c -> Servicio.valueOf(c.toUpperCase()) ).toList();
+
+        //Hacer las validaciones necesarias
+        Alojamiento alojamiento = Apartamento.builder()
+                .tipo(tipo)
+                .nombre(nombre)
+                .ciudad(ciudad)
+                .descripcion(descripcion)
+                .precioPorNoche(precioPorNoche)
+                .capacidadMax(capacidadMax)
+                .imagen(image)
+                .servicio(serviciosLista)
+                .costoMantenimiento(costoMantenimiento)
+
+                .build();
+
+        alojamientos.add(alojamiento);
+
+    }
+
+    public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+                                   int capacidadMax, Image image, List<String> servicio, double costoMantenimiento) {
+
+    }
+
+    public void agreagrHotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+                                   int capacidadMax, Image image, List<String> servicio) {
+
+    }
 }
 
 

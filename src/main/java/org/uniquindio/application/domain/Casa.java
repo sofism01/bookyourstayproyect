@@ -1,24 +1,21 @@
 package org.uniquindio.application.domain;
 
+import javafx.scene.image.Image;
+import lombok.Builder;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
+import org.uniquindio.application.enums.Tipo;
+
+import java.util.List;
 
 public class Casa extends Alojamiento{
-    private double CostoAseo;
+    private double costoAseo;
 
-    public Casa(String nombre, String ubicacion, Ciudad ciudad, String descripcion, double precioPorNoche,
-                int capacidadMax, Servicio servicio, double costoAseo) {
-        super(nombre, ubicacion, ciudad, descripcion, precioPorNoche, capacidadMax, servicio);
-        this.CostoAseo = costoAseo;
+    @Builder
+    public Casa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+                int capacidadMax, Image imagen, List<Servicio> servicio, double costoAseo) {
+        super(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
+        this.costoAseo = costoAseo;
     }
 
-    @Override
-    public double calcularCostoTotal() {
-        return CostoAseo; //cobrando solo el costo de aseo
-    }
-
-    @Override
-    public String toString() {
-        return super.toString()+", Tipo: Casa, CostoAseo : $" + CostoAseo + '}';
-    }
 }
