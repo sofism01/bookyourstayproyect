@@ -3,6 +3,8 @@ module org.uniquindio.application {
     requires javafx.fxml;
     requires static lombok;
     requires org.controlsfx.controls;
+    requires org.simplejavamail.core;
+    requires org.simplejavamail;
 
 
     opens org.uniquindio.application to javafx.fxml;

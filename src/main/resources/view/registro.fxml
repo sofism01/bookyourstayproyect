@@ -2,9 +2,9 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #718691;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.RegistroController">
    <children>
@@ -17,13 +17,13 @@
             <Label layoutX="75.0" layoutY="153.0" text="Teléfono:" />
             <Label layoutX="84.0" layoutY="191.0" text="Email:" />
             <Label layoutX="68.0" layoutY="231.0" text="Contraseña:" />
-            <TextField layoutX="177.0" layoutY="22.0" prefHeight="26.0" prefWidth="223.0" />
-            <TextField layoutX="177.0" layoutY="67.0" prefHeight="26.0" prefWidth="223.0" />
-            <TextField layoutX="177.0" layoutY="106.0" prefHeight="26.0" prefWidth="223.0" />
-            <TextField layoutX="177.0" layoutY="149.0" prefHeight="26.0" prefWidth="223.0" />
-            <TextField layoutX="177.0" layoutY="187.0" prefHeight="26.0" prefWidth="223.0" />
-            <TextField layoutX="177.0" layoutY="227.0" prefHeight="26.0" prefWidth="223.0" />
+            <TextField fx:id="txtCedula" layoutX="177.0" layoutY="22.0" prefHeight="26.0" prefWidth="223.0" />
+            <TextField fx:id="txtNombres" layoutX="177.0" layoutY="67.0" prefHeight="26.0" prefWidth="223.0" />
+            <TextField fx:id="txtApellidos" layoutX="177.0" layoutY="106.0" prefHeight="26.0" prefWidth="223.0" />
+            <TextField fx:id="txtTelefono" layoutX="177.0" layoutY="149.0" prefHeight="26.0" prefWidth="223.0" />
+            <TextField fx:id="txtEmail" layoutX="177.0" layoutY="187.0" prefHeight="26.0" prefWidth="223.0" />
             <Button layoutX="211.0" layoutY="269.0" mnemonicParsing="false" onAction="#registroListo" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #FFFFFF;" text="Listo" />
+            <PasswordField fx:id="txtContrasena" layoutX="176.0" layoutY="227.0" prefHeight="26.0" prefWidth="223.0" />
          </children>
       </AnchorPane>
    </children>

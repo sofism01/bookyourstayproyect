@@ -12,14 +12,71 @@
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0">
 
-    <VBox>
-        <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
+    <HBox>
+
+        <VBox>
+        <ImageView fitHeight="160.0" fitWidth="265.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../imagen/img_7.png" />
             </image>
         </ImageView>
-        <Label text="Titulo del alojamiento" />
-        <Label text="Precio del alojamiento" />
-    </VBox>
+        <Label text="Apartamento en Pereira" />
+        <Label text="Precio por noche: 80000" />
+        </VBox>
+
+
+        <VBox>
+            <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../imagen/img_3.png" />
+                </image>
+            </ImageView>
+            <Label text="Habitación de hotel en Bogotá" />
+            <Label text="Precio por noche: 150000" />
+        </VBox>
+
+
+        <VBox>
+            <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../imagen/img_4.png" />
+                </image>
+            </ImageView>
+            <Label text="Habitación de hotel en Medellín" />
+            <Label text="Precio por noche:200000" />
+        </VBox>
+
+
+        <VBox>
+            <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../imagen/img_2.png" />
+                </image>
+            </ImageView>
+            <Label text="Casa en Cartagena" />
+            <Label text="Precio por noche: 360000" />
+        </VBox>
+
+        <VBox>
+            <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../imagen/img_5.png" />
+                </image>
+            </ImageView>
+            <Label text="Apartamento en Armenia" />
+            <Label text="Precio por noche 90000" />
+        </VBox>
+
+        <VBox>
+            <ImageView fitHeight="149.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../imagen/img_6.png" />
+                </image>
+            </ImageView>
+            <Label text="Casa en Armenia" />
+            <Label text="Precio por noche: 120000" />
+        </VBox>
+
+    </HBox>
 
 </AnchorPane>

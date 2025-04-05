@@ -55,7 +55,7 @@ public class HomeController {
 
         try {
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 1; i++) {
                 alojamientosInicio.getChildren().add(
                         itemAlojamiento()
                 );

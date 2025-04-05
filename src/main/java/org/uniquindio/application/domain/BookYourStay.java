@@ -7,7 +7,9 @@ import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BookYourStay {
     private Administrador administrador;
@@ -15,9 +17,9 @@ public class BookYourStay {
     public static BookYourStay bookYourStay;
     public ArrayList<Alojamiento> alojamientos;
     private ArrayList<Persona> personas;
+    private Set<String> emailsRegistrados = new HashSet<>();
 
-
-//singleton
+    //singleton
     public static BookYourStay getInstance() {
         if (bookYourStay == null) {
             bookYourStay = new BookYourStay();
@@ -26,7 +28,7 @@ public class BookYourStay {
 
     }
 
-    private BookYourStay(){
+    private BookYourStay() {
 
         iniciarApp();
     }
@@ -60,6 +62,7 @@ public class BookYourStay {
         return alojamientos;
 
     }
+
     public ArrayList<String> listarTipos() {
         ArrayList<String> tipo = new ArrayList<>();
         tipo.add("Casa");
@@ -72,7 +75,7 @@ public class BookYourStay {
     public void agreagrApartamento(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
                                    int capacidadMax, Image image, List<String> servicios, double costoMantenimiento) {
 
-        List<Servicio> serviciosLista = servicios.stream().map( c -> Servicio.valueOf(c.toUpperCase()) ).toList();
+        List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
         //Hacer las validaciones necesarias
         Alojamiento alojamiento = Apartamento.builder()
@@ -93,12 +96,54 @@ public class BookYourStay {
     }
 
     public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                                   int capacidadMax, Image image, List<String> servicio, double costoMantenimiento) {
+                            int capacidadMax, Image image, List<String> servicio, double costoMantenimiento) {
 
     }
 
     public void agreagrHotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                                   int capacidadMax, Image image, List<String> servicio) {
+                             int capacidadMax, Image image, List<String> servicio) {
+
+    }
+
+    public void registrarCliente(String cedula, String nombre, String apellido, String telefono,
+                                 String email, String contrasena) throws Exception {
+
+        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
+            throw new Exception("Todos los campos son necesarios");
+        }
+
+        if (telefono.length() != 10) {
+            throw new Exception("El número de teléfono debe tener exactamente 10 dígitos");
+        }
+
+        for (char c : telefono.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                throw new Exception("El número de teléfono solo debe contener dígitos");
+            }
+        }
+        if (!email.contains("@") || email.indexOf("@") == 0 || email.lastIndexOf(".")
+                < email.indexOf("@") + 2 || email.endsWith(".")) {
+            throw new Exception("El email no tiene un formato válido");
+        }
+
+        // Validar que el email no esté repetido (no sea existente)
+
+        if (emailsRegistrados.contains(email)) {
+            throw new Exception("El número de teléfono ya está registrado");
+
+    }
+        if (!contrasena.matches(".*[A-Z].*")) {
+            throw new Exception("La contraseña debe contener al menos una letra mayúscula.");
+        }
+
+        if (!contrasena.matches(".*\\d.*")) {
+            throw new Exception("La contraseña debe contener al menos un número.");
+        }
+    }
+
+
+    public Persona listarPersonas() {
+        return (Persona) personas;
 
     }
 }
