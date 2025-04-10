@@ -48,6 +48,7 @@ public class RegistroController {
     @FXML
     private TextField txtTelefono;
 
+BookYourStay bookYourStay = BookYourStay.getInstance();
 
     private ObservableList<Persona> personasObservable;
 
@@ -56,7 +57,6 @@ public class RegistroController {
 
     }
 
-    BookYourStay bookYourStay = BookYourStay.getInstance();
     @FXML
     void registroListo(ActionEvent event) throws IOException{
         try {
@@ -72,31 +72,14 @@ public class RegistroController {
             actualizarPersonas();
             mostrarAlerta("Usuario guardado correctamente", Alert.AlertType.INFORMATION);
 
-            //enviar el correo
-            enviarCorreoBienvenida(txtNombres.getText(), txtEmail.getText());
+            Main.navegarLogin(Paths.INICIAR_SESION, true);
 
         } catch (Exception e) {
             mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
         }
 
-        Main.navegarLogin(Paths.INICIAR_SESION, true);
     }
 
-    private void enviarCorreoBienvenida(String nombre, String emailUser) {
-        Email email = EmailBuilder.startingBlank()
-                .from("bookYourStay", "bookyourstay7@gmail.com")
-                .to("melisa", "melisayramona123@gmail.com")
-                .withSubject("¡Bienvenido/a a Book Your Stay!")
-                .withPlainText("Hola " + nombre + ",\n\nGracias por registrarte en Book Your Stay.\n¡Esperamos que tengas una excelente experiencia!")
-                .buildEmail();
-
-        Mailer mailer = MailerBuilder
-                .withSMTPServer("smtp.gmail.com", 587, "bookyourstay7@gmail.com", "ramona3000")
-                .withTransportStrategy(SMTP_TLS)
-                .buildMailer();
-
-        mailer.sendMail(email);
-    }
 
     private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);

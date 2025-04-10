@@ -1,6 +1,10 @@
 package org.uniquindio.application.domain;
 
 import javafx.scene.image.Image;
+import org.simplejavamail.api.email.Email;
+import org.simplejavamail.api.mailer.Mailer;
+import org.simplejavamail.email.EmailBuilder;
+import org.simplejavamail.mailer.MailerBuilder;
 import org.uniquindio.application.domain.interfaces.Persona;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
@@ -10,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.simplejavamail.api.mailer.config.TransportStrategy.SMTP_TLS;
 
 public class BookYourStay {
     private Administrador administrador;
@@ -105,6 +111,25 @@ public class BookYourStay {
 
     }
 
+    public void enviarCorreoBienvenida(String nombre, String emailUser) throws Exception {
+        Email email = EmailBuilder.startingBlank()
+                .from("bookYourStay", "bookyourstay7@gmail.com")
+                .to(emailUser)
+                .withSubject("¡Bienvenido/a a Book Your Stay!")
+                .withPlainText("Hola " + nombre + ",\n\nGracias por registrarte en Book Your Stay.\n¡Esperamos que tengas una excelente experiencia!, su codigo de verificación es: "
+                        +bookYourStay.crearCodigoPersona())
+                .buildEmail();
+
+        try (Mailer mailer = MailerBuilder
+                .withSMTPServer("smtp.gmail.com", 587, "bookyourstay7@gmail.com", "oxabhvzdordfhzvx")
+                .withTransportStrategy(SMTP_TLS)
+                .withDebugLogging(true)
+                .buildMailer()) {
+
+            mailer.sendMail(email);
+        }
+    }
+
     public void registrarCliente(String cedula, String nombre, String apellido, String telefono,
                                  String email, String contrasena) throws Exception {
 
@@ -139,13 +164,49 @@ public class BookYourStay {
         if (!contrasena.matches(".*\\d.*")) {
             throw new Exception("La contraseña debe contener al menos un número.");
         }
+
+        personas.add( new Cliente(
+                cedula,
+                nombre,
+                apellido,
+                telefono,
+                email,
+                contrasena,
+                new ArrayList<>(),
+                false
+        ) );
+
+        enviarCorreoBienvenida(nombre, email);
     }
 
 
-    public Persona listarPersonas() {
-        return (Persona) personas;
-
+    public ArrayList<Persona> listarPersonas() {
+        return personas;
     }
+
+    public String crearCodigoPersona(){
+        String numero = generarNumeroAleatorio();
+        while(buscarPersona(emailsRegistrados.toString()) != null){
+            numero = generarNumeroAleatorio();
+        }
+        return numero;
+    }
+
+    public String generarNumeroAleatorio(){
+        String numero = "";
+        for(int i = 0; i < 10; i++){
+            numero += ""+((int) (Math.random() * 10));
+        }
+        return numero;
+    }
+
+    public Persona buscarPersona(String emailsRegistrados){
+        return personas.stream()
+                .filter(billetera -> billetera.getEmail().equals(emailsRegistrados))
+                .findFirst()
+                .orElse(null);
+    }
+
 }
 
 
