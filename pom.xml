@@ -36,6 +36,11 @@
             <version>8.5.0</version>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId> <!-- o logback-classic -->
+            <version>2.0.9</version> <!-- usa la que corresponda -->
+        </dependency>
+        <dependency>
             <groupId>org.simplejavamail</groupId>
             <artifactId>batch-module</artifactId>
             <version>8.5.0</version>

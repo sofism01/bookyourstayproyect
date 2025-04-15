@@ -2,14 +2,16 @@ package org.uniquindio.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
-
+@Getter
+@Setter
 public class Habitacion {
-    private int numero;
-    @Getter
-    private double precio;
-    private int capacidad;
+
+    private String numero;
+    private float precio;
+    private String capacidad;
     private String descripcion;
 
 
@@ -22,4 +24,5 @@ public class Habitacion {
                 ", descripcion='" + descripcion + '\'' +
                 '}';
     }
+
 }

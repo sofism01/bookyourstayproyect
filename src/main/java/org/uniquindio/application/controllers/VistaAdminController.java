@@ -94,7 +94,7 @@ public class VistaAdminController {
 
     private ObservableList<Alojamiento> alojamientosObservable;
 
-    private Alojamiento alojamientoSeleccionado; //contacto seleccionado de la tabla
+    private Alojamiento alojamientoSeleccionado; //alojamiento seleccionado de la tabla
 
     @FXML
     void editarAlojamiento(ActionEvent event) {

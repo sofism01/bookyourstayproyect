@@ -6,20 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.simplejavamail.api.email.Email;
-import org.simplejavamail.api.mailer.Mailer;
-import org.simplejavamail.email.EmailBuilder;
-import org.simplejavamail.mailer.MailerBuilder;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.BookYourStay;
-import org.uniquindio.application.domain.Cliente;
 import org.uniquindio.application.domain.interfaces.Persona;
 import org.uniquindio.application.utils.Paths;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
-
-import static org.simplejavamail.api.mailer.config.TransportStrategy.SMTP_TLS;
 
 
 public class RegistroController {

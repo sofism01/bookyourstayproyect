@@ -116,7 +116,7 @@ public class BookYourStay {
                 .from("bookYourStay", "bookyourstay7@gmail.com")
                 .to(emailUser)
                 .withSubject("¡Bienvenido/a a Book Your Stay!")
-                .withPlainText("Hola " + nombre + ",\n\nGracias por registrarte en Book Your Stay.\n¡Esperamos que tengas una excelente experiencia!, su codigo de verificación es: "
+                .withPlainText("Hola " + nombre + ",\n\nGracias por registrarte en Book Your Stay.\n¡Esperamos que tengas una excelente experiencia!, tu codigo de verificación es: "
                         +bookYourStay.crearCodigoPersona())
                 .buildEmail();
 
@@ -194,7 +194,7 @@ public class BookYourStay {
 
     public String generarNumeroAleatorio(){
         String numero = "";
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 5; i++){
             numero += ""+((int) (Math.random() * 10));
         }
         return numero;

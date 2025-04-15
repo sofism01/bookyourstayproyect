@@ -16,8 +16,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 <?import org.controlsfx.control.CheckComboBox?>
+
 <AnchorPane prefHeight="480.0" prefWidth="642.0" style="-fx-background-color: #BDBDBD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.VistaAdminController">
    <children>
       <VBox prefHeight="606.0" prefWidth="813.0">

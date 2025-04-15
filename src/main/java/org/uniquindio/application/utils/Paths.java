@@ -6,5 +6,6 @@ public class Paths {
     public static  final String REGISTRARSE = "/view/registro.fxml";
     public static  final String VISTA_ADMIN = "/view/vistaAdmin.fxml";
     public static  final String VISTA_CLIENTE = "";
+    public static  final String AGREGARHABITACION = "/view/crearHabitacion.fxml";
 }
 
