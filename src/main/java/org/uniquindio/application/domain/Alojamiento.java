@@ -25,5 +25,17 @@ public abstract class Alojamiento {
     public Image imagen;
     protected List<Servicio> servicio;
 
-
+    @Override
+    public String toString() {
+        return "Alojamiento{" +
+                "tipo=" + tipo +
+                ", nombre='" + nombre + '\'' +
+                ", ciudad=" + ciudad +
+                ", descripcion='" + descripcion + '\'' +
+                ", precioPorNoche=" + precioPorNoche +
+                ", capacidadMax=" + capacidadMax +
+                ", imagen=" + imagen +
+                ", servicio=" + servicio +
+                '}';
+    }
 }

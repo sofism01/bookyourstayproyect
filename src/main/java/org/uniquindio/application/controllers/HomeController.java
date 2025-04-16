@@ -1,14 +1,19 @@
 package org.uniquindio.application.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.uniquindio.application.Main;
+import org.uniquindio.application.domain.Alojamiento;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.utils.Paths;
 
@@ -27,10 +32,19 @@ public class HomeController {
     private ResourceBundle resources;
 
     @FXML
-    private ComboBox<String> combCiudad;
+    private ComboBox<String> cmbFiltro;
 
     @FXML
     private URL location;
+
+    @FXML
+    private TextField txtBusqueda;
+
+
+    private ObservableList<Alojamiento> alojamientosObservable;
+
+    @FXML
+    private ScrollPane scrollAlojamientos;
 
     @FXML
     void iniciarSesionHome(ActionEvent event) throws IOException {
@@ -44,14 +58,23 @@ public class HomeController {
 
     }
 
+    private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle("Información");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.show();
+
+    }
+
     @FXML
-    void seleccionarCiudad(ActionEvent event) {
+    void seleccionarFiltro(ActionEvent event) {
 
     }
 
     @FXML
     void initialize() {
-        this.combCiudad.getItems().addAll("ARMENIA", "PEREIRA", "MEDELLIN", "BOGOTA", "CARTAGENA");
+        this.cmbFiltro.getItems().addAll("CIUDAD", "TIPO");
 
         try {
 

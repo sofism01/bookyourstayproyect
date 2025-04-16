@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+
 <?import org.controlsfx.control.CheckComboBox?>
 
 <AnchorPane prefHeight="480.0" prefWidth="642.0" style="-fx-background-color: #BDBDBD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.VistaAdminController">
@@ -112,7 +113,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin></Label>
                         <TextField fx:id="txtCostoAdicional" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Button fx:id="btnAgregarHabitacion" mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="Agregar habitación" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Button fx:id="btnAgregarHabitacion" mnemonicParsing="false" onAction="#irAAgregarHabitacion" prefHeight="26.0" prefWidth="137.0" text="Agregar habitación" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                      </children>
                   </GridPane>
                   <VBox prefHeight="418.0" prefWidth="454.0">

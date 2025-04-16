@@ -18,6 +18,7 @@ import org.uniquindio.application.enums.Tipo;
 import org.uniquindio.application.utils.Paths;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,12 +99,54 @@ public class VistaAdminController {
 
     @FXML
     void editarAlojamiento(ActionEvent event) {
+        if (alojamientoSeleccionado!= null) {
+            try {
 
+                bookYourStay.editarAlojamiento(
+
+                        txtNombre.getText(),
+                Ciudad.valueOf(cmbCiudad.getValue().toUpperCase()),
+                txtDescripcion.getText(),
+                Double.parseDouble(txtPrecio.getText()),
+                Integer.parseInt(cmbCapacidad.getValue()),
+                        imageView.getImage()
+                //cmbServicios.getCheckModel().getCheckedItems()
+                        );
+
+                limpiarCampos();
+                actualizarAlojamiento();
+                mostrarAlerta("Alojamiento actualizado correctamente", Alert.AlertType.INFORMATION);
+            } catch (Exception ex) {
+                mostrarAlerta(ex.getMessage(), Alert.AlertType.ERROR);
+            }
+        } else {
+            mostrarAlerta("Debe seleccionar un alojamiento de la tabla", Alert.AlertType.WARNING);
+        }
+    }
+
+
+    @FXML
+    void irAAgregarHabitacion(ActionEvent event) throws IOException {
+Main.actualizarVista(Paths.AGREGARHABITACION);
     }
 
     @FXML
     void eliminarAlojamiento(ActionEvent event) {
+        Alojamiento alojamiento = tablaAlojamientos.getSelectionModel().getSelectedItem();
+        if (alojamiento != null) {
+            try {
+                bookYourStay.eliminarAlojamiento(alojamiento.getNombre());
 
+                limpiarCampos();
+                actualizarAlojamiento();
+                mostrarAlerta("Alojamiento eliminado correctamente", Alert.AlertType.INFORMATION);
+            } catch (Exception exception) {
+                mostrarAlerta(exception.getMessage(), Alert.AlertType.ERROR);
+            }
+
+        } else {
+            mostrarAlerta("Debe seleccionar un alojamiento de la tabla", Alert.AlertType.WARNING);
+        }
     }
 
     @FXML
@@ -111,7 +154,7 @@ public class VistaAdminController {
         try {
             Tipo tipo = Tipo.valueOf(cmbTipo.getValue().toUpperCase());
             String nombre = txtNombre.getText();
-            Ciudad ciudad = Ciudad.valueOf(cmbCiudad.getValue());
+            Ciudad ciudad = Ciudad.valueOf(cmbCiudad.getValue().toUpperCase());
             String descripcion = txtDescripcion.getText();
             double precioPorNoche = Double.parseDouble(txtPrecio.getText());
             int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
@@ -152,6 +195,7 @@ public class VistaAdminController {
     private void limpiarCampos() {
         cmbTipo.setValue(null);
         txtNombre.clear();
+        cmbCiudad.setValue(null);
         txtDescripcion.clear();
         cmbServicios.getCheckModel().clearChecks();
         txtPrecio.clear();
@@ -179,11 +223,11 @@ public class VistaAdminController {
     void initialize() {
 
         colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombre()));
-        colCiudad.setCellValueFactory(cellData -> new SimpleStringProperty());
+        colCiudad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().name()));
         colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescripcion()));
         colServicios.setCellValueFactory(cellData -> new SimpleStringProperty());
-        colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty());
-        colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty());
+        colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPrecioPorNoche())));
+        colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getCapacidadMax())));
 
         //Inicializar lista observable y cargar contactos
         alojamientosObservable = FXCollections.observableArrayList();
@@ -197,6 +241,23 @@ public class VistaAdminController {
         this.cmbCiudad.getItems().addAll("ARMENIA", "PEREIRA", "MEDELLIN", "BOGOTA", "CARTAGENA");
         this.cmbCapacidad.getItems().addAll("1", "2", "3", "4", "5");
         this.cmbServicios.getItems().addAll("PISCINA", "WIFI", "DESAYUNO", "GARAJE");
+
+        //Evento click en la tabla
+        tablaAlojamientos.setOnMouseClicked(e -> {
+            //Obtener contacto seleccionado
+            alojamientoSeleccionado = tablaAlojamientos.getSelectionModel().getSelectedItem();
+
+            if (alojamientoSeleccionado != null) {
+                txtNombre.setText(alojamientoSeleccionado.getNombre());
+                cmbCiudad.setValue(alojamientoSeleccionado.getCiudad().toString());
+                txtDescripcion.setText(alojamientoSeleccionado.getDescripcion());
+                 // combo servicios
+                txtPrecio.setText(String.valueOf(alojamientoSeleccionado.getPrecioPorNoche()));
+                cmbCapacidad.setValue(String.valueOf(alojamientoSeleccionado.getCapacidadMax()));
+                imageView.setImage(alojamientoSeleccionado.getImagen());
+            }
+
+        });
         }
 
     private void cargarAlojamientos() {

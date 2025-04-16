@@ -79,11 +79,17 @@ public class BookYourStay {
     }
 
     public void agreagrApartamento(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                                   int capacidadMax, Image image, List<String> servicios, double costoMantenimiento) {
+                                   int capacidadMax, Image image, List<String> servicios, double costoMantenimiento) throws Exception {
 
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
+
         //Hacer las validaciones necesarias
+        if (tipo == null || nombre.isEmpty() || ciudad == null || descripcion.isEmpty() || precioPorNoche == 0 || capacidadMax == 0 ||
+                image == null || costoMantenimiento == 0) {
+            throw new Exception("Todos los campos son necesarios");
+        }
+
         Alojamiento alojamiento = Apartamento.builder()
                 .tipo(tipo)
                 .nombre(nombre)
@@ -94,7 +100,6 @@ public class BookYourStay {
                 .imagen(image)
                 .servicio(serviciosLista)
                 .costoMantenimiento(costoMantenimiento)
-
                 .build();
 
         alojamientos.add(alojamiento);
@@ -102,12 +107,53 @@ public class BookYourStay {
     }
 
     public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                            int capacidadMax, Image image, List<String> servicio, double costoMantenimiento) {
+                            int capacidadMax, Image image, List<String> servicios, double costoAseo) throws Exception {
+        List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
+
+        //Hacer las validaciones necesarias
+        if (tipo == null || nombre.isEmpty() || ciudad == null || descripcion.isEmpty() || precioPorNoche == 0 || capacidadMax == 0 ||
+                image == null || costoAseo == 0) {
+            throw new Exception("Todos los campos son necesarios");
+        }
+
+        Alojamiento alojamiento = Casa.builder()
+                .tipo(tipo)
+                .nombre(nombre)
+                .ciudad(ciudad)
+                .descripcion(descripcion)
+                .precioPorNoche(precioPorNoche)
+                .capacidadMax(capacidadMax)
+                .imagen(image)
+                .servicio(serviciosLista)
+                .costoAseo(costoAseo)
+                .build();
+
+        alojamientos.add(alojamiento);
 
     }
 
     public void agreagrHotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                             int capacidadMax, Image image, List<String> servicio) {
+                             int capacidadMax, Image image, List<String> servicios) throws Exception {
+        List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
+
+        //Hacer las validaciones necesarias
+        if (tipo == null || nombre.isEmpty() || ciudad == null || descripcion.isEmpty() || precioPorNoche == 0 || capacidadMax == 0 ||
+                image == null) {
+            throw new Exception("Todos los campos son necesarios");
+        }
+
+        Alojamiento alojamiento = Hotel.builder()
+                .tipo(tipo)
+                .nombre(nombre)
+                .ciudad(ciudad)
+                .descripcion(descripcion)
+                .precioPorNoche(precioPorNoche)
+                .capacidadMax(capacidadMax)
+                .imagen(image)
+                .servicio(serviciosLista)
+                .build();
+
+        alojamientos.add(alojamiento);
 
     }
 
@@ -117,7 +163,7 @@ public class BookYourStay {
                 .to(emailUser)
                 .withSubject("¡Bienvenido/a a Book Your Stay!")
                 .withPlainText("Hola " + nombre + ",\n\nGracias por registrarte en Book Your Stay.\n¡Esperamos que tengas una excelente experiencia!, tu codigo de verificación es: "
-                        +bookYourStay.crearCodigoPersona())
+                        + bookYourStay.crearCodigoPersona())
                 .buildEmail();
 
         try (Mailer mailer = MailerBuilder
@@ -156,7 +202,7 @@ public class BookYourStay {
         if (emailsRegistrados.contains(email)) {
             throw new Exception("El número de teléfono ya está registrado");
 
-    }
+        }
         if (!contrasena.matches(".*[A-Z].*")) {
             throw new Exception("La contraseña debe contener al menos una letra mayúscula.");
         }
@@ -165,7 +211,7 @@ public class BookYourStay {
             throw new Exception("La contraseña debe contener al menos un número.");
         }
 
-        personas.add( new Cliente(
+        personas.add(new Cliente(
                 cedula,
                 nombre,
                 apellido,
@@ -174,7 +220,7 @@ public class BookYourStay {
                 contrasena,
                 new ArrayList<>(),
                 false
-        ) );
+        ));
 
         enviarCorreoBienvenida(nombre, email);
     }
@@ -184,29 +230,61 @@ public class BookYourStay {
         return personas;
     }
 
-    public String crearCodigoPersona(){
+    public String crearCodigoPersona() {
         String numero = generarNumeroAleatorio();
-        while(buscarPersona(emailsRegistrados.toString()) != null){
+        while (buscarPersona(emailsRegistrados.toString()) != null) {
             numero = generarNumeroAleatorio();
         }
         return numero;
     }
 
-    public String generarNumeroAleatorio(){
+    public String generarNumeroAleatorio() {
         String numero = "";
-        for(int i = 0; i < 5; i++){
-            numero += ""+((int) (Math.random() * 10));
+        for (int i = 0; i < 5; i++) {
+            numero += "" + ((int) (Math.random() * 10));
         }
         return numero;
     }
 
-    public Persona buscarPersona(String emailsRegistrados){
+    public Persona buscarPersona(String emailsRegistrados) {
         return personas.stream()
                 .filter(billetera -> billetera.getEmail().equals(emailsRegistrados))
                 .findFirst()
                 .orElse(null);
     }
 
+    public void eliminarAlojamiento(String nombre) {
+        for (int i = 0; i < alojamientos.size(); i++) {
+            if (alojamientos.get(i).getNombre().equals(nombre)) {
+                alojamientos.remove(i);
+            }
+        }
+    }
+
+    public void editarAlojamiento(String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+                                  int capacidadMax, Image imagen) {
+
+        for (int i = 0; i < alojamientos.size(); i++) {
+
+            if (alojamientos.get(i).getNombre().equals(nombre)) {
+
+                Alojamiento alojamientoGuardado = alojamientos.get(i);
+                alojamientoGuardado.setNombre(nombre);
+                alojamientoGuardado.setCiudad(ciudad);
+                alojamientoGuardado.setDescripcion(descripcion);
+                alojamientoGuardado.setPrecioPorNoche(precioPorNoche);
+                alojamientoGuardado.setCapacidadMax(capacidadMax);
+                alojamientoGuardado.setImagen(imagen);
+                //alojamientoGuardado.setServicio(servicio);
+
+
+                //Actualiza el contacto en la lista de contactos
+                alojamientos.set(i, alojamientoGuardado);
+                break;
+            }
+
+        }
+    }
 }
 
 

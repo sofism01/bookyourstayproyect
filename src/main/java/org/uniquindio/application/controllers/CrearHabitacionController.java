@@ -86,7 +86,7 @@ public class CrearHabitacionController {
 
     @FXML
     void regresarAVistaAdmin(ActionEvent event) throws IOException {
-        Main.actualizarVista(Paths.AGREGARHABITACION);
+        Main.actualizarVista(Paths.VISTA_ADMIN);
     }
 
     @FXML
