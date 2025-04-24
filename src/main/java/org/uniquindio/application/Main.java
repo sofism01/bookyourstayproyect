@@ -42,6 +42,18 @@ public class Main extends Application {
         view.setScene(scene);
         view.show();
     }
+    public static FXMLLoader abrirVentana(String path) throws IOException {
+        FXMLLoader loader = new FXMLLoader((Main.class.getResource(path)));
+        Pane pane = (Pane) loader.load();
+        Scene scene = new Scene(pane);
+
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
+        return loader;
+
+    }
     public static void navegarLogin(String path, boolean nuevo) throws IOException {
         FXMLLoader loader = new FXMLLoader((Main.class.getResource(path)));
         Pane pane = (Pane) loader.load();
@@ -57,8 +69,8 @@ public class Main extends Application {
         Main.usuarioActual = usuarioActual;
     }
 
-    public static void mostrarMensaje(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public static void mostrarMensaje(String mensaje, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle("Book Your Stay");
         alert.setHeaderText("Informacion");
         alert.setContentText(mensaje);

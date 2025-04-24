@@ -132,13 +132,12 @@ public class BookYourStay {
 
     }
 
-    public void agreagrHotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                             int capacidadMax, Image image, List<String> servicios) throws Exception {
+    public void agreagrHotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, Image image, List<String> servicios, List<Habitacion> habitaciones) throws Exception {
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
         //Hacer las validaciones necesarias
-        if (tipo == null || nombre.isEmpty() || ciudad == null || descripcion.isEmpty() || precioPorNoche == 0 || capacidadMax == 0 ||
-                image == null) {
+        if (tipo == null || nombre.isEmpty() || ciudad == null || descripcion.isEmpty() ||
+                image == null || habitaciones.isEmpty()) {
             throw new Exception("Todos los campos son necesarios");
         }
 
@@ -146,9 +145,8 @@ public class BookYourStay {
                 .tipo(tipo)
                 .nombre(nombre)
                 .ciudad(ciudad)
+                .habitaciones(habitaciones)
                 .descripcion(descripcion)
-                .precioPorNoche(precioPorNoche)
-                .capacidadMax(capacidadMax)
                 .imagen(image)
                 .servicio(serviciosLista)
                 .build();

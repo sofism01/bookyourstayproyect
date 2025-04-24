@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 @Getter
 public class Hotel extends Alojamiento {
-    private ArrayList<Habitacion> habitaciones;
+    private List<Habitacion> habitaciones;
 
     @Builder
     public Hotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                 int capacidadMax, Image imagen, List<Servicio> servicio) {
+                 int capacidadMax, Image imagen, List<Servicio> servicio, List<Habitacion> habitaciones) {
         super(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
-        this.habitaciones = new ArrayList<>();
+        this.habitaciones = habitaciones;
     }
 
     public void agregarHabitacion(Habitacion habitacion) {

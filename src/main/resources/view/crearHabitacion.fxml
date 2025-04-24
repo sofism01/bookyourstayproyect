@@ -18,11 +18,6 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.CrearHabitacionController">
    <children>
-      <Button fx:id="btnRegresar" mnemonicParsing="false" onAction="#regresarAVistaAdmin" text="Regresar">
-         <VBox.margin>
-            <Insets left="20.0" top="10.0" />
-         </VBox.margin>
-      </Button>
       <Label text="Administre las habitaciones ">
          <VBox.margin>
             <Insets left="250.0" top="10.0" />
@@ -87,7 +82,7 @@
                   <Insets left="20.0" top="10.0" />
                </HBox.margin>
                <children>
-                  <TableView prefHeight="200.0" prefWidth="333.0">
+                  <TableView fx:id="tablaHabitaciones" prefHeight="200.0" prefWidth="333.0">
                     <columns>
                       <TableColumn fx:id="colNumero" prefWidth="61.600038170814514" text="Número" />
                       <TableColumn fx:id="colPrecio" prefWidth="72.79998016357422" text="Precio" />
@@ -110,14 +105,13 @@
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
             <Button fx:id="btnGuardarHabitacion" mnemonicParsing="false" onAction="#guardarHabitacion" prefWidth="60.0" text="Guardar">
-               <HBox.margin>
-                  <Insets left="200.0" right="100.0" top="20.0" />
-               </HBox.margin>
+
             </Button>
             <Button fx:id="btnEditarHabitacion" mnemonicParsing="false" onAction="#editarHabitacion" prefWidth="60.0" text="Editar">
-               <HBox.margin>
-                  <Insets top="20.0" />
-               </HBox.margin>
+
+            </Button>
+            <Button fx:id="btnFinalizar" mnemonicParsing="false" onAction="#regresarAVistaAdmin" text="Finalizar">
+
             </Button>
          </children>
       </HBox>

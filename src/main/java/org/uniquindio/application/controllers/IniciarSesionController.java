@@ -2,6 +2,7 @@ package org.uniquindio.application.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.uniquindio.application.Main;
@@ -44,7 +45,7 @@ public class IniciarSesionController {
             Main.setUsuarioActual(contrasena);
             Main.actualizarVista(Paths.VISTA_ADMIN);
         } else {
-            Main.mostrarMensaje("Email o contraseña incorrecto");
+            Main.mostrarMensaje("Email o contraseña incorrecto", Alert.AlertType.ERROR);
         }
     }
 

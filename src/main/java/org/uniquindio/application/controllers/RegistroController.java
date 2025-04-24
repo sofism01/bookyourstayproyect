@@ -45,6 +45,7 @@ BookYourStay bookYourStay = BookYourStay.getInstance();
 
     private ObservableList<Persona> personasObservable;
 
+
     @FXML
     void initialize() {
 
@@ -63,25 +64,16 @@ BookYourStay bookYourStay = BookYourStay.getInstance();
                     );
             limpiarCampos();
             actualizarPersonas();
-            mostrarAlerta("Usuario guardado correctamente", Alert.AlertType.INFORMATION);
+            Main.mostrarMensaje("Usuario guardado correctamente", Alert.AlertType.INFORMATION);
 
             Main.navegarLogin(Paths.INICIAR_SESION, true);
 
         } catch (Exception e) {
-            mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
+            Main.mostrarMensaje(e.getMessage(), Alert.AlertType.ERROR);
         }
 
     }
 
-
-    private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle("Información");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.show();
-
-    }
 
     private void actualizarPersonas() {
         personasObservable.setAll(bookYourStay.listarPersonas());

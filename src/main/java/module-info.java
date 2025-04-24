@@ -10,6 +10,8 @@ module org.uniquindio.application {
     opens org.uniquindio.application to javafx.fxml;
     exports org.uniquindio.application;
 
+    exports org.uniquindio.application.enums;
+
     opens org.uniquindio.application.controllers to javafx.fxml;
     exports org.uniquindio.application.controllers;
 

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,9 +13,12 @@ import org.controlsfx.control.CheckComboBox;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.Alojamiento;
 import org.uniquindio.application.domain.BookYourStay;
+import org.uniquindio.application.domain.Habitacion;
+import org.uniquindio.application.domain.Hotel;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
+import org.uniquindio.application.observer.Observable;
 import org.uniquindio.application.utils.Paths;
 
 import java.io.File;
@@ -26,8 +30,10 @@ import java.util.ResourceBundle;
 
 import static org.uniquindio.application.domain.BookYourStay.bookYourStay;
 
-public class VistaAdminController {
+public class VistaAdminController implements Observable {
 
+    public Label lblPrecioNoche;
+    public Label lblCapacidad;
     @FXML
     private Button btnAgregarHabitacion;
 
@@ -40,6 +46,7 @@ public class VistaAdminController {
     @FXML
     private URL location;
 
+    private List<Habitacion> habitaciones;
 
     @FXML
     private Button btnElegirFoto;
@@ -115,19 +122,29 @@ public class VistaAdminController {
 
                 limpiarCampos();
                 actualizarAlojamiento();
-                mostrarAlerta("Alojamiento actualizado correctamente", Alert.AlertType.INFORMATION);
+                Main.mostrarMensaje("Alojamiento actualizado correctamente", Alert.AlertType.INFORMATION);
             } catch (Exception ex) {
-                mostrarAlerta(ex.getMessage(), Alert.AlertType.ERROR);
+                Main.mostrarMensaje(ex.getMessage(), Alert.AlertType.ERROR);
             }
         } else {
-            mostrarAlerta("Debe seleccionar un alojamiento de la tabla", Alert.AlertType.WARNING);
+            Main.mostrarMensaje("Debe seleccionar un alojamiento de la tabla", Alert.AlertType.WARNING);
         }
     }
 
 
     @FXML
     void irAAgregarHabitacion(ActionEvent event) throws IOException {
-Main.actualizarVista(Paths.AGREGARHABITACION);
+        FXMLLoader loader = Main.abrirVentana(Paths.AGREGARHABITACION);
+        CrearHabitacionController controller = loader.getController();
+        controller.setObservable(this);
+
+        if(alojamientoSeleccionado!=null){
+            if(alojamientoSeleccionado instanceof Hotel){
+                controller.setHabitaciones(((Hotel) alojamientoSeleccionado).getHabitaciones());
+            }
+        }else{
+            controller.setHabitaciones( habitaciones );
+        }
     }
 
     @FXML
@@ -139,13 +156,13 @@ Main.actualizarVista(Paths.AGREGARHABITACION);
 
                 limpiarCampos();
                 actualizarAlojamiento();
-                mostrarAlerta("Alojamiento eliminado correctamente", Alert.AlertType.INFORMATION);
+                Main.mostrarMensaje("Alojamiento eliminado correctamente", Alert.AlertType.INFORMATION);
             } catch (Exception exception) {
-                mostrarAlerta(exception.getMessage(), Alert.AlertType.ERROR);
+                Main.mostrarMensaje(exception.getMessage(), Alert.AlertType.ERROR);
             }
 
         } else {
-            mostrarAlerta("Debe seleccionar un alojamiento de la tabla", Alert.AlertType.WARNING);
+            Main.mostrarMensaje("Debe seleccionar un alojamiento de la tabla", Alert.AlertType.WARNING);
         }
     }
 
@@ -156,40 +173,40 @@ Main.actualizarVista(Paths.AGREGARHABITACION);
             String nombre = txtNombre.getText();
             Ciudad ciudad = Ciudad.valueOf(cmbCiudad.getValue().toUpperCase());
             String descripcion = txtDescripcion.getText();
-            double precioPorNoche = Double.parseDouble(txtPrecio.getText());
-            int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
             List<String> servicio = cmbServicios.getCheckModel().getCheckedItems();
-            System.out.println(servicio);
-            double costoAdicional = Double.parseDouble(txtCostoAdicional.getText());
 
             Image image = imageView.getImage();
 
             switch (tipo) {
-                case Tipo.CASA ->
-                        bookYourStay.agreagrCasa(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image, servicio, costoAdicional);
+                case Tipo.CASA -> {
+                    double precioPorNoche = Double.parseDouble(txtPrecio.getText());
+                    int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
+                    double costoAdicional = Double.parseDouble(txtCostoAdicional.getText());
+                    bookYourStay.agreagrCasa(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image, servicio, costoAdicional);
+                }
                 case Tipo.APARTAMENTO ->
-                        bookYourStay.agreagrApartamento(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image, servicio, costoAdicional);
+                {
+                    double precioPorNoche = Double.parseDouble(txtPrecio.getText());
+                    int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
+                    double costoAdicional = Double.parseDouble(txtCostoAdicional.getText());
+                    bookYourStay.agreagrApartamento(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image, servicio, costoAdicional);
+                }
                 case Tipo.HOTEL ->
-                        bookYourStay.agreagrHotel(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image, servicio);
+                {
+                    System.out.println(habitaciones);
+                    bookYourStay.agreagrHotel(tipo, nombre, ciudad, descripcion, image, servicio, habitaciones);
+                }
             }
 
 
             limpiarCampos();
             actualizarAlojamiento();
-            mostrarAlerta("Alojamiento guardado correctamente", Alert.AlertType.INFORMATION);
+            Main.mostrarMensaje("Alojamiento guardado correctamente", Alert.AlertType.INFORMATION);
 
         } catch (Exception e) {
-            mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+            Main.mostrarMensaje(e.getMessage(), Alert.AlertType.ERROR);
         }
-    }
-
-
-    private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle("Información");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.show();
     }
 
     private void limpiarCampos() {
@@ -202,6 +219,7 @@ Main.actualizarVista(Paths.AGREGARHABITACION);
         cmbCapacidad.setValue(null);
         imageView.setImage(null);
         txtCostoAdicional.clear();
+        this.habitaciones = new ArrayList<>();
     }
 
     public void actualizarAlojamiento() {
@@ -225,7 +243,7 @@ Main.actualizarVista(Paths.AGREGARHABITACION);
         colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombre()));
         colCiudad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().name()));
         colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescripcion()));
-        colServicios.setCellValueFactory(cellData -> new SimpleStringProperty());
+        colServicios.setCellValueFactory(cellData -> new SimpleStringProperty( cellData.getValue().getServicio().toString() ));
         colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPrecioPorNoche())));
         colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getCapacidadMax())));
 
@@ -241,6 +259,8 @@ Main.actualizarVista(Paths.AGREGARHABITACION);
         this.cmbCiudad.getItems().addAll("ARMENIA", "PEREIRA", "MEDELLIN", "BOGOTA", "CARTAGENA");
         this.cmbCapacidad.getItems().addAll("1", "2", "3", "4", "5");
         this.cmbServicios.getItems().addAll("PISCINA", "WIFI", "DESAYUNO", "GARAJE");
+
+        this.habitaciones = new ArrayList<>();
 
         //Evento click en la tabla
         tablaAlojamientos.setOnMouseClicked(e -> {
@@ -276,11 +296,19 @@ Main.actualizarVista(Paths.AGREGARHABITACION);
                 case Tipo.CASA, Tipo.APARTAMENTO -> {
                     txtCostoAdicional.setVisible(true);
                     lblCOstoAdicional.setVisible(true);
+                    lblPrecioNoche.setVisible(true);
+                    lblCapacidad.setVisible(true);
+                    cmbCapacidad.setVisible(true);
+                    txtPrecio.setVisible(true);
                     btnAgregarHabitacion.setVisible(false);
                 }
                 case Tipo.HOTEL -> {
                     txtCostoAdicional.setVisible(false);
                     lblCOstoAdicional.setVisible(false);
+                    lblPrecioNoche.setVisible(false);
+                    lblCapacidad.setVisible(false);
+                    cmbCapacidad.setVisible(false);
+                    txtPrecio.setVisible(false);
                     btnAgregarHabitacion.setVisible(true);
                 }
 
@@ -289,6 +317,10 @@ Main.actualizarVista(Paths.AGREGARHABITACION);
 
     }
 
+    @Override
+    public void obtenerHabitaciones(List<Habitacion> habitaciones) {
+        this.habitaciones = habitaciones;
+    }
 }
 
 

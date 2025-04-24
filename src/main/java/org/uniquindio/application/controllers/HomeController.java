@@ -58,14 +58,6 @@ public class HomeController {
 
     }
 
-    private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle("Información");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.show();
-
-    }
 
     @FXML
     void seleccionarFiltro(ActionEvent event) {

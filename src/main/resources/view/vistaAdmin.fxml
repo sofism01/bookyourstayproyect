@@ -76,12 +76,12 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Precio por noche:" GridPane.rowIndex="5">
+                        <Label fx:id="lblPrecioNoche" text="Precio por noche:" GridPane.rowIndex="5" visible="false">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Capacidad máxima:" GridPane.rowIndex="6">
+                        <Label fx:id="lblCapacidad" text="Capacidad máxima:" GridPane.rowIndex="6" visible="false">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -94,9 +94,9 @@
                         <ComboBox fx:id="cmbTipo" onAction="#elegirTipo" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" />
                         <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextArea fx:id="txtDescripcion" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="5" visible="false" />
                         <ComboBox fx:id="cmbCiudad" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="cmbCapacidad" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="cmbCapacidad" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="6" visible="false" />
                         <CheckComboBox fx:id="cmbServicios" prefWidth="150.0" title="Elija los servicios" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Button fx:id="btnElegirFoto" mnemonicParsing="false" onAction="#fileChooser" text="Elegir foto" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <GridPane.margin>
@@ -108,12 +108,12 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblCOstoAdicional" text="Costo adicional:" GridPane.rowIndex="8">
+                        <Label fx:id="lblCOstoAdicional" text="Costo adicional:" GridPane.rowIndex="8" visible="false" >
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin></Label>
-                        <TextField fx:id="txtCostoAdicional" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Button fx:id="btnAgregarHabitacion" mnemonicParsing="false" onAction="#irAAgregarHabitacion" prefHeight="26.0" prefWidth="137.0" text="Agregar habitación" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <TextField fx:id="txtCostoAdicional" GridPane.columnIndex="1" GridPane.rowIndex="8" visible="false" />
+                        <Button fx:id="btnAgregarHabitacion" mnemonicParsing="false" onAction="#irAAgregarHabitacion" prefHeight="26.0" prefWidth="137.0" text="Agregar habitación" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                      </children>
                   </GridPane>
                   <VBox prefHeight="418.0" prefWidth="454.0">
