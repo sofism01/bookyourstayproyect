@@ -37,8 +37,8 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId> <!-- o logback-classic -->
-            <version>2.0.9</version> <!-- usa la que corresponda -->
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.9</version>
         </dependency>
         <dependency>
             <groupId>org.simplejavamail</groupId>
@@ -82,7 +82,7 @@
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
+
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
