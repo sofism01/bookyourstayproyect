@@ -14,9 +14,9 @@ public class Hotel extends Alojamiento {
     private List<Habitacion> habitaciones;
 
     @Builder
-    public Hotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+    public Hotel(Tipo tipo, String nombre,  Oferta oferta, Reserva reserva, Ciudad ciudad, String descripcion, double precioPorNoche,
                  int capacidadMax, Image imagen, List<Servicio> servicio, List<Habitacion> habitaciones) {
-        super(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
+        super(tipo, nombre, oferta, reserva,ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
         this.habitaciones = habitaciones;
     }
 

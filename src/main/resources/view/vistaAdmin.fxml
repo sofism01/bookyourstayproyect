@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -16,7 +18,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 <?import org.controlsfx.control.CheckComboBox?>
 
 <AnchorPane prefHeight="480.0" prefWidth="642.0" style="-fx-background-color: #BDBDBD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.VistaAdminController">
@@ -31,6 +32,15 @@
                   <Font name="Playbill" size="30.0" />
                </font>
             </Label>
+            <MenuButton fx:id="btnOpciones" mnemonicParsing="false" onAction="#verOpciones" text="Ver opciones">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+               <VBox.margin>
+                  <Insets left="50.0" top="10.0" />
+               </VBox.margin>
+            </MenuButton>
             <Label text="Gestione sus alojamientos">
                <font>
                   <Font name="Playbill" size="24.0" />
@@ -76,12 +86,12 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblPrecioNoche" text="Precio por noche:" GridPane.rowIndex="5" visible="false">
+                        <Label fx:id="lblPrecioNoche" text="Precio por noche:" visible="false" GridPane.rowIndex="5">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblCapacidad" text="Capacidad máxima:" GridPane.rowIndex="6" visible="false">
+                        <Label fx:id="lblCapacidad" text="Capacidad máxima:" visible="false" GridPane.rowIndex="6">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -94,9 +104,9 @@
                         <ComboBox fx:id="cmbTipo" onAction="#elegirTipo" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" />
                         <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextArea fx:id="txtDescripcion" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="5" visible="false" />
+                        <TextField fx:id="txtPrecio" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <ComboBox fx:id="cmbCiudad" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="cmbCapacidad" prefWidth="150.0" promptText="Elija una opción" GridPane.columnIndex="1" GridPane.rowIndex="6" visible="false" />
+                        <ComboBox fx:id="cmbCapacidad" prefWidth="150.0" promptText="Elija una opción" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <CheckComboBox fx:id="cmbServicios" prefWidth="150.0" title="Elija los servicios" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Button fx:id="btnElegirFoto" mnemonicParsing="false" onAction="#fileChooser" text="Elegir foto" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <GridPane.margin>
@@ -108,11 +118,11 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblCOstoAdicional" text="Costo adicional:" GridPane.rowIndex="8" visible="false" >
+                        <Label fx:id="lblCOstoAdicional" text="Costo adicional:" visible="false" GridPane.rowIndex="8">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin></Label>
-                        <TextField fx:id="txtCostoAdicional" GridPane.columnIndex="1" GridPane.rowIndex="8" visible="false" />
+                        <TextField fx:id="txtCostoAdicional" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                         <Button fx:id="btnAgregarHabitacion" mnemonicParsing="false" onAction="#irAAgregarHabitacion" prefHeight="26.0" prefWidth="137.0" text="Agregar habitación" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                      </children>
                   </GridPane>

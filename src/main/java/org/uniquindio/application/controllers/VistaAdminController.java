@@ -46,6 +46,9 @@ public class VistaAdminController implements Observable {
     @FXML
     private URL location;
 
+    @FXML
+    private MenuButton btnOpciones;
+
     private List<Habitacion> habitaciones;
 
     @FXML
@@ -111,17 +114,18 @@ public class VistaAdminController implements Observable {
 
                 bookYourStay.editarAlojamiento(
 
-                        txtNombre.getText(),
-                Ciudad.valueOf(cmbCiudad.getValue().toUpperCase()),
-                txtDescripcion.getText(),
-                Double.parseDouble(txtPrecio.getText()),
-                Integer.parseInt(cmbCapacidad.getValue()),
-                        imageView.getImage()
+                         txtNombre.getText(),
+                         Ciudad.valueOf(cmbCiudad.getValue().toUpperCase()),
+                         txtDescripcion.getText(),
+                         Double.parseDouble(txtPrecio.getText()),
+                         Integer.parseInt(cmbCapacidad.getValue()),
+                         imageView.getImage()
                 //cmbServicios.getCheckModel().getCheckedItems()
                         );
 
                 limpiarCampos();
                 actualizarAlojamiento();
+
                 Main.mostrarMensaje("Alojamiento actualizado correctamente", Alert.AlertType.INFORMATION);
             } catch (Exception ex) {
                 Main.mostrarMensaje(ex.getMessage(), Alert.AlertType.ERROR);
@@ -238,16 +242,53 @@ public class VistaAdminController implements Observable {
     }
 
     @FXML
+    void verOpciones() {
+
+        MenuItem item1 = new MenuItem("Agregar ofertas");
+        MenuItem item2 = new MenuItem("Cerrar sesion");
+
+
+        // Añadir acciones a cada ítem
+        item1.setOnAction(e -> {
+            try {
+                agregarOfertas();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        item2.setOnAction(e -> {
+            try {
+                cerrarSesion();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        btnOpciones.getItems().addAll(item1, item2);
+
+    }
+
+    private void cerrarSesion() throws IOException {
+        Main.actualizarVista(Paths.HOME);
+    }
+
+    private void agregarOfertas() throws IOException {
+        Main.actualizarVista(Paths.ADMINISTRAR_OFERTAS);
+    }
+
+    @FXML
     void initialize() {
+
+        verOpciones();
 
         colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombre()));
         colCiudad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().name()));
         colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescripcion()));
-        colServicios.setCellValueFactory(cellData -> new SimpleStringProperty( cellData.getValue().getServicio().toString() ));
+        colServicios.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getServicio().toString()));
         colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPrecioPorNoche())));
         colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getCapacidadMax())));
 
-        //Inicializar lista observable y cargar contactos
+        //Inicializar lista observable y cargar alojamientos
         alojamientosObservable = FXCollections.observableArrayList();
         cargarAlojamientos();
 
@@ -258,7 +299,7 @@ public class VistaAdminController implements Observable {
         this.cmbTipo.getItems().addAll("Casa", "Apartamento", "Hotel");
         this.cmbCiudad.getItems().addAll("ARMENIA", "PEREIRA", "MEDELLIN", "BOGOTA", "CARTAGENA");
         this.cmbCapacidad.getItems().addAll("1", "2", "3", "4", "5");
-        this.cmbServicios.getItems().addAll("PISCINA", "WIFI", "DESAYUNO", "GARAJE");
+        this.cmbServicios.getItems().addAll("PISCINA", "WIFI", "DESAYUNO", "GARAJE", "CALEFACCION", "TV", "GUARDAEQUIPAJE", "AGUA_CALIENTE", "AIRE_ACONDICIONADO" );
 
         this.habitaciones = new ArrayList<>();
 

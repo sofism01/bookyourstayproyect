@@ -18,6 +18,8 @@ public abstract class Alojamiento {
 
     public Tipo tipo;
     protected String nombre;
+    protected Oferta oferta;
+    protected Reserva reserva;
     protected Ciudad ciudad;
     protected String descripcion;
     protected double precioPorNoche;

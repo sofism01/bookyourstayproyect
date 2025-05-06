@@ -24,6 +24,7 @@ public class BookYourStay {
     public ArrayList<Alojamiento> alojamientos;
     private ArrayList<Persona> personas;
     private Set<String> emailsRegistrados = new HashSet<>();
+    private List<Billetera> billeteras;
 
     //singleton
     public static BookYourStay getInstance() {
@@ -276,7 +277,7 @@ public class BookYourStay {
                 //alojamientoGuardado.setServicio(servicio);
 
 
-                //Actualiza el contacto en la lista de contactos
+                //Actualiza el alojamiento en la lista de alojamientos
                 alojamientos.set(i, alojamientoGuardado);
                 break;
             }
