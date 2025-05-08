@@ -34,8 +34,6 @@
             </Label>
             <MenuButton fx:id="btnOpciones" mnemonicParsing="false" onAction="#verOpciones" text="Ver opciones">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
               </items>
                <VBox.margin>
                   <Insets left="50.0" top="10.0" />

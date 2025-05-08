@@ -1,21 +1,21 @@
 package org.uniquindio.application.domain;
 
-import javafx.scene.image.Image;
 import lombok.Builder;
 import lombok.Getter;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
 
+import javax.sound.midi.MidiMessage;
 import java.util.List;
 @Getter
 public class Casa extends Alojamiento{
     private double costoAseo;
 
     @Builder
-    public Casa(Tipo tipo, String nombre,  List<Oferta> oferta, Reserva reserva, Ciudad ciudad, String descripcion, double precioPorNoche,
-                int capacidadMax, Image imagen, List<Servicio> servicio, double costoAseo) {
-        super(tipo, nombre, oferta, reserva, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
+    public Casa(String id, Tipo tipo, String nombre,  List<Oferta> oferta, Reserva reserva, Ciudad ciudad, String descripcion, double precioPorNoche,
+                int capacidadMax, String imagen, List<Servicio> servicio, double costoAseo) {
+        super(id, tipo, nombre, oferta, reserva, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
         this.costoAseo = costoAseo;
     }
 

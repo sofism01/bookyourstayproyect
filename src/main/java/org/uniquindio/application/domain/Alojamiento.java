@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 public abstract class Alojamiento {
 
+    private String id;
     public Tipo tipo;
     protected String nombre;
     protected List<Oferta> oferta;
@@ -24,7 +25,7 @@ public abstract class Alojamiento {
     protected String descripcion;
     protected double precioPorNoche;
     protected int capacidadMax;
-    public Image imagen;
+    public String imagen;
     protected List<Servicio> servicio;
 
     @Override

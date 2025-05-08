@@ -5,6 +5,7 @@ module org.uniquindio.application {
     requires org.controlsfx.controls;
     requires org.simplejavamail.core;
     requires org.simplejavamail;
+    requires java.desktop;
 
 
     opens org.uniquindio.application to javafx.fxml;

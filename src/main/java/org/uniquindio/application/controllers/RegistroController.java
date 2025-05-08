@@ -1,5 +1,6 @@
 package org.uniquindio.application.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import org.uniquindio.application.domain.BookYourStay;
 import org.uniquindio.application.domain.interfaces.Persona;
 import org.uniquindio.application.utils.Paths;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.IOException;
 
@@ -41,14 +43,14 @@ public class RegistroController {
     @FXML
     private TextField txtTelefono;
 
-BookYourStay bookYourStay = BookYourStay.getInstance();
+    private BookYourStay bookYourStay = BookYourStay.getInstance();
 
     private ObservableList<Persona> personasObservable;
 
 
     @FXML
     void initialize() {
-
+        personasObservable = FXCollections.observableList(new ArrayList<>());
     }
 
     @FXML
@@ -69,6 +71,7 @@ BookYourStay bookYourStay = BookYourStay.getInstance();
             Main.navegarLogin(Paths.INICIAR_SESION, true);
 
         } catch (Exception e) {
+            e.printStackTrace();
             Main.mostrarMensaje(e.getMessage(), Alert.AlertType.ERROR);
         }
 

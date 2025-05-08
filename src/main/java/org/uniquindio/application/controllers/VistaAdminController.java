@@ -113,13 +113,13 @@ public class VistaAdminController implements Observable {
             try {
 
                 bookYourStay.editarAlojamiento(
-
+                        alojamientoSeleccionado.getId(),
                          txtNombre.getText(),
                          Ciudad.valueOf(cmbCiudad.getValue().toUpperCase()),
                          txtDescripcion.getText(),
                          Double.parseDouble(txtPrecio.getText()),
                          Integer.parseInt(cmbCapacidad.getValue()),
-                         imageView.getImage()
+                         imageView.getImage().getUrl()
                 //cmbServicios.getCheckModel().getCheckedItems()
                         );
 
@@ -156,7 +156,7 @@ public class VistaAdminController implements Observable {
         Alojamiento alojamiento = tablaAlojamientos.getSelectionModel().getSelectedItem();
         if (alojamiento != null) {
             try {
-                bookYourStay.eliminarAlojamiento(alojamiento.getNombre());
+                bookYourStay.eliminarAlojamiento(alojamiento.getId());
 
                 limpiarCampos();
                 actualizarAlojamiento();
@@ -186,19 +186,19 @@ public class VistaAdminController implements Observable {
                     double precioPorNoche = Double.parseDouble(txtPrecio.getText());
                     int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
                     double costoAdicional = Double.parseDouble(txtCostoAdicional.getText());
-                    bookYourStay.agreagrCasa(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image, servicio, costoAdicional);
+                    bookYourStay.agreagrCasa(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image.getUrl(), servicio, costoAdicional);
                 }
                 case Tipo.APARTAMENTO ->
                 {
                     double precioPorNoche = Double.parseDouble(txtPrecio.getText());
                     int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
                     double costoAdicional = Double.parseDouble(txtCostoAdicional.getText());
-                    bookYourStay.agreagrApartamento(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image, servicio, costoAdicional);
+                    bookYourStay.agreagrApartamento(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image.getUrl(), servicio, costoAdicional);
                 }
                 case Tipo.HOTEL ->
                 {
                     System.out.println(habitaciones);
-                    bookYourStay.agreagrHotel(tipo, nombre, ciudad, descripcion, image, servicio, habitaciones);
+                    bookYourStay.agreagrHotel(tipo, nombre, ciudad, descripcion, image.getUrl(), servicio, habitaciones);
                 }
             }
 
@@ -315,7 +315,7 @@ public class VistaAdminController implements Observable {
                  // combo servicios
                 txtPrecio.setText(String.valueOf(alojamientoSeleccionado.getPrecioPorNoche()));
                 cmbCapacidad.setValue(String.valueOf(alojamientoSeleccionado.getCapacidadMax()));
-                imageView.setImage(alojamientoSeleccionado.getImagen());
+                imageView.setImage(new Image(alojamientoSeleccionado.getImagen()));
             }
 
         });

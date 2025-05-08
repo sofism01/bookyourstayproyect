@@ -6,7 +6,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.uniquindio.application.Main;
+import org.uniquindio.application.domain.Administrador;
 import org.uniquindio.application.domain.BookYourStay;
+import org.uniquindio.application.domain.Cliente;
+import org.uniquindio.application.domain.interfaces.Persona;
 import org.uniquindio.application.utils.Paths;
 
 import java.io.IOException;
@@ -29,23 +32,39 @@ public class IniciarSesionController {
     @FXML
     private TextField txtEmail;
 
+    private BookYourStay bookYourStay;
 
     private boolean mostrarCodigo;
 
+    public IniciarSesionController(){
+        this.bookYourStay = BookYourStay.getInstance();
+    }
 
     @FXML
     void iniciarSesion(ActionEvent event) throws IOException {
         String email = txtEmail.getText();
         String contrasena = txtContrasena.getText();
-        String rol = BookYourStay.iniciarSesion(email, contrasena);
-        System.out.print(rol);
+        String codigo = txtCodigo.getText();
+        Persona persona = null;
 
-        if (rol.equals("ADMINISTRADOR")) {
+        if(mostrarCodigo){
+            persona = bookYourStay.activarCuenta(email, contrasena, codigo);
+        }else{
+            persona = bookYourStay.iniciarSesion(email, contrasena);
+        }
+
+        if(persona != null) {
+
             Main.setUsuarioActual(email);
             Main.setUsuarioActual(contrasena);
-            Main.actualizarVista(Paths.VISTA_ADMIN);
-        } else {
-            Main.mostrarMensaje("Email o contraseña incorrecto", Alert.AlertType.ERROR);
+
+            if (persona instanceof Administrador) {
+                Main.actualizarVista(Paths.VISTA_ADMIN);
+            } else if (persona instanceof Cliente) {
+                Main.actualizarVista(Paths.VISTA_CLIENTE);
+            }
+        }else{
+            Main.mostrarMensaje("SUs datos son incorrectos", Alert.AlertType.ERROR);
         }
     }
 

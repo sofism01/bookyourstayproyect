@@ -5,23 +5,20 @@ import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
+import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.interfaces.Persona;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.simplejavamail.api.mailer.config.TransportStrategy.SMTP_TLS;
 
 public class BookYourStay {
     private Administrador administrador;
-    private Cliente cliente;
     public static BookYourStay bookYourStay;
-    public ArrayList<Alojamiento> alojamientos;
+    private ArrayList<Alojamiento> alojamientos;
     private ArrayList<Persona> personas;
     private Set<String> emailsRegistrados = new HashSet<>();
     private List<Billetera> billeteras;
@@ -36,14 +33,66 @@ public class BookYourStay {
     }
 
     private BookYourStay() {
-
         iniciarApp();
+        crearAlojamientosPrueba();
+    }
+
+    private void crearAlojamientosPrueba(){
+
+        alojamientos.add(
+                Casa.builder()
+                        .id(UUID.randomUUID().toString())
+                        .nombre("Casa en Cartagena")
+                        .imagen(Main.class.getResource("/imagen/img_2.png").toString())
+                        .precioPorNoche(360000)
+                        .capacidadMax(1)
+                        .servicio(new ArrayList<>())
+                        .ciudad(Ciudad.CARTAGENA)
+                        .build()
+        );
+
+        alojamientos.add(
+                Apartamento.builder()
+                        .id(UUID.randomUUID().toString())
+                        .nombre("Apartamento en Armenia")
+                        .imagen(Main.class.getResource("/imagen/img_3.png").toString())
+                        .ciudad(Ciudad.ARMENIA)
+                        .capacidadMax(1)
+                        .servicio(new ArrayList<>())
+                        .precioPorNoche(160000)
+                        .build()
+        );
+
+        alojamientos.add(
+                Hotel.builder()
+                        .id(UUID.randomUUID().toString())
+                        .nombre("Habitación de hotel en Salento")
+                        .imagen(Main.class.getResource("/imagen/img_4.png").toString())
+                        .precioPorNoche(360000)
+                        .capacidadMax(1)
+                        .servicio(new ArrayList<>())
+                        .ciudad(Ciudad.ARMENIA)
+                        .build()
+        );
+
+        alojamientos.add(
+                Hotel.builder()
+                        .id(UUID.randomUUID().toString())
+                        .nombre("Habitación test en Salento")
+                        .imagen(Main.class.getResource("/imagen/img_5.png").toString())
+                        .precioPorNoche(100)
+                        .capacidadMax(1)
+                        .servicio(new ArrayList<>())
+                        .ciudad(Ciudad.ARMENIA)
+                        .build()
+        );
+
+
     }
 
     private void iniciarApp() {
         personas = new ArrayList<>();
         administrador = new Administrador();
-        cliente = new Cliente();
         alojamientos = new ArrayList<>();
         administrador.setEmail("a");
         administrador.setContrasena("a");
@@ -51,18 +100,16 @@ public class BookYourStay {
     }
 
 
-    public static String iniciarSesion(String email, String contrasena) {
+    public Persona iniciarSesion(String email, String contrasena) {
 
-        return getInstance().login(email, contrasena);
-    }
-
-    public String login(String email, String contrasena) {
-
-        if (administrador.getEmail().equals(email) && administrador.getContrasena().equals(contrasena)) {
-            return "ADMINISTRADOR";
-
+        for (Persona p : personas){
+            if (p.getContrasena().equals(contrasena) && p.getEmail().equals(email)){
+                return p;
+            }
         }
+
         return null;
+
     }
 
     public List<Alojamiento> listarAlojamientos() {
@@ -80,7 +127,7 @@ public class BookYourStay {
     }
 
     public void agreagrApartamento(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                                   int capacidadMax, Image image, List<String> servicios, double costoMantenimiento) throws Exception {
+                                   int capacidadMax, String image, List<String> servicios, double costoMantenimiento) throws Exception {
 
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
@@ -92,6 +139,7 @@ public class BookYourStay {
         }
 
         Alojamiento alojamiento = Apartamento.builder()
+                .id(UUID.randomUUID().toString())
                 .tipo(tipo)
                 .nombre(nombre)
                 .ciudad(ciudad)
@@ -108,7 +156,7 @@ public class BookYourStay {
     }
 
     public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                            int capacidadMax, Image image, List<String> servicios, double costoAseo) throws Exception {
+                            int capacidadMax, String image, List<String> servicios, double costoAseo) throws Exception {
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
         //Hacer las validaciones necesarias
@@ -118,6 +166,7 @@ public class BookYourStay {
         }
 
         Alojamiento alojamiento = Casa.builder()
+                .id(UUID.randomUUID().toString())
                 .tipo(tipo)
                 .nombre(nombre)
                 .ciudad(ciudad)
@@ -133,7 +182,7 @@ public class BookYourStay {
 
     }
 
-    public void agreagrHotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, Image image, List<String> servicios, List<Habitacion> habitaciones) throws Exception {
+    public void agreagrHotel(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, String image, List<String> servicios, List<Habitacion> habitaciones) throws Exception {
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
         //Hacer las validaciones necesarias
@@ -143,6 +192,7 @@ public class BookYourStay {
         }
 
         Alojamiento alojamiento = Hotel.builder()
+                .id(UUID.randomUUID().toString())
                 .tipo(tipo)
                 .nombre(nombre)
                 .ciudad(ciudad)
@@ -156,13 +206,15 @@ public class BookYourStay {
 
     }
 
-    public void enviarCorreoBienvenida(String nombre, String emailUser) throws Exception {
+    public String enviarCorreoBienvenida(String nombre, String emailUser) throws Exception {
+
+        String codigo = bookYourStay.crearCodigoPersona();
         Email email = EmailBuilder.startingBlank()
                 .from("bookYourStay", "bookyourstay7@gmail.com")
                 .to(emailUser)
                 .withSubject("¡Bienvenido/a a Book Your Stay!")
                 .withPlainText("Hola " + nombre + ",\n\nGracias por registrarte en Book Your Stay.\n¡Esperamos que tengas una excelente experiencia!, tu codigo de verificación es: "
-                        + bookYourStay.crearCodigoPersona())
+                        + codigo)
                 .buildEmail();
 
         try (Mailer mailer = MailerBuilder
@@ -173,6 +225,8 @@ public class BookYourStay {
 
             mailer.sendMail(email);
         }
+
+        return codigo;
     }
 
     public void registrarCliente(String cedula, String nombre, String apellido, String telefono,
@@ -210,20 +264,34 @@ public class BookYourStay {
             throw new Exception("La contraseña debe contener al menos un número.");
         }
 
-        personas.add(new Cliente(
-                cedula,
-                nombre,
-                apellido,
-                telefono,
-                email,
-                contrasena,
-                new ArrayList<>(),
-                false
-        ));
+        Cliente clienteNuevo = Cliente.builder()
+                .cedula(cedula)
+                .nombre(nombre)
+                .apellido(apellido)
+                .telefono(telefono)
+                .email(email)
+                .contrasena(contrasena)
+                .build();
 
-        enviarCorreoBienvenida(nombre, email);
+        String codigo = enviarCorreoBienvenida(nombre, email);
+        clienteNuevo.setCodigoActivacion(codigo);
+
+        personas.add(clienteNuevo);
+
     }
 
+    public Persona activarCuenta(String email, String password, String codigo){
+
+        //hacer las validaciones
+        Persona persona = iniciarSesion(email, password);
+        if(persona instanceof Cliente){
+            if(((Cliente) persona).getCodigoActivacion().equals(codigo)){
+                return persona;
+            }
+        }
+
+        return null;
+    }
 
     public ArrayList<Persona> listarPersonas() {
         return personas;
@@ -252,20 +320,20 @@ public class BookYourStay {
                 .orElse(null);
     }
 
-    public void eliminarAlojamiento(String nombre) {
+    public void eliminarAlojamiento(String id) {
         for (int i = 0; i < alojamientos.size(); i++) {
-            if (alojamientos.get(i).getNombre().equals(nombre)) {
+            if (alojamientos.get(i).getId().equals(id)) {
                 alojamientos.remove(i);
             }
         }
     }
 
-    public void editarAlojamiento(String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
-                                  int capacidadMax, Image imagen) {
+    public void editarAlojamiento(String id, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+                                  int capacidadMax, String imagen) {
 
         for (int i = 0; i < alojamientos.size(); i++) {
 
-            if (alojamientos.get(i).getNombre().equals(nombre)) {
+            if (alojamientos.get(i).getId().equals(id)) {
 
                 Alojamiento alojamientoGuardado = alojamientos.get(i);
                 alojamientoGuardado.setNombre(nombre);
@@ -284,6 +352,20 @@ public class BookYourStay {
 
         }
     }
+
+    public List<Alojamiento> buscarPorCiudad(Ciudad ciudad){
+
+        List<Alojamiento> resultado = new ArrayList<>();
+
+        for(Alojamiento alojamiento :alojamientos){
+            if(alojamiento.getCiudad().equals(ciudad)){
+                resultado.add(alojamiento);
+            }
+        }
+
+        return resultado;
+    }
+
 }
 
 

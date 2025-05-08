@@ -8,20 +8,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #718691;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.HomeController">
+<AnchorPane prefHeight="400.0" prefWidth="760.0" style="-fx-background-color: #718691;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.HomeController">
    <children>
       <Button layoutX="262.0" layoutY="256.0" mnemonicParsing="false" onAction="#iniciarSesionHome" prefHeight="35.0" prefWidth="101.0" style="-fx-background-color: #FFFFFF;" text="Iniciar Sesión" />
       <Button layoutX="265.0" layoutY="339.0" mnemonicParsing="false" onAction="#iniciarRegistro" prefHeight="35.0" prefWidth="94.0" style="-fx-background-color: #FFFFFF;" text="Registrarme" />
-      <ScrollPane fx:id="scrollAlojamientos" layoutX="27.0" layoutY="80.0" prefHeight="162.0" prefWidth="546.0">
+      <ScrollPane fx:id="scrollAlojamientos" layoutX="27.0" layoutY="80.0" prefHeight="210.0" prefWidth="700.0">
          <content>
-            <HBox fx:id="alojamientosInicio" prefHeight="100.0" prefWidth="200.0" />
+            <HBox fx:id="alojamientosInicio" prefHeight="100.0" prefWidth="200.0" spacing="10" />
          </content>
       </ScrollPane>
       <HBox fx:id="contenedorAlojamientos" layoutX="61.0" layoutY="14.0" prefHeight="35.0" prefWidth="502.0">
          <children>
-            <ComboBox fx:id="cmbFiltro" editable="true" onAction="#seleccionarFiltro" prefHeight="34.0" prefWidth="185.0" promptText="Seleccione un filtro" />
+            <ComboBox fx:id="cmbFiltro" onAction="#seleccionarFiltro" prefHeight="34.0" prefWidth="185.0" promptText="Seleccione un filtro" />
             <TextField fx:id="txtBusqueda" prefHeight="35.0" prefWidth="363.0" />
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #FFFFFF;" text="Buscar" />
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #FFFFFF;" text="Buscar" onAction="#filtrar" />
          </children>
       </HBox>
       <Label layoutX="250.0" layoutY="308.0" text="¿No tienes una cuenta?" />
