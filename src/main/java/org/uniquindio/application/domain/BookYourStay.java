@@ -1,6 +1,8 @@
 package org.uniquindio.application.domain;
 
 import javafx.scene.image.Image;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.email.EmailBuilder;
@@ -10,12 +12,17 @@ import org.uniquindio.application.domain.interfaces.Persona;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
+import org.uniquindio.application.utils.Constantes;
+import org.uniquindio.application.utils.Persistencia;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import static org.simplejavamail.api.mailer.config.TransportStrategy.SMTP_TLS;
 
-public class BookYourStay {
+@AllArgsConstructor
+public class BookYourStay implements Serializable {
     private Administrador administrador;
     public static BookYourStay bookYourStay;
     private ArrayList<Alojamiento> alojamientos;
@@ -35,6 +42,7 @@ public class BookYourStay {
     private BookYourStay() {
         iniciarApp();
         crearAlojamientosPrueba();
+        this.alojamientos = (ArrayList<Alojamiento>) leerDatos();
     }
 
     private void crearAlojamientosPrueba(){
@@ -152,7 +160,7 @@ public class BookYourStay {
                 .build();
 
         alojamientos.add(alojamiento);
-
+        guardarDatos(alojamientos);
     }
 
     public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
@@ -179,6 +187,7 @@ public class BookYourStay {
                 .build();
 
         alojamientos.add(alojamiento);
+        guardarDatos(alojamientos);
 
     }
 
@@ -203,6 +212,7 @@ public class BookYourStay {
                 .build();
 
         alojamientos.add(alojamiento);
+        guardarDatos(alojamientos);
 
     }
 
@@ -365,6 +375,41 @@ public class BookYourStay {
 
         return resultado;
     }
+
+    public List<Alojamiento> buscarPorTipo(Tipo tipo){
+
+        List<Alojamiento> resultado = new ArrayList<>();
+
+        for(Alojamiento alojamiento :alojamientos){
+            if(alojamiento.getTipo().equals(tipo)){
+                resultado.add(alojamiento);
+            }
+        }
+
+        return resultado;
+    }
+
+    public void guardarDatos(List<Alojamiento> alojamientos) {
+        try {
+            Persistencia.serializarObjeto(Constantes.RUTA_ALOJAMIENTOS, alojamientos);
+        } catch (Exception e) {
+            System.err.println("Error guardando alojamientos: " + e.getMessage());
+        }
+    }
+
+
+    public List<Alojamiento> leerDatos() {
+        try {
+            Object datos = Persistencia.deserializarObjeto(Constantes.RUTA_ALOJAMIENTOS);
+            if (datos != null) {
+                return (List<Alojamiento>) datos;
+            }
+        } catch (Exception e) {
+            System.err.println("Error cargando alojamientos: " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
 
 }
 

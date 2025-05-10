@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.Administrador;
@@ -27,7 +28,7 @@ public class IniciarSesionController {
     private URL location;
 
     @FXML
-    private TextField txtContrasena;
+    private PasswordField txtContrasena;
 
     @FXML
     private TextField txtEmail;

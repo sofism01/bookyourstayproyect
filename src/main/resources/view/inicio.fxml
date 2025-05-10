@@ -4,26 +4,25 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
 <AnchorPane prefHeight="400.0" prefWidth="760.0" style="-fx-background-color: #718691;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.HomeController">
    <children>
-      <Button layoutX="262.0" layoutY="256.0" mnemonicParsing="false" onAction="#iniciarSesionHome" prefHeight="35.0" prefWidth="101.0" style="-fx-background-color: #FFFFFF;" text="Iniciar Sesión" />
-      <Button layoutX="265.0" layoutY="339.0" mnemonicParsing="false" onAction="#iniciarRegistro" prefHeight="35.0" prefWidth="94.0" style="-fx-background-color: #FFFFFF;" text="Registrarme" />
-      <ScrollPane fx:id="scrollAlojamientos" layoutX="27.0" layoutY="80.0" prefHeight="210.0" prefWidth="700.0">
+      <Button layoutX="606.0" layoutY="14.0" mnemonicParsing="false" onAction="#iniciarSesionHome" prefHeight="35.0" prefWidth="101.0" style="-fx-background-color: #FFFFFF;" text="Iniciar Sesión" />
+      <Button layoutX="333.0" layoutY="338.0" mnemonicParsing="false" onAction="#iniciarRegistro" prefHeight="35.0" prefWidth="94.0" style="-fx-background-color: #FFFFFF;" text="Registrarme" />
+      <ScrollPane fx:id="scrollAlojamientos" layoutX="30.0" layoutY="76.0" prefHeight="210.0" prefWidth="700.0">
          <content>
             <HBox fx:id="alojamientosInicio" prefHeight="100.0" prefWidth="200.0" spacing="10" />
          </content>
       </ScrollPane>
       <HBox fx:id="contenedorAlojamientos" layoutX="61.0" layoutY="14.0" prefHeight="35.0" prefWidth="502.0">
          <children>
-            <ComboBox fx:id="cmbFiltro" onAction="#seleccionarFiltro" prefHeight="34.0" prefWidth="185.0" promptText="Seleccione un filtro" />
-            <TextField fx:id="txtBusqueda" prefHeight="35.0" prefWidth="363.0" />
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #FFFFFF;" text="Buscar" onAction="#filtrar" />
+            <ComboBox fx:id="cmbFiltro" onAction="#seleccionarFiltro" prefHeight="34.0" prefWidth="185.0" promptText="Seleccione una ciudad" />
+            <ComboBox fx:id="cmbTipo" onAction="#SeleccionarTipo" prefHeight="34.0" prefWidth="213.0" promptText="Seleccione un tipo" />
+            <Button mnemonicParsing="false" onAction="#filtrar" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #FFFFFF;" text="Buscar" />
          </children>
       </HBox>
-      <Label layoutX="250.0" layoutY="308.0" text="¿No tienes una cuenta?" />
+      <Label layoutX="318.0" layoutY="306.0" text="¿No tienes una cuenta?" />
    </children>
 </AnchorPane>

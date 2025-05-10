@@ -17,6 +17,7 @@ import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.Alojamiento;
 import org.uniquindio.application.domain.BookYourStay;
 import org.uniquindio.application.enums.Ciudad;
+import org.uniquindio.application.enums.Tipo;
 import org.uniquindio.application.utils.Paths;
 
 import java.io.IOException;
@@ -36,7 +37,11 @@ public class HomeController {
     private ResourceBundle resources;
 
     @FXML
-    private ComboBox<String> cmbFiltro;
+    private ComboBox<Ciudad> cmbFiltro;
+
+
+    @FXML
+    private ComboBox<Tipo> cmbTipo;
 
     @FXML
     private URL location;
@@ -76,7 +81,8 @@ public class HomeController {
 
     @FXML
     void initialize() {
-        this.cmbFiltro.getItems().addAll("CIUDAD", "TIPO");
+        cmbFiltro.getItems().addAll(Ciudad.values());
+        cmbTipo.getItems().addAll(Tipo.values());
         dibujarAlojamientos(bookYourStay.listarAlojamientos());
     }
 
@@ -102,13 +108,20 @@ public class HomeController {
 
     public void filtrar(ActionEvent actionEvent) {
 
-        String ciudad = txtBusqueda.getText();
-        List<Alojamiento> alojamientos = bookYourStay.buscarPorCiudad(Ciudad.valueOf(ciudad));
+        Ciudad ciudad = cmbFiltro.getValue();
+        Tipo tipo = cmbTipo.getValue();
+        List<Alojamiento> alojamientos =
+                bookYourStay.buscarPorCiudad((ciudad));
+                bookYourStay.buscarPorTipo((tipo));
+
         if(!alojamientos.isEmpty()){
             dibujarAlojamientos(alojamientos);
         }else{
             Main.mostrarMensaje("No hay alojamientos", Alert.AlertType.INFORMATION);
         }
 
+    }
+
+    public void SeleccionarTipo(ActionEvent actionEvent) {
     }
 }
