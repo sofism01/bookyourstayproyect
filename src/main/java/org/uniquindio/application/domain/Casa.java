@@ -13,9 +13,9 @@ public class Casa extends Alojamiento{
     private double costoAseo;
 
     @Builder
-    public Casa(String id, Tipo tipo, String nombre,  List<Oferta> oferta, Reserva reserva, Ciudad ciudad, String descripcion, double precioPorNoche,
-                int capacidadMax, String imagen, List<Servicio> servicio, double costoAseo) {
-        super(id, tipo, nombre, oferta, reserva, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
+    public Casa(String id, Tipo tipo, String nombre,  List<Oferta> oferta, Ciudad ciudad, String descripcion, float precioPorNoche,
+                int capacidadMax, String imagen, List<Servicio> servicio, double costoAseo, List<Reserva> reservas) {
+        super(id, tipo, nombre, oferta, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio, reservas);
         this.costoAseo = costoAseo;
     }
 

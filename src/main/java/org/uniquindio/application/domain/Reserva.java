@@ -1,9 +1,16 @@
 package org.uniquindio.application.domain;
 
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
+@Getter
+@Setter
+@AllArgsConstructor
 public class Reserva {
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
-    private int idReserva;
+    private String idReserva;
+    private int numeroPersonas;
 }

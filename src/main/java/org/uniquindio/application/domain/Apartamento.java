@@ -31,9 +31,9 @@ public class Apartamento extends Alojamiento {
     }
 
     @Builder
-    public Apartamento(String id, Tipo tipo, String nombre, List<Oferta> oferta, Reserva reserva, Ciudad ciudad, String descripcion, double precioPorNoche,
-                       int capacidadMax, String imagen, List<Servicio> servicio, double costoMantenimiento) {
-        super(id, tipo, nombre, oferta, reserva, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio);
+    public Apartamento(String id, Tipo tipo, String nombre, List<Oferta> oferta, Ciudad ciudad, String descripcion, float precioPorNoche,
+                       int capacidadMax, String imagen, List<Servicio> servicio, double costoMantenimiento, List<Reserva> reservas) {
+        super(id, tipo, nombre, oferta, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio, reservas);
         this.costoMantenimiento = costoMantenimiento;
 
     }

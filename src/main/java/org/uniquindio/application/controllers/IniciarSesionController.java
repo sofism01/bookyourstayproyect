@@ -65,7 +65,7 @@ public class IniciarSesionController {
                 Main.actualizarVista(Paths.VISTA_CLIENTE);
             }
         }else{
-            Main.mostrarMensaje("SUs datos son incorrectos", Alert.AlertType.ERROR);
+            Main.mostrarMensaje("Sus datos son incorrectos", Alert.AlertType.ERROR);
         }
     }
 

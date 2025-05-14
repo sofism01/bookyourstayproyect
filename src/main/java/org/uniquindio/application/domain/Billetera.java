@@ -24,7 +24,7 @@ public class Billetera {
         return saldo >= montoConComision;
     }
 
-    public void retirar(float monto, Transaccion transaccion) throws Exception{
+    public void retirar(float monto) throws Exception{
 
         float montoConComision = monto + Constantes.COMISION;
 
@@ -32,10 +32,9 @@ public class Billetera {
             throw new Exception("El monto a retirar debe ser mayor a cero");
         }
 
-        transaccion.setComision(Constantes.COMISION);
 
         saldo -= montoConComision;
-        transacciones.add(transaccion);
+
     }
 
     public void depositar(float monto, Transaccion transaccion) throws Exception {

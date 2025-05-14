@@ -117,7 +117,7 @@ public class VistaAdminController implements Observable {
                          txtNombre.getText(),
                          Ciudad.valueOf(cmbCiudad.getValue().toUpperCase()),
                          txtDescripcion.getText(),
-                         Double.parseDouble(txtPrecio.getText()),
+                         Float.parseFloat(txtPrecio.getText()),
                          Integer.parseInt(cmbCapacidad.getValue()),
                          imageView.getImage().getUrl()
                 //cmbServicios.getCheckModel().getCheckedItems()
@@ -183,14 +183,14 @@ public class VistaAdminController implements Observable {
 
             switch (tipo) {
                 case Tipo.CASA -> {
-                    double precioPorNoche = Double.parseDouble(txtPrecio.getText());
+                    float precioPorNoche = Float.parseFloat(txtPrecio.getText());
                     int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
                     double costoAdicional = Double.parseDouble(txtCostoAdicional.getText());
                     bookYourStay.agreagrCasa(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image.getUrl(), servicio, costoAdicional);
                 }
                 case Tipo.APARTAMENTO ->
                 {
-                    double precioPorNoche = Double.parseDouble(txtPrecio.getText());
+                    float precioPorNoche = Float.parseFloat(txtPrecio.getText());
                     int capacidadMax = Integer.parseInt(cmbCapacidad.getValue());
                     double costoAdicional = Double.parseDouble(txtCostoAdicional.getText());
                     bookYourStay.agreagrApartamento(tipo, nombre, ciudad, descripcion, precioPorNoche, capacidadMax, image.getUrl(), servicio, costoAdicional);

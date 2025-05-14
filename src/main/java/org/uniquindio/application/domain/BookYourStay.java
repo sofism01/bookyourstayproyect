@@ -17,7 +17,10 @@ import org.uniquindio.application.utils.Persistencia;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.simplejavamail.api.mailer.config.TransportStrategy.SMTP_TLS;
 
@@ -29,6 +32,7 @@ public class BookYourStay implements Serializable {
     private ArrayList<Persona> personas;
     private Set<String> emailsRegistrados = new HashSet<>();
     private List<Billetera> billeteras;
+    private List<Reserva> reservas;
 
     //singleton
     public static BookYourStay getInstance() {
@@ -134,7 +138,7 @@ public class BookYourStay implements Serializable {
         return tipo;
     }
 
-    public void agreagrApartamento(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+    public void agreagrApartamento(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                                    int capacidadMax, String image, List<String> servicios, double costoMantenimiento) throws Exception {
 
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
@@ -163,7 +167,7 @@ public class BookYourStay implements Serializable {
         guardarDatos(alojamientos);
     }
 
-    public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+    public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                             int capacidadMax, String image, List<String> servicios, double costoAseo) throws Exception {
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
@@ -338,7 +342,7 @@ public class BookYourStay implements Serializable {
         }
     }
 
-    public void editarAlojamiento(String id, String nombre, Ciudad ciudad, String descripcion, double precioPorNoche,
+    public void editarAlojamiento(String id, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                                   int capacidadMax, String imagen) {
 
         for (int i = 0; i < alojamientos.size(); i++) {
@@ -408,6 +412,191 @@ public class BookYourStay implements Serializable {
             System.err.println("Error cargando alojamientos: " + e.getMessage());
         }
         return new ArrayList<>();
+    }
+
+
+    //metodo para calcular la ocupacion porcentual de cada alojamiento
+    public List<Double> calcularOcupacionPorcentualPorTipo() {
+        double nochesCasa = 0;
+        double nochesApartamento = 0;
+        double nochesHotel = 0;
+        double nochesTotales = 0;
+
+        for (Alojamiento alojamiento : alojamientos) {
+            for (Reserva reserva : alojamiento.getReservas()) {
+                long noches = ChronoUnit.DAYS.between(
+                        reserva.getFechaIngreso(),
+                        reserva.getFechaSalida()
+                );
+                if (noches <= 0) continue;
+
+                nochesTotales += noches;
+
+                if (alojamiento instanceof Casa) {
+                    nochesCasa += noches;
+                } else if (alojamiento instanceof Apartamento) {
+                    nochesApartamento += noches;
+                } else if (alojamiento instanceof Hotel) {
+                    nochesHotel += noches;
+                }
+            }
+        }
+
+        if (nochesTotales == 0) {
+            return Arrays.asList(0.0, 0.0, 0.0);
+        }
+
+        double porcentajeCasa = (nochesCasa * 100.0) / nochesTotales;
+        double porcentajeApartamento = (nochesApartamento * 100.0) / nochesTotales;
+        double porcentajeHotel = (nochesHotel * 100.0) / nochesTotales;
+
+        return Arrays.asList(porcentajeCasa, porcentajeApartamento, porcentajeHotel);
+    }
+
+
+    //metood para calcular las ganancias totales de una reserva
+    public double calcularGananciasTotalesPorReserva() {
+        double totalGanancias = 0.0;
+
+        for (Alojamiento alojamiento : alojamientos) {
+            for (Reserva reserva : alojamiento.getReservas()) {
+                long noches = ChronoUnit.DAYS.between(
+                        reserva.getFechaIngreso(),
+                        reserva.getFechaSalida()
+                );
+                if (noches <= 0) continue;
+
+                int personas = reserva.getNumeroPersonas(); // Asegúrate de que este método/campo exista
+                double gananciaReserva = noches * alojamiento.getPrecioPorNoche() * personas;
+
+                // Costo adicional por aseo para Casa o Apartamento
+                if (alojamiento instanceof Casa || alojamiento instanceof Apartamento) {
+                    gananciaReserva += 50000; // Puedes ajustar esto según tu modelo
+                }
+
+                totalGanancias += gananciaReserva;
+            }
+        }
+
+        return totalGanancias;
+    }
+
+//metodo para listar losalojamintos mas populares en cada ciudad
+    public Map<Ciudad, List<Alojamiento>> listarAlojamientosMasPopularesPorCiudad() {
+        Map<Ciudad, List<Alojamiento>> popularesPorCiudad = new HashMap<>();
+
+        for (Alojamiento alojamiento : alojamientos) {
+            Ciudad ciudad = alojamiento.getCiudad();
+
+            popularesPorCiudad
+                    .computeIfAbsent(ciudad, k -> new ArrayList<>())
+                    .add(alojamiento);
+        }
+
+        // Ordenar alojamientos de cada ciudad por número de reservas (descendente)
+        for (List<Alojamiento> lista : popularesPorCiudad.values()) {
+            lista.sort((a1, a2) -> Integer.compare(
+                    a2.getReservas().size(),
+                    a1.getReservas().size()
+            ));
+        }
+
+        return popularesPorCiudad;
+    }
+
+
+    //metodo para listar los alojamientos mas rentables
+    public Map<String, Double> listarTiposAlojamientoMasRentables() {
+        Map<String, Double> gananciasPorTipo = new HashMap<>();
+
+        for (Alojamiento alojamiento : alojamientos) {
+            double gananciaTotal = 0;
+
+            for (Reserva reserva : alojamiento.getReservas()) {
+                long noches = ChronoUnit.DAYS.between(reserva.getFechaIngreso(), reserva.getFechaSalida());
+                if (noches <= 0) continue;
+
+                int personas = reserva.getNumeroPersonas(); // Asegúrate que este campo exista
+                double ganancia = noches * alojamiento.getPrecioPorNoche() * personas;
+
+                if (alojamiento instanceof Casa || alojamiento instanceof Apartamento) {
+                    ganancia += 50000; // Costo fijo adicional
+                }
+
+                String tipo = alojamiento instanceof Casa ? "Casa"
+                        : alojamiento instanceof Apartamento ? "Apartamento"
+                        : alojamiento instanceof Hotel ? "Hotel"
+                        : "Otro";
+
+                gananciasPorTipo.put(tipo, gananciasPorTipo.getOrDefault(tipo, 0.0) + ganancia);
+            }
+        }
+
+        // Ordenar el mapa por valor descendente
+        return gananciasPorTipo.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+    }
+
+    //metodo para realizar reserva con las validaciones necesarias
+    public String realizarReserva(Persona cliente, Alojamiento alojamiento, LocalDate ingreso, LocalDate salida, int numeroPersonas) throws Exception {
+        // Validación de fechas
+        if (ingreso == null || salida == null || !ingreso.isBefore(salida)) {
+            throw new Exception("Fechas inválidas.") ;
+        }
+
+        // Validar capacidad
+        if (numeroPersonas > alojamiento.getCapacidadMax()) {
+            throw new Exception("La cantidad de huéspedes excede la capacidad del alojamiento.") ;
+        }
+
+        // Validar disponibilidad (no se deben cruzar fechas con reservas existentes)
+        for (Reserva r : alojamiento.getReservas()) {
+            if (fechasSeCruzan(ingreso, salida, r.getFechaIngreso(), r.getFechaSalida())) {
+                throw new Exception ("El alojamiento no está disponible en esas fechas.");
+            }
+        }
+
+        // Calcular costo
+        long noches = ChronoUnit.DAYS.between(ingreso, salida);
+        float costoTotal = noches * alojamiento.getPrecioPorNoche();
+
+        if (alojamiento instanceof Casa || alojamiento instanceof Apartamento) {
+            costoTotal += 50000; // costo adicional fijo de aseo
+        }
+
+        // Validar saldo en la billetera
+        Billetera billetera = buscarBilleteraDe(cliente);
+        if (billetera == null || billetera.consultarSaldo() < costoTotal) {
+            throw new Exception("Fondos insuficientes en la billetera.") ;
+        }
+
+        // Descontar dinero y registrar reserva
+        billetera.retirar(costoTotal);
+        Reserva nuevaReserva = new Reserva(ingreso, salida, UUID.randomUUID().toString(), numeroPersonas);
+        alojamiento.getReservas().add(nuevaReserva);
+        reservas.add(nuevaReserva);
+
+        return "Reserva realizada exitosamente. Total pagado: $" + String.format("%.2f", costoTotal);
+    }
+
+    private boolean fechasSeCruzan(LocalDate inicio1, LocalDate fin1, LocalDate inicio2, LocalDate fin2) {
+        return !inicio1.isAfter(fin2.minusDays(1)) && !fin1.minusDays(1).isBefore(inicio2);
+    }
+
+    private Billetera buscarBilleteraDe(Persona persona) {
+        for (Billetera b : billeteras) {
+            if (b.getCliente().equals(persona)) {
+                return b;
+            }
+        }
+        return null;
     }
 
 

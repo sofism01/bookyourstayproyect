@@ -20,13 +20,13 @@ public abstract class Alojamiento {
     public Tipo tipo;
     protected String nombre;
     protected List<Oferta> oferta;
-    protected Reserva reserva;
     protected Ciudad ciudad;
     protected String descripcion;
-    protected double precioPorNoche;
+    protected float precioPorNoche;
     protected int capacidadMax;
     public String imagen;
     protected List<Servicio> servicio;
+    protected List<Reserva> reservas;
 
     @Override
     public String toString() {
