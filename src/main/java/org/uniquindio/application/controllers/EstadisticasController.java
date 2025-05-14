@@ -7,6 +7,7 @@ import org.uniquindio.application.domain.BookYourStay;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class EstadisticasController {
@@ -20,6 +21,8 @@ public class EstadisticasController {
     public void initialize() {
         // Crear un gráfico de pastel
         crearGraficoPastelOcupacion();
+        // Crear gráfico de rentabilidad
+        crearGraficoPastelRentabilidad();
     }
 
     private void crearGraficoPastelOcupacion() {
@@ -31,6 +34,19 @@ public class EstadisticasController {
         pieChart.getData().add(new PieChart.Data("Casa", porcentajes.get(0)));
         pieChart.getData().add(new PieChart.Data("Apartamento", porcentajes.get(1)));
         pieChart.getData().add(new PieChart.Data("Hotel", porcentajes.get(2)));
+
+        panelEstadisticas.getChildren().add(pieChart);
+    }
+
+    private void crearGraficoPastelRentabilidad() {
+        PieChart pieChart = new PieChart();
+        pieChart.setTitle("Tipos de Alojamiento Más Rentables");
+
+        Map<String, Double> gananciasPorTipo = bookYourStay.listarTiposAlojamientoMasRentables();
+
+        for (Map.Entry<String, Double> entry : gananciasPorTipo.entrySet()) {
+            pieChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        }
 
         panelEstadisticas.getChildren().add(pieChart);
     }

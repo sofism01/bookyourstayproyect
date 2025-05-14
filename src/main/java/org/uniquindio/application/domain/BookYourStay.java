@@ -484,21 +484,13 @@ public class BookYourStay implements Serializable {
 
         for (Alojamiento alojamiento : alojamientos) {
             List<Reserva> reservas = alojamiento.getReservas();
-
-            if (reservas == null) {
-                continue;
-            }
+            if (reservas == null) continue;  // <-- Aquí validas que no sea null
 
             for (Reserva reserva : reservas) {
-                if (reserva.getFechaIngreso() == null || reserva.getFechaSalida() == null) {
-                    continue;
-                }
-
                 long noches = ChronoUnit.DAYS.between(
                         reserva.getFechaIngreso(),
                         reserva.getFechaSalida()
                 );
-
                 if (noches <= 0) continue;
 
                 nochesTotales += noches;
@@ -582,29 +574,35 @@ public class BookYourStay implements Serializable {
         Map<String, Double> gananciasPorTipo = new HashMap<>();
 
         for (Alojamiento alojamiento : alojamientos) {
-            double gananciaTotal = 0;
+            List<Reserva> reservas = alojamiento.getReservas();
+            if (reservas == null) {
+                continue; // Evita NullPointerException si la lista de reservas es null
+            }
 
-            for (Reserva reserva : alojamiento.getReservas()) {
+            for (Reserva reserva : reservas) {
                 long noches = ChronoUnit.DAYS.between(reserva.getFechaIngreso(), reserva.getFechaSalida());
                 if (noches <= 0) continue;
 
-                int personas = reserva.getNumeroPersonas(); // Asegúrate que este campo exista
+                int personas = reserva.getNumeroPersonas(); // Asegúrate de que este método exista
                 double ganancia = noches * alojamiento.getPrecioPorNoche() * personas;
 
+                // Suma extra para casas y apartamentos
                 if (alojamiento instanceof Casa || alojamiento instanceof Apartamento) {
-                    ganancia += 50000; // Costo fijo adicional
+                    ganancia += 50000;
                 }
 
+                // Determinar tipo de alojamiento como texto
                 String tipo = alojamiento instanceof Casa ? "Casa"
                         : alojamiento instanceof Apartamento ? "Apartamento"
                         : alojamiento instanceof Hotel ? "Hotel"
                         : "Otro";
 
+                // Acumular la ganancia por tipo
                 gananciasPorTipo.put(tipo, gananciasPorTipo.getOrDefault(tipo, 0.0) + ganancia);
             }
         }
 
-        // Ordenar el mapa por valor descendente
+        // Ordenar el mapa por valor descendente (más rentables primero)
         return gananciasPorTipo.entrySet()
                 .stream()
                 .sorted(Map.Entry.<String, Double>comparingByValue().reversed())

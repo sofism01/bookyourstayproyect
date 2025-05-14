@@ -28,7 +28,11 @@ public abstract class Alojamiento implements Serializable {
     protected int capacidadMax;
     public String imagen;
     protected List<Servicio> servicio;
-    protected List<Reserva> reservas = new ArrayList<>();
+    protected List<Reserva> reservas;
+
+    public Alojamiento() {
+        this.reservas = new ArrayList<>();
+    }
 
     @Override
     public String toString() {
