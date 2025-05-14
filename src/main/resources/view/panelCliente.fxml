@@ -31,7 +31,7 @@
     </VBox>
 
 
-    <StackPane fx:id="panelPrincipal" HBox.hgrow="ALWAYS"  />
+    <StackPane fx:id="panelCliente" HBox.hgrow="ALWAYS"  />
 
 
 </HBox>

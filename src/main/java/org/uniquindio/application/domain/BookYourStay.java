@@ -545,7 +545,7 @@ public class BookYourStay implements Serializable {
     }
 
     //metodo para realizar reserva con las validaciones necesarias
-    public String realizarReserva(Persona cliente, Alojamiento alojamiento, LocalDate ingreso, LocalDate salida, int numeroPersonas) throws Exception {
+    public String realizarReserva(Cliente cliente, Alojamiento alojamiento, LocalDate ingreso, LocalDate salida, int numeroPersonas) throws Exception {
         // Validación de fechas
         if (ingreso == null || salida == null || !ingreso.isBefore(salida)) {
             throw new Exception("Fechas inválidas.") ;
@@ -579,7 +579,7 @@ public class BookYourStay implements Serializable {
 
         // Descontar dinero y registrar reserva
         billetera.retirar(costoTotal);
-        Reserva nuevaReserva = new Reserva(ingreso, salida, UUID.randomUUID().toString(), numeroPersonas);
+        Reserva nuevaReserva = new Reserva(ingreso, salida, cliente, alojamiento, numeroPersonas);
         alojamiento.getReservas().add(nuevaReserva);
         reservas.add(nuevaReserva);
 
