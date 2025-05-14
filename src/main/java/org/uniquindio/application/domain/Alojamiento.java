@@ -9,12 +9,14 @@ import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 @Getter
 @Setter
-public abstract class Alojamiento {
+public abstract class Alojamiento implements Serializable {
 
     private String id;
     public Tipo tipo;
@@ -26,7 +28,7 @@ public abstract class Alojamiento {
     protected int capacidadMax;
     public String imagen;
     protected List<Servicio> servicio;
-    protected List<Reserva> reservas;
+    protected List<Reserva> reservas = new ArrayList<>();
 
     @Override
     public String toString() {

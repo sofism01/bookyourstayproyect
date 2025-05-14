@@ -8,11 +8,12 @@ import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
 
+import java.io.Serializable;
 import java.util.List;
 @Getter
 @Setter
 
-public class Apartamento extends Alojamiento {
+public class Apartamento extends Alojamiento implements Serializable {
     private double costoMantenimiento;
 
     @Override

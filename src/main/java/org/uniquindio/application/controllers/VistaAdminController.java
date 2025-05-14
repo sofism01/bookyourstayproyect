@@ -246,6 +246,7 @@ public class VistaAdminController implements Observable {
 
         MenuItem item1 = new MenuItem("Agregar ofertas");
         MenuItem item2 = new MenuItem("Cerrar sesion");
+        MenuItem item3 = new MenuItem("Ver estadisticas");
 
 
         // Añadir acciones a cada ítem
@@ -263,13 +264,24 @@ public class VistaAdminController implements Observable {
                 throw new RuntimeException(ex);
             }
         });
+        item3.setOnAction(e -> {
+            try {
+                verEstadisticas();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
-        btnOpciones.getItems().addAll(item1, item2);
+        btnOpciones.getItems().addAll(item1, item2, item3);
 
     }
 
     private void cerrarSesion() throws IOException {
         Main.actualizarVista(Paths.HOME);
+    }
+
+    private void verEstadisticas() throws IOException {
+        Main.actualizarVista(Paths.ESTADISTICAS);
     }
 
     private void agregarOfertas() throws IOException {

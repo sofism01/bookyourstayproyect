@@ -5,11 +5,11 @@ import lombok.Getter;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
-
 import javax.sound.midi.MidiMessage;
+import java.io.Serializable;
 import java.util.List;
 @Getter
-public class Casa extends Alojamiento{
+public class Casa extends Alojamiento implements Serializable {
     private double costoAseo;
 
     @Builder

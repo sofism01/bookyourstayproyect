@@ -7,10 +7,11 @@ import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 @Getter
-public class Hotel extends Alojamiento {
+public class Hotel extends Alojamiento implements Serializable {
     private List<Habitacion> habitaciones;
 
     @Builder

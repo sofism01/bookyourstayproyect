@@ -2,6 +2,7 @@ package org.uniquindio.application.domain;
 
 import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
@@ -23,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.simplejavamail.api.mailer.config.TransportStrategy.SMTP_TLS;
-
+@Getter
 @AllArgsConstructor
 public class BookYourStay implements Serializable {
     private Administrador administrador;
@@ -33,6 +34,15 @@ public class BookYourStay implements Serializable {
     private Set<String> emailsRegistrados = new HashSet<>();
     private List<Billetera> billeteras;
     private List<Reserva> reservas;
+    private Cliente clienteActual;
+
+    public Cliente getClienteActual() {
+        return clienteActual;
+    }
+
+    public void setClienteActual(Cliente clienteActual) {
+        this.clienteActual = clienteActual;
+    }
 
     //singleton
     public static BookYourStay getInstance() {
@@ -46,7 +56,9 @@ public class BookYourStay implements Serializable {
     private BookYourStay() {
         iniciarApp();
         crearAlojamientosPrueba();
-        this.alojamientos = (ArrayList<Alojamiento>) leerDatos();
+        this.alojamientos = (ArrayList<Alojamiento>) leerDatosAlojamiento();
+        this.personas = (ArrayList<Persona>) leerDatosUsuario();
+        this.reservas = (ArrayList<Reserva>) leerDatosReserva();
     }
 
     private void crearAlojamientosPrueba(){
@@ -106,9 +118,11 @@ public class BookYourStay implements Serializable {
         personas = new ArrayList<>();
         administrador = new Administrador();
         alojamientos = new ArrayList<>();
+        reservas = new ArrayList<>();
         administrador.setEmail("a");
         administrador.setContrasena("a");
         personas.add(administrador);
+        //guardarDatosUsuario(personas);
     }
 
 
@@ -164,7 +178,7 @@ public class BookYourStay implements Serializable {
                 .build();
 
         alojamientos.add(alojamiento);
-        guardarDatos(alojamientos);
+        guardarDatosAlojamiento(alojamientos);
     }
 
     public void agreagrCasa(Tipo tipo, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
@@ -191,7 +205,7 @@ public class BookYourStay implements Serializable {
                 .build();
 
         alojamientos.add(alojamiento);
-        guardarDatos(alojamientos);
+        guardarDatosAlojamiento(alojamientos);
 
     }
 
@@ -216,7 +230,7 @@ public class BookYourStay implements Serializable {
                 .build();
 
         alojamientos.add(alojamiento);
-        guardarDatos(alojamientos);
+        guardarDatosAlojamiento(alojamientos);
 
     }
 
@@ -285,12 +299,14 @@ public class BookYourStay implements Serializable {
                 .telefono(telefono)
                 .email(email)
                 .contrasena(contrasena)
+
                 .build();
 
         String codigo = enviarCorreoBienvenida(nombre, email);
         clienteNuevo.setCodigoActivacion(codigo);
 
         personas.add(clienteNuevo);
+        guardarDatosUsuario(personas);
 
     }
 
@@ -338,6 +354,7 @@ public class BookYourStay implements Serializable {
         for (int i = 0; i < alojamientos.size(); i++) {
             if (alojamientos.get(i).getId().equals(id)) {
                 alojamientos.remove(i);
+                guardarDatosAlojamiento(alojamientos);
             }
         }
     }
@@ -361,6 +378,7 @@ public class BookYourStay implements Serializable {
 
                 //Actualiza el alojamiento en la lista de alojamientos
                 alojamientos.set(i, alojamientoGuardado);
+                guardarDatosAlojamiento(alojamientos);
                 break;
             }
 
@@ -393,7 +411,7 @@ public class BookYourStay implements Serializable {
         return resultado;
     }
 
-    public void guardarDatos(List<Alojamiento> alojamientos) {
+    public void guardarDatosAlojamiento(List<Alojamiento> alojamientos) {
         try {
             Persistencia.serializarObjeto(Constantes.RUTA_ALOJAMIENTOS, alojamientos);
         } catch (Exception e) {
@@ -402,7 +420,7 @@ public class BookYourStay implements Serializable {
     }
 
 
-    public List<Alojamiento> leerDatos() {
+    public List<Alojamiento> leerDatosAlojamiento() {
         try {
             Object datos = Persistencia.deserializarObjeto(Constantes.RUTA_ALOJAMIENTOS);
             if (datos != null) {
@@ -410,6 +428,48 @@ public class BookYourStay implements Serializable {
             }
         } catch (Exception e) {
             System.err.println("Error cargando alojamientos: " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    public void guardarDatosUsuario(List<Persona> personas) {
+        try {
+            Persistencia.serializarObjeto(Constantes.RUTA_USUARIOS, personas);
+        } catch (Exception e) {
+            System.err.println("Error guardando usuarios: " + e.getMessage());
+        }
+    }
+
+
+    public List<Persona> leerDatosUsuario() {
+        try {
+            Object datos = Persistencia.deserializarObjeto(Constantes.RUTA_USUARIOS);
+            if (datos != null) {
+                return (List<Persona>) datos;
+            }
+        } catch (Exception e) {
+            System.err.println("Error cargando usuarios: " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    public void guardarDatosReserva(List<Reserva> reservas) {
+        try {
+            Persistencia.serializarObjeto(Constantes.RUTA_RESERVAS, reservas);
+        } catch (Exception e) {
+            System.err.println("Error guardando reservas: " + e.getMessage());
+        }
+    }
+
+
+    public List<Reserva> leerDatosReserva() {
+        try {
+            Object datos = Persistencia.deserializarObjeto(Constantes.RUTA_RESERVAS);
+            if (datos != null) {
+                return (List<Reserva>) datos;
+            }
+        } catch (Exception e) {
+            System.err.println("Error cargando reservas: " + e.getMessage());
         }
         return new ArrayList<>();
     }
@@ -423,11 +483,22 @@ public class BookYourStay implements Serializable {
         double nochesTotales = 0;
 
         for (Alojamiento alojamiento : alojamientos) {
-            for (Reserva reserva : alojamiento.getReservas()) {
+            List<Reserva> reservas = alojamiento.getReservas();
+
+            if (reservas == null) {
+                continue;
+            }
+
+            for (Reserva reserva : reservas) {
+                if (reserva.getFechaIngreso() == null || reserva.getFechaSalida() == null) {
+                    continue;
+                }
+
                 long noches = ChronoUnit.DAYS.between(
                         reserva.getFechaIngreso(),
                         reserva.getFechaSalida()
                 );
+
                 if (noches <= 0) continue;
 
                 nochesTotales += noches;
@@ -452,6 +523,7 @@ public class BookYourStay implements Serializable {
 
         return Arrays.asList(porcentajeCasa, porcentajeApartamento, porcentajeHotel);
     }
+
 
 
     //metood para calcular las ganancias totales de una reserva

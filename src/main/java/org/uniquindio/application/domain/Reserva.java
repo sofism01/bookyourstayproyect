@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.simplejavamail.api.internal.clisupport.model.Cli;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Reserva {
+public class Reserva implements Serializable {
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
     private String idReserva;

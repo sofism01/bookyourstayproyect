@@ -35,6 +35,7 @@
             <MenuButton fx:id="btnOpciones" mnemonicParsing="false" onAction="#verOpciones" text="Ver opciones">
               <items>
               </items>
+
                <VBox.margin>
                   <Insets left="50.0" top="10.0" />
                </VBox.margin>

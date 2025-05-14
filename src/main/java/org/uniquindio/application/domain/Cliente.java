@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 @Getter
 @Setter
-public class Cliente implements Persona {
+public class Cliente implements Persona, Serializable {
     private String cedula;
     private String nombre;
     private String apellido;
@@ -21,9 +21,10 @@ public class Cliente implements Persona {
     private ArrayList<Reserva> reservas;
     private boolean activo;
     private String codigoActivacion;
-
+    private Billetera billetera;
     @Builder
-    public Cliente(String cedula, String nombre, String apellido, String telefono, String email, String contrasena, ArrayList<Reserva> reservas, boolean activo, String codigoActivacion) {
+    public Cliente(String cedula, String nombre, String apellido, String telefono, String email, String contrasena,
+                   ArrayList<Reserva> reservas, boolean activo, String codigoActivacion, Billetera billetera) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -33,5 +34,6 @@ public class Cliente implements Persona {
         this.reservas = new ArrayList<>();
         this.activo = activo;
         this.codigoActivacion = codigoActivacion;
+        this.billetera = new Billetera(this);
     }
 }

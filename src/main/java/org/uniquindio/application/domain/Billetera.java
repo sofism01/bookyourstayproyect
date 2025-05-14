@@ -2,9 +2,11 @@ package org.uniquindio.application.domain;
 
 import org.uniquindio.application.utils.Constantes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class Billetera {
+public class Billetera implements Serializable {
     private String numero;
     private float saldo;
     private Cliente cliente;
@@ -12,9 +14,9 @@ public class Billetera {
 
 
 
-    public Billetera(String numero, float saldo, Cliente cliente) {
-        this.numero = numero;
-        this.saldo = saldo;
+    public Billetera(Cliente cliente) {
+        this.numero = UUID.randomUUID().toString();
+        this.saldo = 0;
         this.cliente = cliente;
         this.transacciones = new ArrayList<>();
     }
@@ -37,14 +39,14 @@ public class Billetera {
 
     }
 
-    public void depositar(float monto, Transaccion transaccion) throws Exception {
+    public void depositar(float monto) throws Exception {
 
         if (monto <= 0){
             throw new Exception("El monto a retirar debe ser mayor a cero");
         }
 
         saldo += monto;
-        transacciones.add(transaccion);
+
     }
 
 

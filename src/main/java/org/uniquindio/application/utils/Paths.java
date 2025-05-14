@@ -11,6 +11,7 @@ public class Paths {
     public static  final String CREAR_RESERVA = "/view/crearReserva.fxml";
     public static  final String ABRIR_BILLETERA = "/view/abrirBilletera.fxml";
     public static  final String ADMINISTRAR_OFERTAS = "/view/administrarOfertas.fxml";
+    public static  final String ESTADISTICAS = "/view/estadisticas.fxml";
 
 }
 
