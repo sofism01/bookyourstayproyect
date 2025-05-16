@@ -22,11 +22,10 @@ public class ItemAlojamientoController2 {
         capacidadAlojamiento.setText("Capacidad maxima: "+alojamiento.getCapacidadMax());
         descripcionAlojamiento.setText("Descripcion: "+alojamiento.getDescripcion());
         serviciosAlojamiento.setText("Servicios: "+alojamiento.getServicio());
-        if(alojamiento.getOferta() != null){
-            ofertaAlojamiento.setText("Oferta: "+alojamiento.getOferta().get(0).getDescuento()+"% desde el "+alojamiento.getOferta().get(0).getFechaInicio()+" hasta el "+alojamiento.getOferta().get(0).getFechaFin());
+
     }}
 
-        }
+
 
 
 
