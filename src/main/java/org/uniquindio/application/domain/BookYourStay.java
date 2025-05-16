@@ -257,6 +257,33 @@ public class BookYourStay implements Serializable {
         return codigo;
     }
 
+    public void enviarCorreoFactura(String emailUser, Factura factura) throws Exception {
+        String cuerpo = "📄 Detalles de su Factura\n\n"
+                + "Código de factura: " + factura.getCodigoFactura() + "\n"
+                + "Fecha de emisión: " + factura.getFechaFactura() + "\n"
+                + "Subtotal: $" + factura.getSubtotal() + "\n"
+                + "Total: $" + factura.getTotal() + "\n\n"
+                + "¡Gracias por usar Book Your Stay!";
+
+        Email email = EmailBuilder.startingBlank()
+                .from("Book Your Stay", "bookyourstay7@gmail.com")
+                .to(emailUser)
+                .withSubject("📄 Factura de su reserva - Book Your Stay")
+                .withPlainText(cuerpo)
+                .buildEmail();
+
+        try (Mailer mailer = MailerBuilder
+                .withSMTPServer("smtp.gmail.com", 587, "bookyourstay7@gmail.com", "oxabhvzdordfhzvx")
+                .withTransportStrategy(SMTP_TLS)
+                .withDebugLogging(true)
+                .buildMailer()) {
+
+            mailer.sendMail(email);
+        }
+    }
+
+
+
     public void registrarCliente(String cedula, String nombre, String apellido, String telefono,
                                  String email, String contrasena) throws Exception {
 
@@ -652,6 +679,7 @@ public class BookYourStay implements Serializable {
         Reserva nuevaReserva = new Reserva(ingreso, salida, cliente, alojamiento, numeroPersonas);
         alojamiento.getReservas().add(nuevaReserva);
         reservas.add(nuevaReserva);
+        guardarDatosReserva(reservas);
 
         return "Reserva realizada exitosamente. Total pagado: $" + String.format("%.2f", costoTotal);
     }
