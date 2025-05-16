@@ -62,7 +62,7 @@ public class IniciarSesionController {
             if (persona instanceof Administrador) {
                 Main.actualizarVista(Paths.VISTA_ADMIN);
             } else if (persona instanceof Cliente) {
-                Main.actualizarVista(Paths.VISTA_CLIENTE);
+                Main.actualizarVistaMaximizada(Paths.VISTA_CLIENTE);
             }
         }else{
             Main.mostrarMensaje("Sus datos son incorrectos", Alert.AlertType.ERROR);

@@ -7,38 +7,39 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.stage.Stage;
+import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.BookYourStay;
+import org.uniquindio.application.utils.Paths;
+
+import java.io.IOException;
 
 public class PanelClienteController {
 
-BookYourStay bookYourStay = BookYourStay.getInstance();
+    BookYourStay bookYourStay = BookYourStay.getInstance();
 
     @FXML
     private StackPane panelCliente;
 
-    public void verAlojamientos(ActionEvent actionEvent) {
+    public void verAlojamientos(ActionEvent actionEvent){
         Parent node = cargarPanel("/view/verAlojamientos.fxml");
-
-
-        // Se reemplaza el contenido del panel principal
-        panelCliente.getChildren().setAll(node);
+        if (node != null) {
+            panelCliente.getChildren().setAll(node);
+        } else {
+            System.err.println("No se pudo cargar el panel: /view/verAlojamientos.fxml");
+        }
     }
 
 
-    public void crearReserva(ActionEvent actionEvent) {
+
+    public void crearReserva(ActionEvent actionEvent) throws IOException {
         Parent node = cargarPanel("/view/crearReserva.fxml");
-
-
-        // Se reemplaza el contenido del panel principal
         panelCliente.getChildren().setAll(node);
     }
 
 
-    public void abrirBilletera(ActionEvent actionEvent) {
+    public void abrirBilletera(ActionEvent actionEvent) throws IOException {
         Parent node = cargarPanel("/view/abrirBilletera.fxml");
-
-
-        // Se reemplaza el contenido del panel principal
         panelCliente.getChildren().setAll(node);
     }
 
@@ -52,6 +53,11 @@ BookYourStay bookYourStay = BookYourStay.getInstance();
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void cerrarVentanaActual() {
+        Stage stage = (Stage) panelCliente.getScene().getWindow();
+        stage.close();
     }
 
 
