@@ -43,6 +43,11 @@ public class PanelClienteController {
         panelCliente.getChildren().setAll(node);
     }
 
+    public void administrarCuenta(ActionEvent actionEvent) throws IOException {
+        Parent node = cargarPanel("/view/administrarCuenta.fxml");
+        panelCliente.getChildren().setAll(node);
+    }
+
 
     private Parent cargarPanel(String fxmlFile) {
         try {

@@ -42,7 +42,6 @@ public class Reserva implements Serializable {
             subtotal += 50000; // Costo adicional fijo de aseo
         }
 
-        // Crear la factura con el UUID como código único
-        return new Factura(subtotal, subtotal); // El total inicialmente es igual al subtotal (puedes agregar impuestos o cargos adicionales si es necesario)
+        return new Factura(subtotal, subtotal);
     }
 }

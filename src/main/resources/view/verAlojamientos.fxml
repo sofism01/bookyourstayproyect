@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -17,14 +18,18 @@
             <Insets left="200.0" top="10.0" />
          </VBox.margin>
       </Label>
-      <HBox fx:id="contenedorAlojamientos" prefHeight="283.0" prefWidth="600.0">
+
+      <ScrollPane fx:id="scrollAlojamientos" layoutX="30.0" layoutY="76.0" prefHeight="270.0" prefWidth="700.0">
+         <content>
+            <HBox fx:id="contenedorAlojamientos" prefHeight="100.0" prefWidth="200.0" spacing="10" />
+         </content>
          <VBox.margin>
-            <Insets top="20.0" />
+            <Insets top="30.0" />
          </VBox.margin>
-      </HBox>
+      </ScrollPane>
       <Button mnemonicParsing="false" onAction="#hacerReserva" text="Reservar">
          <VBox.margin>
-            <Insets left="270.0" top="10.0" />
+            <Insets left="270.0" top="30.0" />
          </VBox.margin>
       </Button>
    </children>

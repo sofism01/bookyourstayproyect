@@ -44,8 +44,8 @@ public class VerAlojamientosController {
     public Node itemAlojamiento2(Alojamiento alojamiento) throws Exception{
         FXMLLoader loader = new FXMLLoader((Main.class.getResource("/view/itemAlojamiento2.fxml")));
         Parent parent = loader.load();
-        ItemAlojamientoController itemAlojamientoController = loader.getController();
-        itemAlojamientoController.setAlojamiento(alojamiento);
+        ItemAlojamientoController2 itemAlojamientoController2 = loader.getController();
+        itemAlojamientoController2.setAlojamiento(alojamiento);
 
         return parent;
     }
