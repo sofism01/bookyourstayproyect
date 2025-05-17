@@ -1,5 +1,7 @@
 package org.uniquindio.application.domain;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 import org.uniquindio.application.Main;
+import org.uniquindio.application.controllers.CrearReservaController;
 import org.uniquindio.application.domain.interfaces.Persona;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
@@ -16,8 +19,10 @@ import org.uniquindio.application.enums.Tipo;
 import org.uniquindio.application.utils.Constantes;
 import org.uniquindio.application.utils.Persistencia;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -59,6 +64,7 @@ public class BookYourStay implements Serializable {
         this.alojamientos = (ArrayList<Alojamiento>) leerDatosAlojamiento();
         this.personas = (ArrayList<Persona>) leerDatosUsuario();
         this.reservas = (ArrayList<Reserva>) leerDatosReserva();
+        sincronizarBilleteras();
     }
 
     private void crearAlojamientosPrueba(){
@@ -114,6 +120,22 @@ public class BookYourStay implements Serializable {
 
     }
 
+    private void sincronizarBilleteras() {
+        if (billeteras == null) {
+            billeteras = new ArrayList<>();
+        }
+        billeteras.clear();
+        for (Persona p : personas) {
+            if (p instanceof Cliente) {
+                Cliente c = (Cliente) p;
+                if (c.getBilletera() == null) {
+                    c.setBilletera(new Billetera(c));
+                }
+                billeteras.add(c.getBilletera());
+            }
+        }
+    }
+
     private void iniciarApp() {
         personas = new ArrayList<>();
         administrador = new Administrador();
@@ -127,15 +149,25 @@ public class BookYourStay implements Serializable {
 
 
     public Persona iniciarSesion(String email, String contrasena) {
+        if (email == null || contrasena == null) {
+            return null;
+        }
 
-        for (Persona p : personas){
-            if (p.getContrasena().equals(contrasena) && p.getEmail().equals(email)){
+        String emailLowerCase = email.toLowerCase();
+        if (emailLowerCase.equals(administrador.getEmail()) && contrasena.equals(administrador.getContrasena())) {
+            return administrador;
+        }
+        for (Persona p : personas) {
+            if (p.getEmail().equalsIgnoreCase(emailLowerCase) && p.getContrasena().equals(contrasena)) {
+                if (p instanceof Cliente && !((Cliente) p).isActivo()) {
+                    // Si el cliente no está activado, devolver null
+                    return null;
+                }
                 return p;
             }
         }
 
         return null;
-
     }
 
     public List<Alojamiento> listarAlojamientos() {
@@ -257,7 +289,15 @@ public class BookYourStay implements Serializable {
         return codigo;
     }
 
+
     public void enviarCorreoFactura(String emailUser, Factura factura) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/crearReserva.fxml"));
+        Parent root = loader.load();
+        CrearReservaController crearReservaController = loader.getController();
+
+        crearReservaController.generarQR(factura.getCodigoFactura());
+        Path qrPath = Path.of("src/main/resources/qr/qr_" + factura.getCodigoFactura() + ".png");
+
         String cuerpo = "📄 Detalles de su Factura\n\n"
                 + "Código de factura: " + factura.getCodigoFactura() + "\n"
                 + "Fecha de emisión: " + factura.getFechaFactura() + "\n"
@@ -270,6 +310,7 @@ public class BookYourStay implements Serializable {
                 .to(emailUser)
                 .withSubject("📄 Factura de su reserva - Book Your Stay")
                 .withPlainText(cuerpo)
+                .withHTMLText("<html><body>" + cuerpo.replace("\n", "<br>") + "<br><img src='cid:facturaQR'></body></html>")                .withEmbeddedImage("facturaQR", java.nio.file.Files.readAllBytes(qrPath), "image/png")
                 .buildEmail();
 
         try (Mailer mailer = MailerBuilder
@@ -305,12 +346,11 @@ public class BookYourStay implements Serializable {
             throw new Exception("El email no tiene un formato válido");
         }
 
-        // Validar que el email no esté repetido (no sea existente)
-
-        if (emailsRegistrados.contains(email)) {
-            throw new Exception("El número de teléfono ya está registrado");
-
+        // Validar que el email no esté repetido
+        if (emailsRegistrados.contains(email.toLowerCase())) {
+            throw new Exception("El email ya está registrado");
         }
+
         if (!contrasena.matches(".*[A-Z].*")) {
             throw new Exception("La contraseña debe contener al menos una letra mayúscula.");
         }
@@ -324,26 +364,51 @@ public class BookYourStay implements Serializable {
                 .nombre(nombre)
                 .apellido(apellido)
                 .telefono(telefono)
-                .email(email)
+                .email(email.toLowerCase())
                 .contrasena(contrasena)
-
                 .build();
+
+        // Crear billetera si no existe
+        if (clienteNuevo.getBilletera() == null) {
+            clienteNuevo.setBilletera(new Billetera(clienteNuevo));
+        }
 
         String codigo = enviarCorreoBienvenida(nombre, email);
         clienteNuevo.setCodigoActivacion(codigo);
+        clienteNuevo.setActivo(false);
 
+        // Agregar el email a la lista de registrados
+        emailsRegistrados.add(email.toLowerCase());
         personas.add(clienteNuevo);
-        guardarDatosUsuario(personas);
+        
+        // Agregar billetera a la lista global
+        if (billeteras == null) {
+            billeteras = new ArrayList<>();
+        }
+        billeteras.add(clienteNuevo.getBilletera());
 
+        // Guardar tanto las personas como los emails registrados
+        guardarDatosUsuario(personas);
     }
 
-    public Persona activarCuenta(String email, String password, String codigo){
+    public Persona activarCuenta(String email, String password, String codigo) {
+        if (email == null || password == null || codigo == null) {
+            return null;
+        }
 
-        //hacer las validaciones
-        Persona persona = iniciarSesion(email, password);
-        if(persona instanceof Cliente){
-            if(((Cliente) persona).getCodigoActivacion().equals(codigo)){
-                return persona;
+        String emailLowerCase = email.toLowerCase();
+        for (Persona p : personas) {
+            if (p instanceof Cliente && 
+                p.getEmail().equalsIgnoreCase(emailLowerCase) && 
+                p.getContrasena().equals(password)) {
+                
+                Cliente cliente = (Cliente) p;
+                if (cliente.getCodigoActivacion().equals(codigo)) {
+                    cliente.setActivo(true);
+                    guardarDatosUsuario(personas); // Guardar el cambio de estado
+                    return cliente;
+                }
+                break; // Si el código no coincide, no seguir buscando
             }
         }
 
@@ -472,7 +537,17 @@ public class BookYourStay implements Serializable {
         try {
             Object datos = Persistencia.deserializarObjeto(Constantes.RUTA_USUARIOS);
             if (datos != null) {
-                return (List<Persona>) datos;
+                List<Persona> personasCargadas = (List<Persona>) datos;
+                // Sincronizar billeteras al cargar
+                for (Persona p : personasCargadas) {
+                    if (p instanceof Cliente) {
+                        Cliente c = (Cliente) p;
+                        if (c.getBilletera() == null) {
+                            c.setBilletera(new Billetera(c));
+                        }
+                    }
+                }
+                return personasCargadas;
             }
         } catch (Exception e) {
             System.err.println("Error cargando usuarios: " + e.getMessage());
@@ -652,7 +727,12 @@ public class BookYourStay implements Serializable {
         if (numeroPersonas > alojamiento.getCapacidadMax()) {
             throw new Exception("La cantidad de huéspedes excede la capacidad del alojamiento.") ;
         }
-
+        
+        // Inicializar la lista de reservas si es nula
+        if (alojamiento.getReservas() == null) {
+            alojamiento.setReservas(new ArrayList<>());
+        }
+        
         // Validar disponibilidad (no se deben cruzar fechas con reservas existentes)
         for (Reserva r : alojamiento.getReservas()) {
             if (fechasSeCruzan(ingreso, salida, r.getFechaIngreso(), r.getFechaSalida())) {
@@ -677,10 +757,25 @@ public class BookYourStay implements Serializable {
         // Descontar dinero y registrar reserva
         billetera.retirar(costoTotal);
         Reserva nuevaReserva = new Reserva(ingreso, salida, cliente, alojamiento, numeroPersonas);
+        
+        // Asegurar que la lista de reservas esté inicializada
+        if (alojamiento.getReservas() == null) {
+            alojamiento.setReservas(new ArrayList<>());
+        }
+        if (cliente.getReservas() == null) {
+            cliente.setReservas(new ArrayList<>());
+        }
+        
+        // Agregar la reserva a las listas
         alojamiento.getReservas().add(nuevaReserva);
+        cliente.getReservas().add(nuevaReserva);
         reservas.add(nuevaReserva);
+        
+        // Guardar los datos actualizados
+        guardarDatosAlojamiento(alojamientos);
+        guardarDatosUsuario(personas);
         guardarDatosReserva(reservas);
-
+        enviarCorreoFactura(cliente.getEmail(), nuevaReserva.generarFactura());
         return "Reserva realizada exitosamente. Total pagado: $" + String.format("%.2f", costoTotal);
     }
 
@@ -696,7 +791,6 @@ public class BookYourStay implements Serializable {
         }
         return null;
     }
-
 
 }
 

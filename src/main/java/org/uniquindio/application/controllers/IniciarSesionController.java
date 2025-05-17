@@ -62,6 +62,8 @@ public class IniciarSesionController {
             if (persona instanceof Administrador) {
                 Main.actualizarVista(Paths.VISTA_ADMIN);
             } else if (persona instanceof Cliente) {
+                // Establecer el cliente actual en BookYourStay
+                bookYourStay.setClienteActual((Cliente) persona);
                 Main.actualizarVistaMaximizada(Paths.VISTA_CLIENTE);
             }
         }else{

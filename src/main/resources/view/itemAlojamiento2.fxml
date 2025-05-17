@@ -3,16 +3,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox xmlns="http://javafx.com/javafx"  xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" fx:controller="org.uniquindio.application.controllers.ItemAlojamientoController2">
-    <ImageView fx:id="imagenAlojamiento" fitHeight="160.0" fitWidth="265.0" pickOnBounds="true" preserveRatio="true">
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      prefHeight="400.0" prefWidth="300.0" spacing="5.0" 
+      style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-color: white; -fx-padding: 10;"
+      fx:controller="org.uniquindio.application.controllers.ItemAlojamientoController2">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    
+    <ImageView fx:id="imagenAlojamiento" fitHeight="160.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
     </ImageView>
-    <Label fx:id="nombreAlojamiento" text=""/>
-    <Label fx:id="precioAlojamiento" text=""/>
-    <Label fx:id="capacidadAlojamiento" text=""/>
-    <Label fx:id="descripcionAlojamiento" text=""/>
-    <Label fx:id="serviciosAlojamiento" text=""/>
-    <Label fx:id="ofertaAlojamiento" text=""/>
+    
+    <Label fx:id="nombreAlojamiento" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+    <Label fx:id="precioAlojamiento" style="-fx-font-size: 14;"/>
+    <Label fx:id="capacidadAlojamiento"/>
+    <Label fx:id="descripcionAlojamiento" wrapText="true"/>
+    <Label fx:id="serviciosAlojamiento" wrapText="true"/>
+    <Label fx:id="ofertaAlojamiento" style="-fx-text-fill: green;" />
+    
+    <Region VBox.vgrow="ALWAYS" />
+    
+    <Button fx:id="btnReservar" text="Reservar Ahora" 
+            style="-fx-background-color: #3498db; -fx-text-fill: white;" 
+            prefWidth="260.0" 
+            onAction="#seleccionarAlojamiento"/>
 </VBox>

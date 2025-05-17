@@ -25,7 +25,7 @@
 
 
         <Button text="Ver Alojamientos" minWidth="200.0" onAction="#verAlojamientos" />
-        <Button text="Ver Reservas" minWidth="200.0" onAction="#crearReserva" />
+        <Button text="Ver Reservas" minWidth="200.0" onAction="#verReservas" />
         <Button text="Mi Billetera" minWidth="200.0" onAction="#abrirBilletera" />
         <Button text="Mi Perfil" minWidth="200.0" onAction="#administrarCuenta" />
 

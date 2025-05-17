@@ -33,9 +33,9 @@ public class Reserva implements Serializable {
     }
 
     // Método para generar la factura con UUID
-    private Factura generarFactura() {
+    public Factura generarFactura() {
         // Calcular el subtotal (precio por noche * noches)
-        long noches = ChronoUnit.DAYS.between(fechaIngreso, fechaSalida);
+        long noches = getTotalDias();
         double subtotal = noches * alojamiento.getPrecioPorNoche();
 
         if (alojamiento instanceof Casa || alojamiento instanceof Apartamento) {
@@ -43,5 +43,10 @@ public class Reserva implements Serializable {
         }
 
         return new Factura(subtotal, subtotal);
+    }
+    // Método para calcular el total de días entre fechaIngreso y fechaSalida
+    public long getTotalDias() {
+        return fechaIngreso != null && fechaSalida != null ? 
+               ChronoUnit.DAYS.between(fechaIngreso, fechaSalida) : 0;
     }
 }

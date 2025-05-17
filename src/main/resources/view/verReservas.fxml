@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.uniquindio.application.controllers.VerReservasController"
+            prefHeight="600.0" prefWidth="800.0"
+            style="-fx-background-color: white;">
+    <VBox spacing="20" alignment="CENTER" layoutX="50" layoutY="20" prefWidth="700" prefHeight="560">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        
+        <Label text="Mis Reservas" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #336699;"/>
+        
+        <TableView fx:id="tablaReservas" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colAlojamiento" text="Alojamiento" prefWidth="200"/>
+                <TableColumn fx:id="colFechaIngreso" text="Fecha Ingreso" prefWidth="120"/>
+                <TableColumn fx:id="colFechaSalida" text="Fecha Salida" prefWidth="120"/>
+                <TableColumn fx:id="colPersonas" text="Personas" prefWidth="80"/>
+                <TableColumn fx:id="colPrecio" text="Precio" prefWidth="100"/>
+            </columns>
+        </TableView>
+        
+        <HBox spacing="20" alignment="CENTER">
+            <Button fx:id="btnDetalles" text="Ver Detalles" onAction="#verDetallesReserva" 
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" 
+                    prefWidth="150" disable="true"/>
+            <Button fx:id="btnVolver" text="Volver" onAction="#volver" 
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;" 
+                    prefWidth="150"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

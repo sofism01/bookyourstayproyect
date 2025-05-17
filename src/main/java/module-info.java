@@ -7,6 +7,7 @@ module org.uniquindio.application {
     requires org.simplejavamail;
     requires java.desktop;
     requires junit;
+    requires qrgen;
 
 
     opens org.uniquindio.application to javafx.fxml;
