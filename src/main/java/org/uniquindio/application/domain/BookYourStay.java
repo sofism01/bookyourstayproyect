@@ -452,6 +452,15 @@ public class BookYourStay implements Serializable {
         }
     }
 
+    public void eliminarReserva(String id) {
+        for (int i = 0; i < reservas.size(); i++) {
+            if (reservas.get(i).getIdReserva().equals(id)) {
+                reservas.remove(i);
+                guardarDatosReserva(reservas);
+            }
+        }
+    }
+
     public void editarAlojamiento(String id, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                                   int capacidadMax, String imagen) {
 
@@ -745,8 +754,10 @@ public class BookYourStay implements Serializable {
         long noches = ChronoUnit.DAYS.between(ingreso, salida);
         float costoTotal = noches * alojamiento.getPrecioPorNoche();
 
-        if (alojamiento instanceof Casa || alojamiento instanceof Apartamento) {
-            costoTotal += 50000; // costo adicional fijo de aseo
+        if (alojamiento instanceof Casa) {
+            costoTotal += (float) ((Casa) alojamiento).getCostoAseo();
+        } else if (alojamiento instanceof Apartamento) {
+            costoTotal += (float) ((Apartamento) alojamiento).getCostoMantenimiento();
         }
 
         // Validar saldo en la billetera

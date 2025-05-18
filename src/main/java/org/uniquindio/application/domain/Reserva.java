@@ -34,14 +34,12 @@ public class Reserva implements Serializable {
 
     // Método para generar la factura con UUID
     public Factura generarFactura() {
-        // Calcular el subtotal (precio por noche * noches)
-        long noches = getTotalDias();
-        double subtotal = noches * alojamiento.getPrecioPorNoche();
-
-        if (alojamiento instanceof Casa || alojamiento instanceof Apartamento) {
-            subtotal += 50000; // Costo adicional fijo de aseo
+        float subtotal = getTotalDias() * alojamiento.getPrecioPorNoche();
+        if (alojamiento instanceof Casa) {
+            subtotal += ((Casa) alojamiento).getCostoAseo();
+        } else if (alojamiento instanceof Apartamento) {
+            subtotal += ((Apartamento) alojamiento).getCostoMantenimiento();
         }
-
         return new Factura(subtotal, subtotal);
     }
     // Método para calcular el total de días entre fechaIngreso y fechaSalida

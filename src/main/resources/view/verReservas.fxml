@@ -29,7 +29,7 @@
         
         <HBox alignment="CENTER" spacing="20">
             <Button fx:id="btnDetalles" disable="true" onAction="#verDetallesReserva" prefWidth="150" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" text="Ver Detalles" />
-            <Button fx:id="btnCancelar" onAction="#cancelarReserva" prefWidth="150" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Cancelar" />
+            <Button fx:id="btnCancelar" disable="true" onAction="#cancelarReserva" prefWidth="150" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Cancelar" />
         </HBox>
     </VBox>
 </AnchorPane>

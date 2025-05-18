@@ -43,7 +43,7 @@ public class VerReservasController {
     private Button btnDetalles;
     
     @FXML
-    private Button btnVolver;
+    private Button btnCancelar;
     
     private BookYourStay bookYourStay;
     private Cliente clienteActual;
@@ -104,9 +104,10 @@ public class VerReservasController {
         
         cargarReservas();
         
-        // Habilitar el botón de detalles solo cuando se seleccione una reserva
+        // Habilitar los botones solo cuando se seleccione una reserva
         tablaReservas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             btnDetalles.setDisable(newSelection == null);
+            btnCancelar.setDisable(newSelection == null);
         });
     }
     
@@ -168,8 +169,8 @@ public class VerReservasController {
     void cancelarReserva(ActionEvent event) {
         Reserva reservaSeleccionada = tablaReservas.getSelectionModel().getSelectedItem();
         if (reservaSeleccionada != null) {
+            bookYourStay.eliminarReserva(reservaSeleccionada.getIdReserva());
             listaReservas.remove(reservaSeleccionada);
-            clienteActual.getReservas().remove(reservaSeleccionada);
             mostrarAlerta("Éxito", "Reserva cancelada correctamente", Alert.AlertType.INFORMATION);
         } else {
             mostrarAlerta("Error", "Selecciona una reserva para cancelar", Alert.AlertType.ERROR);

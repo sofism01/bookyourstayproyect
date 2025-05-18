@@ -103,6 +103,13 @@ public class CrearReservaController {
             if (salida.isAfter(ingreso)) {
                 long noches = ChronoUnit.DAYS.between(ingreso, salida);
                 float total = noches * alojamientoSeleccionado.getPrecioPorNoche();
+                if (alojamientoSeleccionado instanceof org.uniquindio.application.domain.Casa || alojamientoSeleccionado instanceof org.uniquindio.application.domain.Apartamento) {
+                    if (alojamientoSeleccionado instanceof org.uniquindio.application.domain.Casa) {
+                        total += (float) ((org.uniquindio.application.domain.Casa) alojamientoSeleccionado).getCostoAseo();
+                    } else if (alojamientoSeleccionado instanceof org.uniquindio.application.domain.Apartamento) {
+                        total += (float) ((org.uniquindio.application.domain.Apartamento) alojamientoSeleccionado).getCostoMantenimiento();
+                    }
+                }
                 
                 lblResumenNoches.setText("Noches: " + noches);
                 lblResumenTotal.setText("Total: $" + total);

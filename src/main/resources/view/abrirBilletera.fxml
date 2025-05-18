@@ -7,35 +7,29 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.AbrirBilleteraController">
+<?import javafx.scene.layout.HBox?>
+
+<VBox alignment="CENTER" spacing="40.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.AbrirBilleteraController">
+   <padding>
+      <Insets top="60.0" right="60.0" bottom="60.0" left="60.0"/>
+   </padding>
    <children>
-      <Label alignment="TOP_RIGHT" text="BIENVENIDO A SU BILLETERA">
-         <VBox.margin>
-            <Insets left="200.0" top="70.0" />
-         </VBox.margin>
+      <Label text="BIENVENIDO A SU BILLETERA">
          <font>
-            <Font name="Playbill" size="24.0" />
+            <Font name="Playbill" size="36.0" />
          </font>
       </Label>
       <Label text="Ingrese el saldo que desea recargar">
-         <VBox.margin>
-            <Insets left="200.0" top="40.0" />
-         </VBox.margin>
+         <font>
+            <Font size="20.0"/>
+         </font>
       </Label>
-      <TextField fx:id="txtSaldo" maxWidth="200.0" prefWidth="500.0">
-         <VBox.margin>
-            <Insets left="200.0" top="30.0" />
-         </VBox.margin>
-      </TextField>
-      <Button mnemonicParsing="false" onAction="#recargarSaldo" text="Recargar">
-         <VBox.margin>
-            <Insets left="260.0" top="50.0" />
-         </VBox.margin>
-      </Button>
-      <Button mnemonicParsing="false" onAction="#consultarSaldo" text="Consultar">
-         <VBox.margin>
-            <Insets left="260.0" top="50.0" />
-         </VBox.margin>
-      </Button>
+      <TextField fx:id="txtSaldo" maxWidth="300.0" prefWidth="300.0" style="-fx-font-size: 18px;"/>
+      <HBox alignment="CENTER" spacing="40.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#recargarSaldo" text="Recargar" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 10 30;"/>
+            <Button mnemonicParsing="false" onAction="#consultarSaldo" text="Consultar" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 10 30;"/>
+         </children>
+      </HBox>
    </children>
 </VBox>
