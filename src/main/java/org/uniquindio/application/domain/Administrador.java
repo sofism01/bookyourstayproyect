@@ -9,6 +9,7 @@ import org.uniquindio.application.domain.interfaces.Persona;
 public class Administrador implements Persona {
     private String email;
     private String contrasena;
+    private String codigoRecuperacion;
 
     @Override
     public String getEmail(){

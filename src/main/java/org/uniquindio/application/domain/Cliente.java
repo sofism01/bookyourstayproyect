@@ -21,10 +21,11 @@ public class Cliente implements Persona, Serializable {
     private ArrayList<Reserva> reservas;
     private boolean activo;
     private String codigoActivacion;
+    private String codigoRecuperacion;
     private Billetera billetera;
     @Builder
     public Cliente(String cedula, String nombre, String apellido, String telefono, String email, String contrasena,
-                   ArrayList<Reserva> reservas, boolean activo, String codigoActivacion, Billetera billetera) {
+                   ArrayList<Reserva> reservas, boolean activo, String codigoActivacion, String codigoRecuperacion, Billetera billetera) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -34,6 +35,7 @@ public class Cliente implements Persona, Serializable {
         this.reservas = new ArrayList<>();
         this.activo = activo;
         this.codigoActivacion = codigoActivacion;
+        this.codigoRecuperacion = codigoRecuperacion;
         this.billetera = new Billetera(this);
     }
 }

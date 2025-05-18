@@ -289,6 +289,27 @@ public class BookYourStay implements Serializable {
         return codigo;
     }
 
+    public String enviarCodigoRecuperacion(String emailUser) throws Exception {
+        String codigo = bookYourStay.crearCodigoRecuperacion();
+        Email email = EmailBuilder.startingBlank()
+                .from("bookYourStay", "bookyourstay7@gmail.com")
+                .to(emailUser)
+                .withSubject("Recuperación de contraseña - Book Your Stay")
+                .withPlainText("Hola " + ",\n\nHas solicitado recuperar tu contraseña.\nTu código de recuperación es: " + codigo)
+                .buildEmail();
+
+        try (Mailer mailer = MailerBuilder
+                .withSMTPServer("smtp.gmail.com", 587, "bookyourstay7@gmail.com", "oxabhvzdordfhzvx")
+                .withTransportStrategy(SMTP_TLS)
+                .withDebugLogging(true)
+                .buildMailer()) {
+
+            mailer.sendMail(email);
+        }
+
+        return codigo;
+    }
+
 
     public void enviarCorreoFactura(String emailUser, Factura factura) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/crearReserva.fxml"));
@@ -421,6 +442,14 @@ public class BookYourStay implements Serializable {
     }
 
     public String crearCodigoPersona() {
+        String numero = generarNumeroAleatorio();
+        while (buscarPersona(emailsRegistrados.toString()) != null) {
+            numero = generarNumeroAleatorio();
+        }
+        return numero;
+    }
+
+    public String crearCodigoRecuperacion() {
         String numero = generarNumeroAleatorio();
         while (buscarPersona(emailsRegistrados.toString()) != null) {
             numero = generarNumeroAleatorio();
