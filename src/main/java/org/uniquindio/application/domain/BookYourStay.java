@@ -310,7 +310,8 @@ public class BookYourStay implements Serializable {
                 .to(emailUser)
                 .withSubject("📄 Factura de su reserva - Book Your Stay")
                 .withPlainText(cuerpo)
-                .withHTMLText("<html><body>" + cuerpo.replace("\n", "<br>") + "<br><img src='cid:facturaQR'></body></html>")                .withEmbeddedImage("facturaQR", java.nio.file.Files.readAllBytes(qrPath), "image/png")
+                .withHTMLText("<html><body>" + cuerpo.replace("\n", "<br>") + "<br><img src='cid:facturaQR'></body></html>")
+                .withEmbeddedImage("facturaQR", java.nio.file.Files.readAllBytes(qrPath), "image/png")
                 .buildEmail();
 
         try (Mailer mailer = MailerBuilder

@@ -165,11 +165,14 @@ public class VerReservasController {
     }
     
     @FXML
-    void volver(ActionEvent event) {
-        try {
-            Main.actualizarVistaMaximizada(Paths.VISTA_CLIENTE);
-        } catch (IOException e) {
-            mostrarAlerta("Error", "Error al volver: " + e.getMessage(), Alert.AlertType.ERROR);
+    void cancelarReserva(ActionEvent event) {
+        Reserva reservaSeleccionada = tablaReservas.getSelectionModel().getSelectedItem();
+        if (reservaSeleccionada != null) {
+            listaReservas.remove(reservaSeleccionada);
+            clienteActual.getReservas().remove(reservaSeleccionada);
+            mostrarAlerta("Éxito", "Reserva cancelada correctamente", Alert.AlertType.INFORMATION);
+        } else {
+            mostrarAlerta("Error", "Selecciona una reserva para cancelar", Alert.AlertType.ERROR);
         }
     }
     

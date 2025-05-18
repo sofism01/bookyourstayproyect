@@ -1,5 +1,6 @@
 package org.uniquindio.application.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -33,4 +34,10 @@ public class AdministrarOfertasController {
         Main.actualizarVista(Paths.VISTA_ADMIN);
     }
 
-}
+    @FXML
+    void initialize() {
+
+        this.cmbOferta.getItems().addAll("10%", "15%", "20%", "25%", "30%", "35%", "40%", "50%");
+    }
+
+    }

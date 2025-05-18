@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
-      prefHeight="400.0" prefWidth="300.0" spacing="5.0" 
+      prefHeight="400.0" prefWidth="300.0" spacing="5.0"
       style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-color: white; -fx-padding: 10;"
       fx:controller="org.uniquindio.application.controllers.ItemAlojamientoController2">
     <padding>

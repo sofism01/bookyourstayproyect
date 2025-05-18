@@ -17,7 +17,7 @@
             style="-fx-background-color: white;">
 
     <ImageView fx:id="qrGenerado" fitWidth="150" fitHeight="150" preserveRatio="true"/>
-    <VBox spacing="20" alignment="CENTER" layoutX="50" layoutY="20" prefWidth="600" prefHeight="460">
+    <VBox spacing="20" alignment="CENTER" layoutX="50" layoutY="20" prefWidth="600" prefHeight="500">
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
