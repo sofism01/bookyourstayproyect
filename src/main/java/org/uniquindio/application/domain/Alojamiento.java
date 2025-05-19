@@ -35,10 +35,9 @@ public abstract class Alojamiento implements Serializable {
         this.reservas = new ArrayList<>();
     }
 
-    public void guardarOferta(float porcentaje, LocalDate fechaInicio, LocalDate fechaFin) throws Exception {
-        if (porcentaje <= 0 || porcentaje > 100) {
-            throw new Exception("El porcentaje debe estar entre 1 y 100.");
-
+    public void guardarOferta(String porcentaje, LocalDate fechaInicio, LocalDate fechaFin) throws Exception {
+        if (ofertas == null) {
+            ofertas = new ArrayList<>();
         }
 
         if (fechaInicio.isBefore(LocalDate.now()) || fechaFin.isBefore(LocalDate.now())) {

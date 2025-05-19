@@ -317,7 +317,7 @@ public class VistaAdminController implements Observable {
 
         //Evento click en la tabla
         tablaAlojamientos.setOnMouseClicked(e -> {
-            //Obtener contacto seleccionado
+            //Obtener alojamiento seleccionado
             alojamientoSeleccionado = tablaAlojamientos.getSelectionModel().getSelectedItem();
 
             if (alojamientoSeleccionado != null) {

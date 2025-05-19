@@ -5,4 +5,5 @@ public class Constantes {
     public static final String RUTA_ALOJAMIENTOS = "src/main/data/alojamientos.data";
     public static final String RUTA_RESERVAS = "src/main/data/reservas.data";
     public static final String RUTA_USUARIOS = "src/main/data/usuarios.data";
+    public static final String RUTA_OFERTAS = "src/main/data/ofertas.data";
 }

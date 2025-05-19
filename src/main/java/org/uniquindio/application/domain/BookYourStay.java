@@ -2,10 +2,8 @@ package org.uniquindio.application.domain;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.email.EmailBuilder;
@@ -19,8 +17,6 @@ import org.uniquindio.application.enums.Tipo;
 import org.uniquindio.application.utils.Constantes;
 import org.uniquindio.application.utils.Persistencia;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -39,6 +35,7 @@ public class BookYourStay implements Serializable {
     private Set<String> emailsRegistrados = new HashSet<>();
     private List<Billetera> billeteras;
     private List<Reserva> reservas;
+    private List<Oferta> ofertas;
     private Cliente clienteActual;
 
     public Cliente getClienteActual() {
@@ -64,6 +61,7 @@ public class BookYourStay implements Serializable {
         this.alojamientos = (ArrayList<Alojamiento>) leerDatosAlojamiento();
         this.personas = (ArrayList<Persona>) leerDatosUsuario();
         this.reservas = (ArrayList<Reserva>) leerDatosReserva();
+        this.ofertas = (ArrayList<Oferta>) leerDatosOferta();
         sincronizarBilleteras();
     }
 
@@ -441,6 +439,10 @@ public class BookYourStay implements Serializable {
         return personas;
     }
 
+    public List<Oferta> listarOfertas() {
+        return ofertas;
+    }
+
     public String crearCodigoPersona() {
         String numero = generarNumeroAleatorio();
         while (buscarPersona(emailsRegistrados.toString()) != null) {
@@ -481,6 +483,15 @@ public class BookYourStay implements Serializable {
         }
     }
 
+    public void eliminarOferta(String id) {
+        for (int i = 0; i < ofertas.size(); i++) {
+            if (ofertas.get(i).getId().equals(id)) {
+                ofertas.remove(i);
+                guardarDatosOferta(ofertas);
+            }
+        }
+    }
+
     public void eliminarReserva(String id) {
         for (int i = 0; i < reservas.size(); i++) {
             if (reservas.get(i).getIdReserva().equals(id)) {
@@ -489,6 +500,8 @@ public class BookYourStay implements Serializable {
             }
         }
     }
+
+
 
     public void editarAlojamiento(String id, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                                   int capacidadMax, String imagen) {
@@ -510,6 +523,26 @@ public class BookYourStay implements Serializable {
                 //Actualiza el alojamiento en la lista de alojamientos
                 alojamientos.set(i, alojamientoGuardado);
                 guardarDatosAlojamiento(alojamientos);
+                break;
+            }
+
+        }
+    }
+
+    public void editarOferta(String descuento, LocalDate fechaInicio, LocalDate fechaFin, String id) {
+
+        for (int i = 0; i < ofertas.size(); i++) {
+
+            if (ofertas.get(i).getId().equals(id)) {
+
+                Oferta ofertaGuardada = ofertas.get(i);
+                ofertaGuardada.setDescuento(descuento);
+                ofertaGuardada.setFechaInicio(fechaInicio);
+                ofertaGuardada.setFechaFin(fechaFin);
+
+                //Actualiza oferta en la lista de ofertas
+                ofertas.set(i, ofertaGuardada);
+                guardarDatosOferta(ofertas);
                 break;
             }
 
@@ -611,6 +644,27 @@ public class BookYourStay implements Serializable {
             }
         } catch (Exception e) {
             System.err.println("Error cargando reservas: " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    public void guardarDatosOferta(List<Oferta> ofertas) {
+        try {
+            Persistencia.serializarObjeto(Constantes.RUTA_OFERTAS, ofertas);
+        } catch (Exception e) {
+            System.err.println("Error guardando ofertas: " + e.getMessage());
+        }
+    }
+
+
+    public List<Oferta> leerDatosOferta() {
+        try {
+            Object datos = Persistencia.deserializarObjeto(Constantes.RUTA_OFERTAS);
+            if (datos != null) {
+                return (List<Oferta>) datos;
+            }
+        } catch (Exception e) {
+            System.err.println("Error cargando ofertas: " + e.getMessage());
         }
         return new ArrayList<>();
     }
@@ -832,6 +886,17 @@ public class BookYourStay implements Serializable {
         }
         return null;
     }
+
+    public void agregarOferta(String porcentaje, LocalDate fechaInicio, LocalDate fechaFin) throws Exception {
+        if (porcentaje == null|| fechaInicio == null || fechaFin == null) {
+            throw new Exception("Complete todos los campos.");
+        }
+
+        Oferta nuevaOferta = new Oferta(porcentaje, fechaInicio, fechaFin);
+        ofertas.add(nuevaOferta);
+        guardarDatosOferta(ofertas);
+    }
+
 
 }
 
