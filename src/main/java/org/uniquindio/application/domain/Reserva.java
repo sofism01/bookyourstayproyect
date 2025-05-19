@@ -1,6 +1,7 @@
 package org.uniquindio.application.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.simplejavamail.api.internal.clisupport.model.Cli;
@@ -21,8 +22,11 @@ public class Reserva implements Serializable {
     private Cliente cliente;
     private Alojamiento alojamiento;
     private Factura factura;
+    private float costoTotal;
 
-    public Reserva(LocalDate fechaIngreso, LocalDate fechaSalida, Cliente cliente, Alojamiento alojamiento, int numeroPersonas) {
+
+    @Builder
+    public Reserva(LocalDate fechaIngreso, LocalDate fechaSalida, Cliente cliente, Alojamiento alojamiento, int numeroPersonas, float costoTotal) {
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
         this.idReserva = UUID.randomUUID().toString(); // Genera un ID único con UUID
@@ -30,6 +34,7 @@ public class Reserva implements Serializable {
         this.cliente = cliente;
         this.alojamiento = alojamiento;
         this.factura = generarFactura(); // Genera la factura con UUID
+        this.costoTotal = costoTotal;
     }
 
     // Método para generar la factura con UUID

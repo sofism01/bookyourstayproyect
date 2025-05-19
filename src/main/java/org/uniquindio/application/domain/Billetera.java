@@ -1,11 +1,15 @@
 package org.uniquindio.application.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.uniquindio.application.utils.Constantes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class Billetera implements Serializable {
     private String numero;
     private float saldo;

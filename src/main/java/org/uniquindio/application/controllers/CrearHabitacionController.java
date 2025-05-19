@@ -142,5 +142,10 @@ public class CrearHabitacionController {
         colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescripcion()));
         colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCapacidad()));
 
-    }
-}
+        // Habilitar los botones solo cuando se seleccione una reserva
+        tablaHabitaciones.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            btnEditarHabitacion.setDisable(newSelection == null);
+
+
+    });
+}}

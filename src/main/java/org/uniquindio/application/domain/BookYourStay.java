@@ -308,7 +308,6 @@ public class BookYourStay implements Serializable {
         return codigo;
     }
 
-
     public void enviarCorreoFactura(String emailUser, Factura factura) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/crearReserva.fxml"));
         Parent root = loader.load();
@@ -317,11 +316,21 @@ public class BookYourStay implements Serializable {
         crearReservaController.generarQR(factura.getCodigoFactura());
         Path qrPath = Path.of("src/main/resources/qr/qr_" + factura.getCodigoFactura() + ".png");
 
+        // Determinar si aplica alguna oferta y el porcentaje de descuento
+        String descuentoAplicado = "No aplica descuento.";
+        for (Oferta oferta : ofertas) {
+            if (!factura.getFechaFactura().isBefore(oferta.getFechaInicio()) && !factura.getFechaFactura().isAfter(oferta.getFechaFin())) {
+                descuentoAplicado = "Descuento aplicado: " + oferta.getDescuento();
+                break;
+            }
+        }
+
         String cuerpo = "📄 Detalles de su Factura\n\n"
                 + "Código de factura: " + factura.getCodigoFactura() + "\n"
                 + "Fecha de emisión: " + factura.getFechaFactura() + "\n"
                 + "Subtotal: $" + factura.getSubtotal() + "\n"
-                + "Total: $" + factura.getTotal() + "\n\n"
+                + "Total: $" + factura.getTotal() + "\n"
+                + descuentoAplicado + "\n\n"
                 + "¡Gracias por usar Book Your Stay!";
 
         Email email = EmailBuilder.startingBlank()
@@ -342,8 +351,6 @@ public class BookYourStay implements Serializable {
             mailer.sendMail(email);
         }
     }
-
-
 
     public void registrarCliente(String cedula, String nombre, String apellido, String telefono,
                                  String email, String contrasena) throws Exception {
@@ -813,30 +820,31 @@ public class BookYourStay implements Serializable {
     public String realizarReserva(Cliente cliente, Alojamiento alojamiento, LocalDate ingreso, LocalDate salida, int numeroPersonas) throws Exception {
         // Validación de fechas
         if (ingreso == null || salida == null || !ingreso.isBefore(salida)) {
-            throw new Exception("Fechas inválidas.") ;
+            throw new Exception("Fechas inválidas.");
         }
 
         // Validar capacidad
         if (numeroPersonas > alojamiento.getCapacidadMax()) {
-            throw new Exception("La cantidad de huéspedes excede la capacidad del alojamiento.") ;
+            throw new Exception("La cantidad de huéspedes excede la capacidad del alojamiento.");
         }
-        
+
         // Inicializar la lista de reservas si es nula
         if (alojamiento.getReservas() == null) {
             alojamiento.setReservas(new ArrayList<>());
         }
-        
+
         // Validar disponibilidad (no se deben cruzar fechas con reservas existentes)
         for (Reserva r : alojamiento.getReservas()) {
             if (fechasSeCruzan(ingreso, salida, r.getFechaIngreso(), r.getFechaSalida())) {
-                throw new Exception ("El alojamiento no está disponible en esas fechas.");
+                throw new Exception("El alojamiento no está disponible en esas fechas.");
             }
         }
 
-        // Calcular costo
         long noches = ChronoUnit.DAYS.between(ingreso, salida);
-        float costoTotal = noches * alojamiento.getPrecioPorNoche();
+        float totalBase = noches * alojamiento.getPrecioPorNoche();
+        float costoTotal = calcularTotalConOferta(alojamiento, ingreso, salida, totalBase);
 
+        // Sumar costos adicionales si es Casa o Apartamento
         if (alojamiento instanceof Casa) {
             costoTotal += (float) ((Casa) alojamiento).getCostoAseo();
         } else if (alojamiento instanceof Apartamento) {
@@ -844,34 +852,36 @@ public class BookYourStay implements Serializable {
         }
 
         // Validar saldo en la billetera
-        Billetera billetera = buscarBilleteraDe(cliente);
-        if (billetera == null || billetera.consultarSaldo() < costoTotal) {
-            throw new Exception("Fondos insuficientes en la billetera.") ;
+        if (cliente.getBilletera().getSaldo() < costoTotal) {
+            throw new Exception("Saldo insuficiente en la billetera.");
         }
 
-        // Descontar dinero y registrar reserva
-        billetera.retirar(costoTotal);
-        Reserva nuevaReserva = new Reserva(ingreso, salida, cliente, alojamiento, numeroPersonas);
-        
-        // Asegurar que la lista de reservas esté inicializada
-        if (alojamiento.getReservas() == null) {
-            alojamiento.setReservas(new ArrayList<>());
-        }
-        if (cliente.getReservas() == null) {
-            cliente.setReservas(new ArrayList<>());
-        }
-        
-        // Agregar la reserva a las listas
-        alojamiento.getReservas().add(nuevaReserva);
-        cliente.getReservas().add(nuevaReserva);
-        reservas.add(nuevaReserva);
-        
-        // Guardar los datos actualizados
-        guardarDatosAlojamiento(alojamientos);
-        guardarDatosUsuario(personas);
+        // Descontar saldo
+        cliente.getBilletera().setSaldo(cliente.getBilletera().getSaldo() - costoTotal);
+
+        // Crear la reserva
+        Reserva reserva = Reserva.builder()
+                .cliente(cliente)
+                .alojamiento(alojamiento)
+                .fechaIngreso(ingreso)
+                .fechaSalida(salida)
+                .numeroPersonas(numeroPersonas)
+                .costoTotal(costoTotal)
+                .build();
+
+        // Agregar la reserva al alojamiento y a la lista global
+        cliente.getReservas().add(reserva);
+        reservas.add(reserva);
+
+        // Guardar datos
         guardarDatosReserva(reservas);
-        enviarCorreoFactura(cliente.getEmail(), nuevaReserva.generarFactura());
-        return "Reserva realizada exitosamente. Total pagado: $" + String.format("%.2f", costoTotal);
+        guardarDatosAlojamiento(alojamientos);
+
+        // Generar factura y enviarla por correo
+        Factura factura = new Factura(reserva.getCostoTotal(), reserva.getCostoTotal());
+        enviarCorreoFactura(cliente.getEmail(), factura);
+
+        return "Reserva realizada exitosamente. Se ha enviado la factura a su correo.";
     }
 
     private boolean fechasSeCruzan(LocalDate inicio1, LocalDate fin1, LocalDate inicio2, LocalDate fin2) {
@@ -897,6 +907,20 @@ public class BookYourStay implements Serializable {
         guardarDatosOferta(ofertas);
     }
 
+    private float calcularTotalConOferta(Alojamiento alojamiento, LocalDate fechaIngreso, LocalDate fechaSalida, float totalBase) {
+        for (Oferta oferta : ofertas) {
+            if (oferta.getIdAlojamiento() != null
+                    && oferta.getIdAlojamiento().equals(alojamiento.getId())
+                    && oferta.getDescuento() != null
+                    && !fechaSalida.isBefore(oferta.getFechaInicio())
+                    && !fechaIngreso.isAfter(oferta.getFechaFin())) {
+                String descuentoStr = oferta.getDescuento().replace("%", "");
+                float descuento = Float.parseFloat(descuentoStr) / 100f;
+                return totalBase * (1 - descuento);
+            }
+        }
+        return totalBase;
+    }
 
 }
 

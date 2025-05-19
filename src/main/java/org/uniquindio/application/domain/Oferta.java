@@ -18,8 +18,17 @@ public class Oferta implements Serializable {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String id;
+    private String idAlojamiento;
 
-    public Oferta(String descuento, LocalDate fechaInicio, LocalDate fechaFin) {
+    public Oferta(String descuento, LocalDate fechaInicio, LocalDate fechaFin, String idAlojamiento) {
+        this.descuento = descuento;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.id = UUID.randomUUID().toString();
+        this.idAlojamiento = idAlojamiento;
+    }
+
+    public Oferta (String descuento, LocalDate fechaInicio, LocalDate fechaFin) {
         this.descuento = descuento;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;

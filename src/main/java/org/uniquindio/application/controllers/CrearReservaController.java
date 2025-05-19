@@ -179,7 +179,8 @@ public class CrearReservaController {
             // Realizar la reserva
             String resultado = bookYourStay.realizarReserva(clienteActual, alojamientoSeleccionado, ingreso, salida, numeroPersonas);
             mostrarAlerta("Reserva Exitosa", resultado, Alert.AlertType.INFORMATION);
-            
+
+
             // Regresar a la vista de cliente
             Main.actualizarVistaMaximizada(Paths.VISTA_CLIENTE);
         } catch (Exception e) {

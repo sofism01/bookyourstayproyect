@@ -68,9 +68,9 @@
                   </Label>
                   <TextField fx:id="txtNumHabitacion" GridPane.columnIndex="1" />
                   <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="cmbCapacidad" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="cmbCapacidad" prefWidth="150.0" promptText="Ver opciones" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextArea fx:id="txtDescripcion" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Button fx:id="btnFotoHabitacion" mnemonicParsing="false" onAction="#fileChooser" prefWidth="100.0" text="Agregar Foto" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Button fx:id="btnFotoHabitacion" mnemonicParsing="false" onAction="#fileChooser" prefWidth="115.0" text="Agregar Foto" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
@@ -104,15 +104,18 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="btnGuardarHabitacion" mnemonicParsing="false" onAction="#guardarHabitacion" prefWidth="60.0" text="Guardar">
-
-            </Button>
-            <Button fx:id="btnEditarHabitacion" mnemonicParsing="false" onAction="#editarHabitacion" prefWidth="60.0" text="Editar">
-
-            </Button>
-            <Button fx:id="btnFinalizar" mnemonicParsing="false" onAction="#regresarAVistaAdmin" text="Finalizar">
-
-            </Button>
+            <Button fx:id="btnGuardarHabitacion" mnemonicParsing="false" onAction="#guardarHabitacion" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: #60e08d; -fx-text-fill: white;" text="Guardar">
+               <HBox.margin>
+                  <Insets left="85.0" top="20.0" />
+               </HBox.margin></Button>
+            <Button fx:id="btnEditarHabitacion" disable="true" mnemonicParsing="false" onAction="#editarHabitacion" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Editar">
+               <HBox.margin>
+                  <Insets left="85.0" top="20.0" />
+               </HBox.margin></Button>
+            <Button fx:id="btnFinalizar" mnemonicParsing="false" onAction="#regresarAVistaAdmin" prefWidth="115.0" style="-fx-background-color: #60e08d; -fx-text-fill: white;" text="Finalizar">
+               <HBox.margin>
+                  <Insets left="85.0" top="20.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </children>

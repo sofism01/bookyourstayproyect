@@ -51,6 +51,7 @@ public class VerReservasController {
     
     @FXML
     public void initialize() {
+
         bookYourStay = BookYourStay.getInstance();
         clienteActual = bookYourStay.getClienteActual();
         
@@ -58,7 +59,7 @@ public class VerReservasController {
             mostrarAlerta("Error", "No hay cliente logueado", Alert.AlertType.ERROR);
             return;
         }
-        
+
         // Configurar columnas de la tabla
         colAlojamiento.setCellValueFactory(cellData -> {
             Alojamiento alojamiento = cellData.getValue().getAlojamiento();
