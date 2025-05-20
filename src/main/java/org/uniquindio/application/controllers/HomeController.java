@@ -80,6 +80,13 @@ public class HomeController {
     }
 
     @FXML
+    void limpiarFiltro(ActionEvent event) {
+        cmbFiltro.setValue(null);
+        cmbTipo.setValue(null);
+        dibujarAlojamientos(bookYourStay.listarAlojamientos());
+    }
+
+    @FXML
     void initialize() {
         cmbFiltro.getItems().addAll(Ciudad.values());
         cmbTipo.getItems().addAll(Tipo.values());
