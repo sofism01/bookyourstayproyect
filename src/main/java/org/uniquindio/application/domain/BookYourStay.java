@@ -952,9 +952,11 @@ public class BookYourStay implements Serializable {
 
         // Agregar la reserva al alojamiento y a la lista global
         cliente.getReservas().add(reserva);
+        alojamiento.getReservas().add(reserva);
         reservas.add(reserva);
 
         // Guardar datos
+        guardarDatosAlojamiento(alojamientos);
         guardarDatosReserva(reservas);
         guardarDatosUsuario(personas);
 
