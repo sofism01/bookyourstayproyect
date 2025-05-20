@@ -58,4 +58,14 @@ public class AdministrarCuentaController {
     public void cerrarSesion(ActionEvent actionEvent) throws IOException {
         Main.actualizarVista(Paths.HOME);
     }
+
+    public void eliminarCuenta(ActionEvent actionEvent) {
+        try{
+            bookYourStay.eliminarUsuario(bookYourStay.getClienteActual().getCedula());
+            Main.mostrarMensaje("Cuenta eliminada correctamente", Alert.AlertType.INFORMATION);
+            Main.actualizarVista(Paths.HOME);
+        }catch (Exception e){
+            Main.mostrarMensaje("Error al eliminar la cuenta", Alert.AlertType.ERROR);
+        }
+    }
 }

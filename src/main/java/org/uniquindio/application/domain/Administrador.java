@@ -21,7 +21,12 @@ public class Administrador implements Persona {
         return contrasena;
     }
 
- public void setEmail(String email){
+    @Override
+    public String getCedula() {
+        return "";
+    }
+
+    public void setEmail(String email){
         this.email = email;
  }
 

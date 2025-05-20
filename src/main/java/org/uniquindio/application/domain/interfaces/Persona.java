@@ -9,6 +9,7 @@ public interface Persona extends Serializable {
 
     public String getEmail();
     public String getContrasena();
+    public String getCedula();
 
 
 }

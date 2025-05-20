@@ -243,6 +243,9 @@ public class BookYourStay implements Serializable {
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
         //Hacer las validaciones necesarias
+        if (habitaciones == null) {
+            habitaciones = new ArrayList<>();
+        }
         if (tipo == null || nombre.isEmpty() || ciudad == null || descripcion.isEmpty() ||
                 image == null || habitaciones.isEmpty()) {
             throw new Exception("Todos los campos son necesarios");
@@ -490,6 +493,28 @@ public class BookYourStay implements Serializable {
         }
     }
 
+    public void eliminarUsuario(String cedula) {
+        // Leer la lista más reciente de usuarios
+        List<Persona> personasActualizadas = leerDatosUsuario();
+        for (int i = 0; i < personasActualizadas.size(); i++) {
+            if (personasActualizadas.get(i).getCedula().equals(cedula)) {
+                // Eliminar billetera asociada si es Cliente
+                if (personasActualizadas.get(i) instanceof Cliente) {
+                    Cliente c = (Cliente) personasActualizadas.get(i);
+                    if (billeteras != null) {
+                        billeteras.remove(c.getBilletera());
+                    }
+                }
+                personasActualizadas.remove(i);
+                break;
+            }
+        }
+        // Guardar la lista actualizada
+        guardarDatosUsuario(personasActualizadas);
+        // Actualizar la lista en memoria
+        this.personas = new ArrayList<>(personasActualizadas);
+    }
+
     public void eliminarOferta(String id) {
         for (int i = 0; i < ofertas.size(); i++) {
             if (ofertas.get(i).getId().equals(id)) {
@@ -507,8 +532,6 @@ public class BookYourStay implements Serializable {
             }
         }
     }
-
-
 
     public void editarAlojamiento(String id, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                                   int capacidadMax, String imagen) {
@@ -870,7 +893,7 @@ public class BookYourStay implements Serializable {
                 .build();
 
         // Agregar la reserva al alojamiento y a la lista global
-        cliente.getReservas().add(reserva);
+        alojamiento.getReservas().add(reserva);
         reservas.add(reserva);
 
         // Guardar datos

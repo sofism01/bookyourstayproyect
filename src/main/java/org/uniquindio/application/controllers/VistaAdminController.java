@@ -38,6 +38,12 @@ public class VistaAdminController implements Observable {
     private Button btnAgregarHabitacion;
 
     @FXML
+    private Button btnEliminar;
+
+    @FXML
+    private Button btnEditar;
+
+    @FXML
     private Label lblCOstoAdicional;
 
     @FXML
@@ -331,7 +337,11 @@ public class VistaAdminController implements Observable {
             }
 
         });
-        }
+
+        tablaAlojamientos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            btnEditar.setDisable(newSelection == null);
+            btnEliminar.setDisable(newSelection == null);
+        });}
 
     private void cargarAlojamientos() {
         alojamientosObservable.setAll(bookYourStay.listarAlojamientos());

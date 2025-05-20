@@ -38,5 +38,6 @@
         </GridPane>
         <Button text="Confirmar" fx:id="btnConfirmar" prefWidth="150" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#confirmarEdicion" />
         <Button text="Cerrar Sesion"  prefWidth="150" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#cerrarSesion" />
+        <Button text="Eliminar cuenta"  prefWidth="150" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#eliminarCuenta" />
     </VBox>
 </AnchorPane>
