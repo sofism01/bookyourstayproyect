@@ -659,6 +659,10 @@ public class BookYourStay implements Serializable {
 
     public void guardarDatosReserva(List<Reserva> reservas) {
         try {
+            // Imprimir en consola las reservas de la lista
+            for (Reserva reserva : reservas) {
+                System.out.println(reserva);
+            }
             Persistencia.serializarObjeto(Constantes.RUTA_RESERVAS, reservas);
         } catch (Exception e) {
             System.err.println("Error guardando reservas: " + e.getMessage());
@@ -793,6 +797,28 @@ public class BookYourStay implements Serializable {
         return popularesPorCiudad;
     }
 
+    //metodo para lsitar alojamientos mas populares por numero de reservas
+    public List<Alojamiento> listarAlojamientosPopulares() {
+        if (alojamientos == null) {
+            return new ArrayList<>();
+        }
+        return alojamientos.stream()
+                .sorted((a1, a2) -> {
+                    int r1 = a1.getReservas() != null ? a1.getReservas().size() : 0;
+                    int r2 = a2.getReservas() != null ? a2.getReservas().size() : 0;
+                    return Integer.compare(r2, r1); // Orden descendente
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<Alojamiento> listarAlojamientosMejorPrecio() {
+        if (alojamientos == null) {
+            return new ArrayList<>();
+        }
+        return alojamientos.stream()
+                .sorted(Comparator.comparingDouble(Alojamiento::getPrecioPorNoche))
+                .collect(Collectors.toList());
+    }
 
     //metodo para listar los alojamientos mas rentables
     public Map<String, Double> listarTiposAlojamientoMasRentables() {
@@ -893,12 +919,12 @@ public class BookYourStay implements Serializable {
                 .build();
 
         // Agregar la reserva al alojamiento y a la lista global
-        alojamiento.getReservas().add(reserva);
+        cliente.getReservas().add(reserva);
         reservas.add(reserva);
 
         // Guardar datos
         guardarDatosReserva(reservas);
-        guardarDatosAlojamiento(alojamientos);
+        guardarDatosUsuario(personas);
 
         // Generar factura y enviarla por correo
         Factura factura = new Factura(reserva.getCostoTotal(), reserva.getCostoTotal());

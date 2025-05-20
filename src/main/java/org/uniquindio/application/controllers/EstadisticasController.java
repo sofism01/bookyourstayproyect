@@ -23,7 +23,10 @@ public class EstadisticasController {
         crearGraficoPastelOcupacion();
         // Crear gráfico de rentabilidad
         crearGraficoPastelRentabilidad();
+
     }
+
+
 
     private void crearGraficoPastelOcupacion() {
         PieChart pieChart = new PieChart();

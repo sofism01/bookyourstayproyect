@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.Alojamiento;
@@ -19,6 +21,8 @@ public class VerAlojamientosController {
     public HBox contenedorAlojamientos;
     @FXML
     private ResourceBundle resources;
+
+
 
     @FXML
     private URL location;
@@ -52,5 +56,7 @@ public class VerAlojamientosController {
     @FXML
     void initialize() {
         dibujarAlojamientos(bookYourStay.listarAlojamientos());
+
+
     }
 }
