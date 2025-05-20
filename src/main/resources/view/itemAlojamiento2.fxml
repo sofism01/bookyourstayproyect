@@ -29,4 +29,8 @@
             style="-fx-background-color: #3498db; -fx-text-fill: white;" 
             prefWidth="260.0" 
             onAction="#seleccionarAlojamiento"/>
+    <Button fx:id="btnVerResenas" text="Ver Reseñas"
+            style="-fx-background-color: #3498db; -fx-text-fill: white;"
+            prefWidth="260.0"
+            onAction="#verResenas"/>
 </VBox>

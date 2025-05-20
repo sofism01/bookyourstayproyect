@@ -41,6 +41,9 @@ public class VerReservasController {
     
     @FXML
     private Button btnDetalles;
+
+    @FXML
+    private Button btnAnadirResena;
     
     @FXML
     private Button btnCancelar;
@@ -48,6 +51,7 @@ public class VerReservasController {
     private BookYourStay bookYourStay;
     private Cliente clienteActual;
     private ObservableList<Reserva> listaReservas;
+    public static Reserva reservaSeleccionada;
     
     @FXML
     public void initialize() {
@@ -109,6 +113,7 @@ public class VerReservasController {
         tablaReservas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             btnDetalles.setDisable(newSelection == null);
             btnCancelar.setDisable(newSelection == null);
+            btnAnadirResena.setDisable(newSelection == null);
         });
     }
     
@@ -124,7 +129,11 @@ public class VerReservasController {
             mostrarAlerta("Información", "No tienes reservas realizadas", Alert.AlertType.INFORMATION);
         }
     }
-    
+
+    public static Reserva getReservaSeleccionada(VerReservasController controller) {
+        return controller.tablaReservas.getSelectionModel().getSelectedItem();
+    }
+
     @FXML
     void verDetallesReserva(ActionEvent event) {
         Reserva reservaSeleccionada = tablaReservas.getSelectionModel().getSelectedItem();
@@ -184,5 +193,14 @@ public class VerReservasController {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    public void anadirResena(ActionEvent actionEvent) throws IOException {
+        reservaSeleccionada = tablaReservas.getSelectionModel().getSelectedItem();
+        if (reservaSeleccionada == null) {
+            Main.mostrarMensaje("Seleccione una reserva", Alert.AlertType.WARNING);
+            return;
+        }
+        Main.abrirVentana(Paths.CREAR_RESENA);
     }
 }

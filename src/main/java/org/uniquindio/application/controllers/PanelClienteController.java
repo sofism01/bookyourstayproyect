@@ -90,10 +90,7 @@ public class PanelClienteController {
         }
     }
 
-    public void cerrarVentanaActual() {
-        Stage stage = (Stage) panelCliente.getScene().getWindow();
-        stage.close();
-    }
+
 
 
 

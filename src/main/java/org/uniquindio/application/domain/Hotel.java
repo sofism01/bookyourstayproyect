@@ -16,8 +16,8 @@ public class Hotel extends Alojamiento implements Serializable {
 
     @Builder
     public Hotel(String id, Tipo tipo, String nombre,  List<Oferta> oferta, Ciudad ciudad, String descripcion, float precioPorNoche,
-                 int capacidadMax, String imagen, List<Servicio> servicio, List<Habitacion> habitaciones, List<Reserva> reservas) {
-        super(id, tipo, nombre, oferta,ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio, reservas);
+                 int capacidadMax, String imagen, List<Servicio> servicio, List<Habitacion> habitaciones, List<Reserva> reservas, List<Resena> resenas) {
+        super(id, tipo, nombre, oferta,ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio, reservas, resenas);
         this.habitaciones = habitaciones;
     }
 

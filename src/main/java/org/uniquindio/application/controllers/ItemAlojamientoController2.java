@@ -49,6 +49,16 @@ public class ItemAlojamientoController2 {
             e.printStackTrace();
         }
     }
+
+    public void verResenas(ActionEvent actionEvent) {
+        alojamientoSeleccionado = this.alojamiento;
+        try {
+            Main.abrirVentana(Paths.RESENAS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
 
 

@@ -36,7 +36,9 @@ public class BookYourStay implements Serializable {
     private List<Billetera> billeteras;
     private List<Reserva> reservas;
     private List<Oferta> ofertas;
+    private List<Resena> resenas;
     private Cliente clienteActual;
+    private Alojamiento alojamientoActual;
 
     public Cliente getClienteActual() {
         return clienteActual;
@@ -44,6 +46,14 @@ public class BookYourStay implements Serializable {
 
     public void setClienteActual(Cliente clienteActual) {
         this.clienteActual = clienteActual;
+    }
+
+    public Alojamiento getAlojamientoActual() {
+        return alojamientoActual;
+    }
+
+    public void setAlojamientoActual(Alojamiento alojamientoActual) {
+        this.alojamientoActual = alojamientoActual;
     }
 
     //singleton
@@ -60,8 +70,9 @@ public class BookYourStay implements Serializable {
         crearAlojamientosPrueba();
         this.alojamientos = (ArrayList<Alojamiento>) leerDatosAlojamiento();
         this.personas = (ArrayList<Persona>) leerDatosUsuario();
-        this.reservas = (ArrayList<Reserva>) leerDatosReserva();
-        this.ofertas = (ArrayList<Oferta>) leerDatosOferta();
+        this.reservas = (List<Reserva>) leerDatosReserva();
+        this.ofertas = (List<Oferta>) leerDatosOferta();
+        this.resenas = (List<Resena>) leerDatosResena();
         sincronizarBilleteras();
     }
 
@@ -703,6 +714,27 @@ public class BookYourStay implements Serializable {
         return new ArrayList<>();
     }
 
+    public void guardarDatosResena(List<Resena> resenas) {
+        try {
+            Persistencia.serializarObjeto(Constantes.RUTA_RESENAS, resenas);
+        } catch (Exception e) {
+            System.err.println("Error guardando reseñas: " + e.getMessage());
+        }
+    }
+
+
+    public List<Resena> leerDatosResena() {
+        try {
+            Object datos = Persistencia.deserializarObjeto(Constantes.RUTA_RESENAS);
+            if (datos != null) {
+                return (List<Resena>) datos;
+            }
+        } catch (Exception e) {
+            System.err.println("Error cargando resenas: " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
 
     //metodo para calcular la ocupacion porcentual de cada alojamiento
     public List<Double> calcularOcupacionPorcentualPorTipo() {
@@ -969,6 +1001,30 @@ public class BookYourStay implements Serializable {
             }
         }
         return totalBase;
+    }
+
+    public void agregarResena(Alojamiento alojamiento, int calificacion, String comentario) throws Exception {
+        if (alojamiento == null) {
+            throw new Exception("Alojamiento no válido.");
+        }
+        if (calificacion < 1 || calificacion > 5) {
+            throw new Exception("La calificación debe estar entre 1 y 5.");
+        }
+        if (comentario == null || comentario.isBlank()) {
+            throw new Exception("El comentario no puede estar vacío.");
+        }
+
+        if(calificacion == 0){
+            throw new Exception("Agregue una calificación");
+        }
+
+        if (alojamiento.getResenas() == null) {
+            alojamiento.setResenas(new ArrayList<>());
+        }
+        Resena resena = new Resena(comentario, calificacion, alojamiento);
+        alojamiento.getResenas().add(resena);
+        resenas.add(resena);
+        guardarDatosResena(resenas);
     }
 
 }
