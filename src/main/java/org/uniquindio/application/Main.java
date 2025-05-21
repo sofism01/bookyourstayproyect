@@ -35,6 +35,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(Paths.HOME)));
         Pane pane = (Pane) loader.load();
         Scene scene = new Scene(pane);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
@@ -46,12 +47,13 @@ public class Main extends Application {
         view.setMaximized(true);
         view.show();
     }
-    public static void actualizarVista(String path) throws IOException {
+    public static FXMLLoader actualizarVista(String path) throws IOException {
         FXMLLoader loader = new FXMLLoader((Main.class.getResource(path)));
         Pane pane = (Pane) loader.load();
         Scene scene = new Scene(pane);
         view.setScene(scene);
         view.show();
+        return loader;
     }
     public static FXMLLoader abrirVentana(String path) throws IOException {
         FXMLLoader loader = new FXMLLoader((Main.class.getResource(path)));
@@ -65,6 +67,8 @@ public class Main extends Application {
         return loader;
 
     }
+
+
     public static void navegarLogin(String path, boolean nuevo) throws IOException {
         FXMLLoader loader = new FXMLLoader((Main.class.getResource(path)));
         Pane pane = (Pane) loader.load();

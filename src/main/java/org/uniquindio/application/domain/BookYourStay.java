@@ -1020,15 +1020,38 @@ public class BookYourStay implements Serializable {
             throw new Exception("Agregue una calificación");
         }
 
-        if (alojamiento.getResenas() == null) {
-            alojamiento.setResenas(new ArrayList<>());
-        }
         Resena resena = new Resena(comentario, calificacion, alojamiento);
-        alojamiento.getResenas().add(resena);
         resenas.add(resena);
         guardarDatosResena(resenas);
     }
 
+    public Persona cambiarContrasena(String email, String contrasena) {
+
+        Persona personaModificada = null;
+
+        for(Persona persona: personas){
+            if(persona.getEmail().equals(email)){
+                personaModificada = persona;
+                persona.setContrasena(contrasena);
+                guardarDatosUsuario(personas);
+                break;
+            }
+        }
+
+        return personaModificada;
+    }
+
+    public List<Resena> obtenerResenas(String id) {
+
+        List<Resena> respiesta = new ArrayList<>();
+
+        for(Resena r: resenas){
+            if(r.getAlojamiento().getId().equals(id)){
+                respiesta.add(r);
+            }
+        }
+        return respiesta;
+    }
 }
 
 

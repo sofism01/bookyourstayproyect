@@ -64,8 +64,6 @@ public class CrearReservaController {
     
     @FXML
     public void initialize() {
-        // Obtener el alojamiento seleccionado
-        alojamientoSeleccionado = ItemAlojamientoController2.getAlojamientoSeleccionado();
         
         if (alojamientoSeleccionado != null) {
             lblNombreAlojamiento.setText("Nombre: " + alojamientoSeleccionado.getNombre());
@@ -203,5 +201,9 @@ public class CrearReservaController {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    public void setAlojamiento(Alojamiento alojamientoSeleccionado) {
+        this.alojamientoSeleccionado = alojamientoSeleccionado;
     }
 }

@@ -30,7 +30,7 @@ public abstract class Alojamiento implements Serializable {
     public String imagen;
     protected List<Servicio> servicio;
     protected List<Reserva> reservas;
-    protected List<Resena> resenas;
+    protected List<Resena> resenas; //borrar
 
     public Alojamiento() {
         this.reservas = new ArrayList<>();

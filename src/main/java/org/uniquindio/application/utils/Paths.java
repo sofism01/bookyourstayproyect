@@ -15,6 +15,7 @@ public class Paths {
     public static  final String VER_RESERVAS = "/view/verReservas.fxml";
     public static  final String RESENAS = "/view/resenas.fxml";
     public static  final String CREAR_RESENA = "/view/crearResena.fxml";
+    public static  final String VISTA_RECUPERAR_CONTRASENA = "/view/recuperarPassword.fxml";
 
 }
 

@@ -23,12 +23,7 @@
             <Label fx:id="lblContrasena" layoutX="12.0" layoutY="95.0" text="Contraseña:" />
             <TextField fx:id="txtCodigo" layoutX="86.0" layoutY="173.0" promptText="codigo de activación" />
             <Label fx:id="labelCodigo" layoutX="14.0" layoutY="177.0" text="Código:" />
-            <TextField fx:id="txtCodigoRecuperacion" layoutX="86.0" layoutY="173.0" promptText="codigo de recuperación" />
-            <Label fx:id="lblCodigoRecuperacion" layoutX="12.0" layoutY="177.0" text="Código: " />
             <TextField fx:id="txtEmail" layoutX="86.0" layoutY="134.0" />
-            <Label fx:id="lblContrasenaNueva" layoutX="11.0" layoutY="95.0" text="Contraseña: " visible="false" />
-            <PasswordField fx:id="txtContrasenaNueva" layoutX="87.0" layoutY="91.0" visible="false" />
-            <Button fx:id="btnSolicitarCodigo" layoutX="63.0" layoutY="218.0" mnemonicParsing="false" onAction="#solicitarCodigo" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: white;" text="Solicitar codigo" visible="false" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="319.0" fitWidth="258.0" layoutX="23.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
@@ -38,7 +33,6 @@
       </ImageView>
       <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onAction="#regresarHomeInicioSesion" style="-fx-background-color: #dce0dd;" text="Regresar" />
       <Button fx:id="btnRecuperarContrasena" layoutX="439.0" layoutY="14.0" mnemonicParsing="false" onAction="#recuperarContrasena" style="-fx-background-color: #dce0dd;" text="Olvide mi contraseña" />
-      <Button fx:id="btnValidar" layoutX="375.0" layoutY="346.0" mnemonicParsing="false" onAction="#validarCodigoRecuperacion" prefHeight="26.0" prefWidth="128.0" style="-fx-background-color: #dce0dd;" text="Validar" visible="false" />
       <Button fx:id="btnIniciarSesion" layoutX="379.0" layoutY="341.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="26.0" prefWidth="128.0" style="-fx-background-color: #dce0dd;" text="Iniciar Sesion" />
    </children>
 </AnchorPane>

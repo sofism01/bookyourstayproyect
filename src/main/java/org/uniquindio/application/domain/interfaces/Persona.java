@@ -11,6 +11,7 @@ public interface Persona extends Serializable {
     public String getContrasena();
     public String getCedula();
 
+    public void setContrasena(String nueva);
 
 }
 

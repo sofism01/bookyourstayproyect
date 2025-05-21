@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.uniquindio.application.Main;
@@ -51,7 +52,7 @@ public class VerReservasController {
     private BookYourStay bookYourStay;
     private Cliente clienteActual;
     private ObservableList<Reserva> listaReservas;
-    public static Reserva reservaSeleccionada;
+    public Reserva reservaSeleccionada;
     
     @FXML
     public void initialize() {
@@ -201,6 +202,7 @@ public class VerReservasController {
             Main.mostrarMensaje("Seleccione una reserva", Alert.AlertType.WARNING);
             return;
         }
-        Main.abrirVentana(Paths.CREAR_RESENA);
+        FXMLLoader loader = Main.abrirVentana(Paths.CREAR_RESENA);
+        ((CrearResenaController) loader.getController()).setReserva(reservaSeleccionada);
     }
 }

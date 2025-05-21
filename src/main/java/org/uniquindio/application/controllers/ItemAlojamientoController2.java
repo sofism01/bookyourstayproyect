@@ -2,6 +2,7 @@ package org.uniquindio.application.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -23,12 +24,7 @@ public class ItemAlojamientoController2 {
     public Button btnReservar;
     
     private Alojamiento alojamiento;
-    private static Alojamiento alojamientoSeleccionado;
-    
-    public static Alojamiento getAlojamientoSeleccionado() {
-        return alojamientoSeleccionado;
-    }
-
+    private Alojamiento alojamientoSeleccionado;
 
     public void setAlojamiento(Alojamiento alojamiento) {
         this.alojamiento = alojamiento;
@@ -44,7 +40,8 @@ public class ItemAlojamientoController2 {
     public void seleccionarAlojamiento(ActionEvent event) {
         alojamientoSeleccionado = this.alojamiento;
         try {
-            Main.actualizarVista(Paths.CREAR_RESERVA);
+            FXMLLoader loader = Main.actualizarVista(Paths.CREAR_RESERVA);
+            ((CrearReservaController) loader.getController()).setAlojamiento(alojamientoSeleccionado);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +50,8 @@ public class ItemAlojamientoController2 {
     public void verResenas(ActionEvent actionEvent) {
         alojamientoSeleccionado = this.alojamiento;
         try {
-            Main.abrirVentana(Paths.RESENAS);
+            FXMLLoader loader = Main.abrirVentana(Paths.RESENAS);
+            ((ResenasController) loader.getController()).setAlojamiento(alojamientoSeleccionado);
         } catch (IOException e) {
             e.printStackTrace();
         }
