@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.uniquindio.application.Main;
+import org.uniquindio.application.controllers.singleton.PanelClienteSingleton;
 import org.uniquindio.application.domain.Alojamiento;
 import org.uniquindio.application.utils.Paths;
 
@@ -25,6 +26,7 @@ public class ItemAlojamientoController2 {
     
     private Alojamiento alojamiento;
     private Alojamiento alojamientoSeleccionado;
+    private static PanelClienteSingleton panelClienteSingleton = PanelClienteSingleton.getInstance();
 
     public void setAlojamiento(Alojamiento alojamiento) {
         this.alojamiento = alojamiento;
@@ -39,23 +41,15 @@ public class ItemAlojamientoController2 {
     @FXML
     public void seleccionarAlojamiento(ActionEvent event) {
         alojamientoSeleccionado = this.alojamiento;
-        try {
-            FXMLLoader loader = Main.actualizarVista(Paths.CREAR_RESERVA);
-            ((CrearReservaController) loader.getController()).setAlojamiento(alojamientoSeleccionado);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FXMLLoader loader = panelClienteSingleton.cargarPanel(Paths.CREAR_RESERVA);
+        ((CrearReservaController) loader.getController()).setAlojamiento(alojamientoSeleccionado);
+
     }
 
     public void verResenas(ActionEvent actionEvent) {
         alojamientoSeleccionado = this.alojamiento;
-        try {
-            FXMLLoader loader = Main.abrirVentana(Paths.RESENAS);
-            ((ResenasController) loader.getController()).setAlojamiento(alojamientoSeleccionado);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        FXMLLoader loader = panelClienteSingleton.cargarPanel(Paths.RESENAS);
+        ((ResenasController) loader.getController()).setAlojamiento(alojamientoSeleccionado);
     }
 }
 

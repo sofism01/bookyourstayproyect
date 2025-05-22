@@ -11,7 +11,6 @@
       fx:controller="org.uniquindio.application.controllers.PanelClienteController">
     <VBox minWidth="200.0" alignment="BASELINE_CENTER" spacing="20.0" >
 
-
         <HBox alignment="CENTER" spacing="10.0">
             <ImageView fitWidth="50.0" preserveRatio="true">
                 <Image url="@../imagen/imagenBienvenido.png"/>

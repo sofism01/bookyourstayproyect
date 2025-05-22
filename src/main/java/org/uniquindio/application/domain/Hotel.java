@@ -25,6 +25,23 @@ public class Hotel extends Alojamiento implements Serializable {
         habitaciones.add(habitacion);
     }
 
+    public String getPrecioRango() {
+
+        float minimo = Float.MAX_VALUE;
+        float maximo = 0;
+
+        for(Habitacion habitacion: habitaciones){
+            if(habitacion.getPrecio() < minimo){
+                minimo = habitacion.getPrecio();
+            }
+            if(habitacion.getPrecio() > maximo){
+                maximo = habitacion.getPrecio();
+            }
+        }
+
+        return "Entre "+minimo+" y "+maximo;
+    }
+
     @Override
     public String toString() {
         return "Hotel{" +

@@ -3,6 +3,7 @@ package org.uniquindio.application.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.BookYourStay;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 public class EstadisticasController {
 
     @FXML
-    private VBox panelEstadisticas;
+    private HBox panelEstadisticas;
 
     private final BookYourStay bookYourStay = BookYourStay.getInstance();
 
@@ -29,8 +30,6 @@ public class EstadisticasController {
         crearGraficoPastelRentabilidad();
 
     }
-
-
 
     private void crearGraficoPastelOcupacion() {
         PieChart pieChart = new PieChart();

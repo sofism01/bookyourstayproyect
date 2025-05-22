@@ -35,7 +35,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(Paths.HOME)));
         Pane pane = (Pane) loader.load();
         Scene scene = new Scene(pane);
-        //stage.setResizable(false);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
@@ -45,6 +45,7 @@ public class Main extends Application {
         Scene scene = new Scene(pane);
         view.setScene(scene);
         view.setMaximized(true);
+        view.setResizable(false);
         view.show();
     }
     public static FXMLLoader actualizarVista(String path) throws IOException {
@@ -90,28 +91,6 @@ public class Main extends Application {
         alert.setHeaderText("Informacion");
         alert.setContentText(mensaje);
         alert.showAndWait();
-    }
-
-    public FXMLLoader navegarVentana(String nombreArchivoFxml, String tituloVentana) throws IOException {
-
-
-        // Cargar la vista
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(nombreArchivoFxml));
-        Parent root = loader.load();
-
-        // Crear la escena
-        Scene scene = new Scene(root);
-
-        // Crear un nuevo escenario (ventana)
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle(tituloVentana);
-
-        // Mostrar la nueva ventana
-        stage.show();
-        return loader;
-
     }
 
 }

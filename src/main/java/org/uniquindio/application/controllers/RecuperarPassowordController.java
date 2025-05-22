@@ -15,6 +15,7 @@ import java.io.IOException;
 public class RecuperarPassowordController {
 
     public Button btnCambiarPassoword;
+    public Button btnRegresar;
     @FXML
     private Label lblCodigoRecuperacion;
 
@@ -69,7 +70,8 @@ public class RecuperarPassowordController {
     @FXML
 
     void regresarHomeInicioSesion (ActionEvent event) throws IOException {
-        Main.actualizarVista(Paths.HOME);
+        Main.actualizarVista(Paths.INICIAR_SESION);
+        cerrarVentana2();
     }
 
     @FXML
@@ -142,6 +144,11 @@ public class RecuperarPassowordController {
 
     public void cerrarVentana(){
         Stage stage = (Stage) btnCambiarPassoword.getScene().getWindow();
+        stage.close();
+    }
+
+    public void cerrarVentana2(){
+        Stage stage = (Stage) btnRegresar.getScene().getWindow();
         stage.close();
     }
 

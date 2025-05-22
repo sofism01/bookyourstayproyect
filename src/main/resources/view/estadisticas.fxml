@@ -6,13 +6,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="panelEstadisticas" alignment="CENTER" spacing="20.0"
+<VBox spacing="20.0"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.uniquindio.application.controllers.EstadisticasController"
       style="-fx-padding: 30px"
-      prefWidth="600" prefHeight="400">
-    <HBox alignment="TOP_LEFT">
-        <Button text="Regresar" onAction="#Volver"/>
-    </HBox>
+      prefWidth="900" prefHeight="600">
+    <Button text="Regresar" onAction="#Volver"/>
+    <HBox fx:id="panelEstadisticas" alignment="CENTER"  />
 </VBox>
 

@@ -4,16 +4,18 @@ import com.github.aytchell.qrgen.QrConfigurationException;
 import com.github.aytchell.qrgen.QrGenerator;
 import com.github.aytchell.qrgen.config.ErrorCorrectionLevel;
 import com.github.aytchell.qrgen.config.ImageFileType;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 import org.uniquindio.application.Main;
-import org.uniquindio.application.domain.Alojamiento;
-import org.uniquindio.application.domain.BookYourStay;
-import org.uniquindio.application.domain.Cliente;
+import org.uniquindio.application.controllers.singleton.PanelClienteSingleton;
+import org.uniquindio.application.domain.*;
 import org.uniquindio.application.utils.Paths;
 
 import javax.swing.*;
@@ -26,6 +28,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class CrearReservaController {
+
+    public TableView<Habitacion> habitaciones;
+    public TableColumn<Habitacion, String> colDescripcion;
+    public TableColumn<Habitacion, String> colCapacidad;
+    public TableColumn<Habitacion, String> colPrecio;
     @FXML
     private ImageView qrGenerado;
 
@@ -61,27 +68,14 @@ public class CrearReservaController {
     
     private BookYourStay bookYourStay = BookYourStay.getInstance();
     private Alojamiento alojamientoSeleccionado;
+    private static PanelClienteSingleton panelClienteSingleton = PanelClienteSingleton.getInstance();
     
     @FXML
     public void initialize() {
         
-        if (alojamientoSeleccionado != null) {
-            lblNombreAlojamiento.setText("Nombre: " + alojamientoSeleccionado.getNombre());
-            lblPrecioNoche.setText("Precio por noche: $" + alojamientoSeleccionado.getPrecioPorNoche());
-            lblCapacidad.setText("Capacidad máxima: " + alojamientoSeleccionado.getCapacidadMax() + " personas");
-        } else {
-            mostrarAlerta("Error", "No se ha seleccionado ningún alojamiento", Alert.AlertType.ERROR);
-        }
-        
         // Configurar los datepickers para que solo permitan fechas futuras
         fechaIngreso.setValue(LocalDate.now().plusDays(1));
         fechaSalida.setValue(LocalDate.now().plusDays(2));
-        
-        // Inicializar el spinner de personas
-        SpinnerValueFactory<Integer> valueFactory = 
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 
-                        alojamientoSeleccionado != null ? alojamientoSeleccionado.getCapacidadMax() : 10, 1);
-        spinnerPersonas.setValueFactory(valueFactory);
         
         // Agregar listeners para actualizar el resumen cuando cambien las fechas
         fechaIngreso.valueProperty().addListener((obs, oldVal, newVal) -> actualizarResumen());
@@ -180,7 +174,7 @@ public class CrearReservaController {
 
 
             // Regresar a la vista de cliente
-            Main.actualizarVistaMaximizada(Paths.VISTA_CLIENTE);
+            panelClienteSingleton.cargarPanel(Paths.VER_ALOJAMIENTOS);
         } catch (Exception e) {
             mostrarAlerta("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -188,11 +182,7 @@ public class CrearReservaController {
     
     @FXML
     void cancelarReserva(ActionEvent event) {
-        try {
-            Main.actualizarVistaMaximizada(Paths.VISTA_CLIENTE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        panelClienteSingleton.cargarPanel(Paths.VER_ALOJAMIENTOS);
     }
     
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
@@ -205,5 +195,29 @@ public class CrearReservaController {
 
     public void setAlojamiento(Alojamiento alojamientoSeleccionado) {
         this.alojamientoSeleccionado = alojamientoSeleccionado;
+
+        if (alojamientoSeleccionado != null) {
+            lblNombreAlojamiento.setText("Nombre: " + alojamientoSeleccionado.getNombre());
+            lblPrecioNoche.setText("Precio por noche: $" + alojamientoSeleccionado.getPrecioPorNoche());
+            lblCapacidad.setText("Capacidad máxima: " + alojamientoSeleccionado.getCapacidadMax() + " personas");
+
+
+            if(alojamientoSeleccionado instanceof Hotel){
+                habitaciones.setVisible(true);
+                colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescripcion()));
+                colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCapacidad()));
+                colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPrecio())));
+
+                habitaciones.setItems(FXCollections.observableArrayList( ( (Hotel) alojamientoSeleccionado).getHabitaciones() ) );
+            }else{
+
+                // Inicializar el spinner de personas
+                SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, alojamientoSeleccionado.getCapacidadMax());
+                spinnerPersonas.setValueFactory(valueFactory);
+            }
+
+        } else {
+            mostrarAlerta("Error", "No se ha seleccionado ningún alojamiento", Alert.AlertType.ERROR);
+        }
     }
 }
