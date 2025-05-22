@@ -3,6 +3,7 @@ package org.uniquindio.application.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.Administrador;
 import org.uniquindio.application.domain.BookYourStay;
@@ -58,6 +59,7 @@ public class RecuperarPassowordController {
                 // Establecer el cliente actual en BookYourStay
                 bookYourStay.setClienteActual((Cliente) persona);
                 Main.actualizarVistaMaximizada(Paths.VISTA_CLIENTE);
+                cerrarVentana();
             }
         }else{
             Main.mostrarMensaje("Sus datos son incorrectos", Alert.AlertType.ERROR);
@@ -136,6 +138,11 @@ public class RecuperarPassowordController {
         } catch (Exception e) {
             Main.mostrarMensaje(e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    public void cerrarVentana(){
+        Stage stage = (Stage) btnCambiarPassoword.getScene().getWindow();
+        stage.close();
     }
 
 }

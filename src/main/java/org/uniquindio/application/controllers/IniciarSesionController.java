@@ -3,6 +3,7 @@ package org.uniquindio.application.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.Administrador;
 import org.uniquindio.application.domain.BookYourStay;
@@ -97,6 +98,12 @@ public class IniciarSesionController {
     @FXML
     void recuperarContrasena(ActionEvent event) throws Exception{
         Main.abrirVentana(Paths.VISTA_RECUPERAR_CONTRASENA);
+        cerrarVentana();
+    }
+
+    public void cerrarVentana(){
+        Stage stage = (Stage) btnRecuperarContrasena.getScene().getWindow();
+        stage.close();
     }
 
 }
