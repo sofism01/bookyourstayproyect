@@ -11,5 +11,8 @@
       fx:controller="org.uniquindio.application.controllers.EstadisticasController"
       style="-fx-padding: 30px"
       prefWidth="600" prefHeight="400">
+    <HBox alignment="TOP_LEFT">
+        <Button text="Regresar" onAction="#Volver"/>
+    </HBox>
 </VBox>
 

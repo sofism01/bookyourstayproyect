@@ -785,7 +785,7 @@ public class BookYourStay implements Serializable {
 
         for (Alojamiento alojamiento : alojamientos) {
             for (Reserva reserva : alojamiento.getReservas()) {
-                long noches = ChronoUnit.DAYS.between(
+                long noches = ChronoUnit.DAYS. between(
                         reserva.getFechaIngreso(),
                         reserva.getFechaSalida()
                 );
@@ -866,7 +866,7 @@ public class BookYourStay implements Serializable {
                 long noches = ChronoUnit.DAYS.between(reserva.getFechaIngreso(), reserva.getFechaSalida());
                 if (noches <= 0) continue;
 
-                int personas = reserva.getNumeroPersonas(); // Asegúrate de que este método exista
+                int personas = reserva.getNumeroPersonas();
                 double ganancia = noches * alojamiento.getPrecioPorNoche() * personas;
 
                 // Suma extra para casas y apartamentos

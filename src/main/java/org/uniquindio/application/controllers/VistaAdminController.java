@@ -287,7 +287,7 @@ public class VistaAdminController implements Observable {
     }
 
     private void verEstadisticas() throws IOException {
-        Main.actualizarVista(Paths.ESTADISTICAS);
+        Main.actualizarVistaMaximizada(Paths.ESTADISTICAS);
     }
 
     private void agregarOfertas() throws IOException {

@@ -1,10 +1,14 @@
 package org.uniquindio.application.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.VBox;
+import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.BookYourStay;
+import org.uniquindio.application.utils.Paths;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +34,7 @@ public class EstadisticasController {
 
     private void crearGraficoPastelOcupacion() {
         PieChart pieChart = new PieChart();
-        pieChart.setTitle("Porcentaje de Ocupación por Tipo de Alojamiento");
+        pieChart.setTitle("Ocupación por Tipo de Alojamiento");
 
         List<Double> porcentajes = bookYourStay.calcularOcupacionPorcentualPorTipo();
 
@@ -54,4 +58,7 @@ public class EstadisticasController {
         panelEstadisticas.getChildren().add(pieChart);
     }
 
+    public void Volver(ActionEvent actionEvent) throws IOException {
+        Main.actualizarVista(Paths.VISTA_ADMIN);
+    }
 }

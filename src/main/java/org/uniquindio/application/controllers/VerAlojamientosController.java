@@ -5,12 +5,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.domain.Alojamiento;
 import org.uniquindio.application.domain.BookYourStay;
+import org.uniquindio.application.enums.Ciudad;
+import org.uniquindio.application.enums.Tipo;
 
 import java.net.URL;
 import java.util.List;
@@ -22,7 +25,12 @@ public class VerAlojamientosController {
     @FXML
     private ResourceBundle resources;
 
+    @FXML
+    private ComboBox<Ciudad> cmbFiltro;
 
+
+    @FXML
+    private ComboBox<Tipo> cmbTipo;
 
     @FXML
     private URL location;
@@ -55,8 +63,36 @@ public class VerAlojamientosController {
     }
     @FXML
     void initialize() {
+
+        cmbFiltro.getItems().addAll(Ciudad.values());
+        cmbTipo.getItems().addAll(Tipo.values());
         dibujarAlojamientos(bookYourStay.listarAlojamientos());
 
+    }
 
+    public void seleccionarFiltro(ActionEvent actionEvent) {
+    }
+
+    public void SeleccionarTipo(ActionEvent actionEvent) {
+    }
+
+    public void limpiarFiltro(ActionEvent actionEvent) {
+        cmbFiltro.setValue(null);
+        cmbTipo.setValue(null);
+        dibujarAlojamientos(bookYourStay.listarAlojamientos());
+    }
+
+    public void filtrar(ActionEvent actionEvent) {
+        Ciudad ciudad = cmbFiltro.getValue();
+        Tipo tipo = cmbTipo.getValue();
+        List<Alojamiento> alojamientos =
+                bookYourStay.buscarPorCiudad((ciudad));
+        bookYourStay.buscarPorTipo((tipo));
+
+        if(!alojamientos.isEmpty()){
+            dibujarAlojamientos(alojamientos);
+        }else{
+            Main.mostrarMensaje("No hay alojamientos", Alert.AlertType.INFORMATION);
+        }
     }
 }

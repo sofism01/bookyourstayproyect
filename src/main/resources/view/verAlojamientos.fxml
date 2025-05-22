@@ -13,7 +13,17 @@
 <?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.uniquindio.application.controllers.VerAlojamientosController">
    <children>
+      <HBox alignment="CENTER" >
+         <HBox.margin>
+            <Insets top="10.0" bottom="10.0"/>
+         </HBox.margin>
+         <ComboBox fx:id="cmbFiltro" onAction="#seleccionarFiltro" prefHeight="34.0" prefWidth="185.0" promptText="Seleccione una ciudad" />
+         <ComboBox fx:id="cmbTipo" onAction="#SeleccionarTipo" prefHeight="34.0" prefWidth="164.0" promptText="Seleccione un tipo" />
+         <Button mnemonicParsing="false" onAction="#limpiarFiltro" prefHeight="34.0" prefWidth="97.0" text="Limpiar filtro" />
+         <Button mnemonicParsing="false" onAction="#filtrar" prefHeight="34.0" prefWidth="108.0" text="Buscar" />
+</HBox>
       <Label alignment="TOP_CENTER" maxWidth="Infinity" text="Alojamientos diponibles">
+
          <font>
             <Font name="Playbill" size="36.0" />
          </font>
@@ -25,6 +35,8 @@
       <ScrollPane fx:id="scrollAlojamientos" layoutX="30.0" layoutY="76.0" prefHeight="390.0" prefWidth="380.0">
          <content>
             <HBox fx:id="contenedorAlojamientos" prefHeight="100.0" prefWidth="200.0" spacing="10" />
+
+
          </content>
          <VBox.margin>
             <Insets top="30.0" />

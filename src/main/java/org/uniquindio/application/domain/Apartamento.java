@@ -33,8 +33,8 @@ public class Apartamento extends Alojamiento implements Serializable {
 
     @Builder
     public Apartamento(String id, Tipo tipo, String nombre, List<Oferta> oferta, Ciudad ciudad, String descripcion, float precioPorNoche,
-                       int capacidadMax, String imagen, List<Servicio> servicio, double costoMantenimiento, List<Reserva> reservas, List<Resena> resenas) {
-        super(id, tipo, nombre, oferta, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio, reservas, resenas);
+                       int capacidadMax, String imagen, List<Servicio> servicio, double costoMantenimiento, List<Reserva> reservas) {
+        super(id, tipo, nombre, oferta, ciudad, descripcion, precioPorNoche, capacidadMax, imagen, servicio, reservas);
         this.costoMantenimiento = costoMantenimiento;
 
     }
