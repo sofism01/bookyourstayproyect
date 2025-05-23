@@ -32,7 +32,7 @@
          </VBox.margin>
       </Label>
 
-      <ScrollPane fx:id="scrollAlojamientos" layoutX="30.0" layoutY="76.0" prefHeight="390.0" prefWidth="380.0">
+      <ScrollPane fx:id="scrollAlojamientos" layoutX="30.0" layoutY="76.0" prefHeight="420.0" prefWidth="380.0">
          <content>
             <HBox fx:id="contenedorAlojamientos" prefHeight="100.0" prefWidth="200.0" spacing="10" />
 

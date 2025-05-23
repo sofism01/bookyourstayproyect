@@ -1,9 +1,9 @@
 package org.uniquindio.application.enums;
 
 public enum Tipo {
-    CASA("Casa"),
-    HOTEL("Hotel"),
-    APARTAMENTO("Apartamento");
+    CASA("CASA"),
+    HOTEL("HOTEL"),
+    APARTAMENTO("APARTAMENTO");
 
 
     private final String nombre;

@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -82,6 +83,10 @@ public class VistaAdminController implements Observable {
     private TableColumn<Alojamiento, String> colCapacidad;
 
     @FXML
+    private TableColumn<Alojamiento, String> colTipo;
+
+
+    @FXML
     private TableColumn<Alojamiento, String> colCiudad;
 
     @FXML
@@ -120,6 +125,7 @@ public class VistaAdminController implements Observable {
 
                 bookYourStay.editarAlojamiento(
                         alojamientoSeleccionado.getId(),
+                            Tipo.valueOf(cmbTipo.getValue().toUpperCase()),
                          txtNombre.getText(),
                          Ciudad.valueOf(cmbCiudad.getValue().toUpperCase()),
                          txtDescripcion.getText(),
@@ -299,6 +305,7 @@ public class VistaAdminController implements Observable {
 
         verOpciones();
 
+        colTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTipo().name()));
         colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombre()));
         colCiudad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad().name()));
         colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescripcion()));
@@ -314,11 +321,16 @@ public class VistaAdminController implements Observable {
         f.add(new File("*.jpg"));
         f.add(new File("*.png"));
         //Cargar categorias en el ComboBox
-        this.cmbTipo.getItems().addAll("Casa", "Apartamento", "Hotel");
-        this.cmbCiudad.getItems().addAll("ARMENIA", "PEREIRA", "MEDELLIN", "BOGOTA", "CARTAGENA");
+        for (Tipo tipo : Tipo.values()) {
+            this.cmbTipo.getItems().add(tipo.name());
+        }
+        for (Ciudad ciudad : Ciudad.values()) {
+            this.cmbCiudad.getItems().add(ciudad.name());
+        }
         this.cmbCapacidad.getItems().addAll("1", "2", "3", "4", "5");
-        this.cmbServicios.getItems().addAll("PISCINA", "WIFI", "DESAYUNO", "GARAJE", "CALEFACCION", "TV", "GUARDAEQUIPAJE", "AGUA_CALIENTE", "AIRE_ACONDICIONADO" );
-
+        for(Servicio servicio : Servicio.values()){
+                    this.cmbServicios.getItems().add(servicio.name());
+                }
         this.habitaciones = new ArrayList<>();
 
         //Evento click en la tabla
@@ -327,6 +339,7 @@ public class VistaAdminController implements Observable {
             alojamientoSeleccionado = tablaAlojamientos.getSelectionModel().getSelectedItem();
 
             if (alojamientoSeleccionado != null) {
+                cmbTipo.setValue(alojamientoSeleccionado.getTipo().toString());
                 txtNombre.setText(alojamientoSeleccionado.getNombre());
                 cmbCiudad.setValue(alojamientoSeleccionado.getCiudad().toString());
                 txtDescripcion.setText(alojamientoSeleccionado.getDescripcion());

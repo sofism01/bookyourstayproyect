@@ -22,6 +22,7 @@
     <Label fx:id="descripcionAlojamiento" wrapText="true"/>
     <Label fx:id="serviciosAlojamiento" wrapText="true"/>
     <Label fx:id="ofertaAlojamiento" style="-fx-text-fill: green;" />
+    <Label fx:id="precioAdicionalAlojamiento" />
     
     <Region VBox.vgrow="ALWAYS" />
     

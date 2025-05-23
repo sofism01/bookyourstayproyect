@@ -544,7 +544,7 @@ public class BookYourStay implements Serializable {
         }
     }
 
-    public void editarAlojamiento(String id, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
+    public void editarAlojamiento(String id, Tipo tipo, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                                   int capacidadMax, String imagen) {
 
         for (int i = 0; i < alojamientos.size(); i++) {
@@ -552,6 +552,7 @@ public class BookYourStay implements Serializable {
             if (alojamientos.get(i).getId().equals(id)) {
 
                 Alojamiento alojamientoGuardado = alojamientos.get(i);
+                alojamientoGuardado.setTipo(tipo);
                 alojamientoGuardado.setNombre(nombre);
                 alojamientoGuardado.setCiudad(ciudad);
                 alojamientoGuardado.setDescripcion(descripcion);
@@ -904,10 +905,6 @@ public class BookYourStay implements Serializable {
             throw new Exception("Fechas inválidas.");
         }
 
-        // Validar capacidad
-        if (numeroPersonas > alojamiento.getCapacidadMax()) {
-            throw new Exception("La cantidad de huéspedes excede la capacidad del alojamiento.");
-        }
 
         // Inicializar la lista de reservas si es nula
         if (alojamiento.getReservas() == null) {

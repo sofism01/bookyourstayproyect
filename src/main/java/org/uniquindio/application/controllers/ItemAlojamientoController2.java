@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 import org.uniquindio.application.Main;
 import org.uniquindio.application.controllers.singleton.PanelClienteSingleton;
 import org.uniquindio.application.domain.Alojamiento;
+import org.uniquindio.application.domain.Apartamento;
+import org.uniquindio.application.domain.Casa;
 import org.uniquindio.application.utils.Paths;
 
 import java.io.IOException;
@@ -20,6 +22,7 @@ public class ItemAlojamientoController2 {
     public Label precioAlojamiento;
     public Label capacidadAlojamiento;
     public Label descripcionAlojamiento;
+    public Label precioAdicionalAlojamiento;
     public Label serviciosAlojamiento;
     public Label ofertaAlojamiento;
     public Button btnReservar;
@@ -36,6 +39,11 @@ public class ItemAlojamientoController2 {
         capacidadAlojamiento.setText("Capacidad maxima: " + alojamiento.getCapacidadMax());
         descripcionAlojamiento.setText("Descripcion: " + alojamiento.getDescripcion());
         serviciosAlojamiento.setText("Servicios: " + alojamiento.getServicio());
+        if (alojamiento instanceof Apartamento) {
+            precioAdicionalAlojamiento.setText("Costo adicional: " + ((Apartamento) alojamiento).getCostoMantenimiento());
+        } else if (alojamiento instanceof Casa) {
+            precioAdicionalAlojamiento.setText("Costo adicional: " + ((Casa) alojamiento).getCostoAseo());
+        }
     }
     
     @FXML

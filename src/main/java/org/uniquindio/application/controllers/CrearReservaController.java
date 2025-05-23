@@ -44,6 +44,9 @@ public class CrearReservaController {
     
     @FXML
     private Label lblCapacidad;
+
+    @FXML
+    private Label lblCostoAdicional;
     
     @FXML
     private DatePicker fechaIngreso;
@@ -65,7 +68,8 @@ public class CrearReservaController {
     
     @FXML
     private Button btnConfirmar;
-    
+
+    private Habitacion habitacionSeleccionada; //habitacion seleccionado de la tabla
     private BookYourStay bookYourStay = BookYourStay.getInstance();
     private Alojamiento alojamientoSeleccionado;
     private static PanelClienteSingleton panelClienteSingleton = PanelClienteSingleton.getInstance();
@@ -84,6 +88,11 @@ public class CrearReservaController {
         
         // Inicializar el resumen
         actualizarResumen();
+
+        //Evento click en la tabla
+        habitaciones.setOnMouseClicked(e -> {
+            //Obtener habitacion seleccionado
+            habitacionSeleccionada = habitaciones.getSelectionModel().getSelectedItem();});
     }
     
     private void actualizarResumen() {
@@ -95,14 +104,17 @@ public class CrearReservaController {
             if (salida.isAfter(ingreso)) {
                 long noches = ChronoUnit.DAYS.between(ingreso, salida);
                 float total = noches * alojamientoSeleccionado.getPrecioPorNoche();
-                if (alojamientoSeleccionado instanceof org.uniquindio.application.domain.Casa || alojamientoSeleccionado instanceof org.uniquindio.application.domain.Apartamento) {
+                if (alojamientoSeleccionado instanceof org.uniquindio.application.domain.Hotel && habitacionSeleccionada != null) {
+                    total = noches * habitacionSeleccionada.getPrecio();
+                } else {
+                    total = noches * alojamientoSeleccionado.getPrecioPorNoche();
                     if (alojamientoSeleccionado instanceof org.uniquindio.application.domain.Casa) {
                         total += (float) ((org.uniquindio.application.domain.Casa) alojamientoSeleccionado).getCostoAseo();
                     } else if (alojamientoSeleccionado instanceof org.uniquindio.application.domain.Apartamento) {
                         total += (float) ((org.uniquindio.application.domain.Apartamento) alojamientoSeleccionado).getCostoMantenimiento();
                     }
                 }
-                
+
                 lblResumenNoches.setText("Noches: " + noches);
                 lblResumenTotal.setText("Total: $" + total);
             } else {
@@ -142,36 +154,49 @@ public class CrearReservaController {
             mostrarAlerta("Error", "No se ha seleccionado ningún alojamiento", Alert.AlertType.ERROR);
             return;
         }
-        
+
         // Verificar que el cliente esté logueado
         Cliente clienteActual = bookYourStay.getClienteActual();
         if (clienteActual == null) {
             mostrarAlerta("Error", "Debe iniciar sesión para hacer una reserva", Alert.AlertType.ERROR);
             return;
         }
-        
+
         // Obtener datos del formulario
         LocalDate ingreso = fechaIngreso.getValue();
         LocalDate salida = fechaSalida.getValue();
         int numeroPersonas = spinnerPersonas.getValue();
-        
+
         // Validar fechas
         if (ingreso == null || salida == null || !salida.isAfter(ingreso)) {
             mostrarAlerta("Error", "Las fechas seleccionadas no son válidas", Alert.AlertType.ERROR);
             return;
         }
-        
+
         // Validar capacidad
-        if (numeroPersonas > alojamientoSeleccionado.getCapacidadMax()) {
-            mostrarAlerta("Error", "El número de personas excede la capacidad del alojamiento", Alert.AlertType.ERROR);
-            return;
+        if (alojamientoSeleccionado instanceof Hotel) {
+
+            if (habitacionSeleccionada == null) {
+                mostrarAlerta("Error", "Debe seleccionar una habitación", Alert.AlertType.ERROR);
+                return;
+            }
+            int capacidadHabitacion = Integer.parseInt(habitacionSeleccionada.getCapacidad());
+            int capacidad = spinnerPersonas.getValue();
+            if (capacidad > capacidadHabitacion) {
+                mostrarAlerta("Error", "El número de personas excede la capacidad de la habitación seleccionada", Alert.AlertType.ERROR);
+                return;
+            }
+        } else {
+            if (numeroPersonas > alojamientoSeleccionado.getCapacidadMax()) {
+                mostrarAlerta("Error", "El número de personas excede la capacidad del alojamiento", Alert.AlertType.ERROR);
+                return;
+            }
         }
-        
+
         try {
             // Realizar la reserva
             String resultado = bookYourStay.realizarReserva(clienteActual, alojamientoSeleccionado, ingreso, salida, numeroPersonas);
             mostrarAlerta("Reserva Exitosa", resultado, Alert.AlertType.INFORMATION);
-
 
             // Regresar a la vista de cliente
             panelClienteSingleton.cargarPanel(Paths.VER_ALOJAMIENTOS);
@@ -179,6 +204,7 @@ public class CrearReservaController {
             mostrarAlerta("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
     
     @FXML
     void cancelarReserva(ActionEvent event) {
@@ -200,17 +226,43 @@ public class CrearReservaController {
             lblNombreAlojamiento.setText("Nombre: " + alojamientoSeleccionado.getNombre());
             lblPrecioNoche.setText("Precio por noche: $" + alojamientoSeleccionado.getPrecioPorNoche());
             lblCapacidad.setText("Capacidad máxima: " + alojamientoSeleccionado.getCapacidadMax() + " personas");
-
-
-            if(alojamientoSeleccionado instanceof Hotel){
+            if(alojamientoSeleccionado instanceof Casa){
+                lblCostoAdicional.setText("Costo adicional: $" + ((Casa) alojamientoSeleccionado).getCostoAseo());
+            } else if (alojamientoSeleccionado instanceof Apartamento) {
+                lblCostoAdicional.setText("Costo adicional: $" + ((Apartamento) alojamientoSeleccionado).getCostoMantenimiento());
+            } else
+            lblCostoAdicional.setText("Costo adicional: $0");
+            if (alojamientoSeleccionado instanceof Hotel) {
                 habitaciones.setVisible(true);
                 colDescripcion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescripcion()));
                 colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCapacidad()));
                 colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPrecio())));
 
-                habitaciones.setItems(FXCollections.observableArrayList( ( (Hotel) alojamientoSeleccionado).getHabitaciones() ) );
-            }else{
+                habitaciones.setItems(FXCollections.observableArrayList(((Hotel) alojamientoSeleccionado).getHabitaciones()));
 
+                habitaciones.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                    if (newVal != null) {
+                        lblCapacidad.setText("Capacidad máxima: " + newVal.getCapacidad() + " personas");
+                        lblPrecioNoche.setText("Precio por noche: $" + newVal.getPrecio());
+
+                        // Actualizar el spinner de personas según la capacidad de la habitación seleccionada
+                        int capacidadMax = 1;
+                        try {
+                            capacidadMax = Integer.parseInt(newVal.getCapacidad());
+                        } catch (NumberFormatException e) {
+                            capacidadMax = 1;
+                        }
+                        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, capacidadMax);
+                        spinnerPersonas.setValueFactory(valueFactory);
+
+                        // Validar si el número de personas es mayor a la capacidad de la habitación
+                        int numPersonas = spinnerPersonas.getValue();
+                        if (numPersonas > capacidadMax) {
+                            mostrarAlerta("Advertencia", "El número de personas excede la capacidad de la habitación seleccionada", Alert.AlertType.WARNING);
+                        }
+                    }
+                });
+            } else {
                 // Inicializar el spinner de personas
                 SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, alojamientoSeleccionado.getCapacidadMax());
                 spinnerPersonas.setValueFactory(valueFactory);

@@ -8,16 +8,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.uniquindio.application.Main;
-import org.uniquindio.application.domain.Alojamiento;
-import org.uniquindio.application.domain.BookYourStay;
-import org.uniquindio.application.domain.Cliente;
-import org.uniquindio.application.domain.Reserva;
+import org.uniquindio.application.domain.*;
 import org.uniquindio.application.utils.Paths;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class VerReservasController {
@@ -103,9 +101,15 @@ public class VerReservasController {
         colPrecio.setCellValueFactory(cellData -> {
             Alojamiento alojamiento = cellData.getValue().getAlojamiento();
             float precio = alojamiento != null ? alojamiento.getPrecioPorNoche() : 0;
+            if(alojamiento instanceof Casa){
+                precio += ((Casa) alojamiento).getCostoAseo();
+            } else if(alojamiento instanceof Apartamento){
+                precio += ((Apartamento) alojamiento).getCostoMantenimiento();
+            }
             long dias = cellData.getValue().getTotalDias();
-            return javafx.beans.binding.Bindings.createStringBinding(() -> 
-                    String.format("$%.2f", precio * dias));
+            float finalPrecio = precio;
+            return javafx.beans.binding.Bindings.createStringBinding(() ->
+                    String.format("$%.2f", finalPrecio * dias));
         });
         
         cargarReservas();

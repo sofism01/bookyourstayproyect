@@ -128,6 +128,7 @@
                      <children>
                         <TableView fx:id="tablaAlojamientos" prefHeight="200.0" prefWidth="455.0">
                           <columns>
+                              <TableColumn fx:id="colTipo" prefWidth="75.0" text="Tipo" />
                             <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
                             <TableColumn fx:id="colCiudad" prefWidth="75.0" text="Ciudad" />
                               <TableColumn fx:id="colDescripcion" prefWidth="75.0" text="Descripción" />

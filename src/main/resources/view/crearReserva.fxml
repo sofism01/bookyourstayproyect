@@ -30,6 +30,7 @@
                     <Label fx:id="lblNombreAlojamiento" text="Nombre: " />
                     <Label fx:id="lblPrecioNoche" text="Precio por noche: " />
                     <Label fx:id="lblCapacidad" text="Capacidad máxima: " />
+                    <Label fx:id="lblCostoAdicional" text="Costo adicional: " />
                 </VBox>
             </HBox>
 
@@ -65,7 +66,7 @@
                         prefWidth="150"/>
             </HBox>
         </VBox>
-        <TableView fx:id="habitaciones" visible="false" maxWidth="250">
+        <TableView fx:id="habitaciones" visible="false" maxWidth="500">
             <columns>
                 <TableColumn fx:id="colDescripcion" text="Habitación" prefWidth="150"/>
                 <TableColumn fx:id="colCapacidad" text="Capacidad" prefWidth="150"/>
