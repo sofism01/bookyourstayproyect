@@ -11,7 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import lombok.Setter;
 import org.uniquindio.application.Main;
+import org.uniquindio.application.domain.Alojamiento;
 import org.uniquindio.application.domain.Habitacion;
+import org.uniquindio.application.enums.Ciudad;
+import org.uniquindio.application.enums.Tipo;
 import org.uniquindio.application.observer.Observable;
 import org.uniquindio.application.utils.Paths;
 
@@ -72,6 +75,7 @@ public class CrearHabitacionController {
     private List<Habitacion> habitaciones;
 
     private ObservableList<Habitacion> observableHabitaciones;
+    private Habitacion habitacionSeleccionada; //habitacion seleccionado de la tabla
 
     @Setter
     private Observable observable;
@@ -94,7 +98,39 @@ public class CrearHabitacionController {
 
     @FXML
     void editarHabitacion(ActionEvent event) {
+        if (habitacionSeleccionada!= null) {
+            try {
 
+                bookYourStay.editarHabitacion(
+                       habitacionSeleccionada.getNumero(),
+                        Float.parseFloat(txtPrecio.getText()),
+                        cmbCapacidad.getValue(),
+                        txtDescripcion.getText()
+
+                );
+
+                limpiarCampos();
+                actualizarHabitacion();
+
+                Main.mostrarMensaje("Habitacion actualizada correctamente", Alert.AlertType.INFORMATION);
+            } catch (Exception ex) {
+                Main.mostrarMensaje(ex.getMessage(), Alert.AlertType.ERROR);
+            }
+        } else {
+            Main.mostrarMensaje("Debe seleccionar una habitacion de la tabla", Alert.AlertType.WARNING);
+        }
+    }
+
+    public void actualizarHabitacion() {
+        observableHabitaciones.setAll(bookYourStay.listarHabitaciones());
+    }
+
+    private void limpiarCampos() {
+        txtNumHabitacion.clear();
+        txtPrecio.clear();
+        cmbCapacidad.getSelectionModel().clearSelection();
+        txtDescripcion.clear();
+        imagenHabitacion.setImage(null);
     }
 
     @FXML
@@ -106,6 +142,9 @@ public class CrearHabitacionController {
 
         try {
             Habitacion habitacion = new Habitacion(numero, Float.parseFloat(precio), capacidad, descripcion, new ArrayList<>());
+            if (habitaciones == null) {
+                habitaciones = new ArrayList<>();
+            }
             habitaciones.add(habitacion);
             actualizarAlojamiento();
             Main.mostrarMensaje("Habitación creada corectamente", Alert.AlertType.INFORMATION);
@@ -125,11 +164,19 @@ public class CrearHabitacionController {
         observableHabitaciones.setAll(habitaciones);
     }
 
+    private void cargarHabitaciones() {
+        observableHabitaciones.setAll(bookYourStay.listarHabitaciones());
+        tablaHabitaciones.setItems(observableHabitaciones);
+    }
+
+
     @FXML
     void initialize() {
 
         observableHabitaciones = FXCollections.observableArrayList();
-        tablaHabitaciones.setItems(observableHabitaciones);
+       cargarHabitaciones();
+
+
 
         this.cmbCapacidad.getItems().addAll("1", "2", "3", "4", "5");
 
@@ -145,7 +192,20 @@ public class CrearHabitacionController {
         // Habilitar los botones solo cuando se seleccione una reserva
         tablaHabitaciones.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             btnEditarHabitacion.setDisable(newSelection == null);
-
+//Evento click en la tabla
+            tablaHabitaciones.setOnMouseClicked(e -> {
+                //Obtener habitacion seleccionado
+                habitacionSeleccionada = tablaHabitaciones.getSelectionModel().getSelectedItem();
+                if (habitacionSeleccionada != null) {
+                    txtDescripcion.setText(habitacionSeleccionada.getDescripcion());
+                    txtPrecio.setText(String.valueOf(habitacionSeleccionada.getPrecio()));
+                    cmbCapacidad.setValue(habitacionSeleccionada.getCapacidad());
+                    txtNumHabitacion.setText(habitacionSeleccionada.getNumero());
+                        }
 
     });
-}}
+        });
+    }
+
+
+}

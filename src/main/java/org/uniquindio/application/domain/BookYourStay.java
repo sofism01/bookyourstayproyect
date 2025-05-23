@@ -31,6 +31,7 @@ public class BookYourStay implements Serializable {
     private Administrador administrador;
     public static BookYourStay bookYourStay;
     private ArrayList<Alojamiento> alojamientos;
+    private ArrayList<Habitacion> habitaciones;
     private ArrayList<Persona> personas;
     private Set<String> emailsRegistrados = new HashSet<>();
     private List<Billetera> billeteras;
@@ -254,7 +255,7 @@ public class BookYourStay implements Serializable {
         List<Servicio> serviciosLista = servicios.stream().map(c -> Servicio.valueOf(c.toUpperCase())).toList();
 
         //Hacer las validaciones necesarias
-        if (habitaciones == null) {
+        if (habitaciones == null ) {
             habitaciones = new ArrayList<>();
         }
         if (tipo == null || nombre.isEmpty() || ciudad == null || descripcion.isEmpty() ||
@@ -544,7 +545,33 @@ public class BookYourStay implements Serializable {
         }
     }
 
-    public void editarAlojamiento(String id, Tipo tipo, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
+    public void editarHabitacion(String numeroHabitacion, float nuevoPrecio, String nuevaCapacidad, String nuevaDescripcion) throws Exception {
+
+
+
+        if (numeroHabitacion == null || nuevaCapacidad == null || nuevaDescripcion == null) {
+            throw new Exception("Ningún campo puede ser null");
+        }
+
+        if (habitaciones == null) {
+            habitaciones = new ArrayList<>();
+        }
+
+        for (int i=0; i < habitaciones.size(); i++) {
+            if (habitaciones.get(i).getNumero().equals(numeroHabitacion)) {
+                Habitacion habitacionGuardada = habitaciones.get(i);
+                            habitacionGuardada.setPrecio(nuevoPrecio);
+                            habitacionGuardada.setCapacidad(nuevaCapacidad);
+                            habitacionGuardada.setDescripcion(nuevaDescripcion);
+                            habitaciones.set(i, habitacionGuardada);
+                            guardarDatosAlojamiento(alojamientos);
+                            break;
+                        }
+                    }
+                }
+
+
+            public void editarAlojamiento(String id, Tipo tipo, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
                                   int capacidadMax, String imagen, float cosotoAdicional) {
 
         for (int i = 0; i < alojamientos.size(); i++) {
@@ -1072,6 +1099,13 @@ public class BookYourStay implements Serializable {
             }
         }
         return respiesta;
+    }
+
+    public List<Habitacion> listarHabitaciones() {
+        if (habitaciones == null) {
+            habitaciones = new ArrayList<>();
+        }
+        return habitaciones;
     }
 }
 
