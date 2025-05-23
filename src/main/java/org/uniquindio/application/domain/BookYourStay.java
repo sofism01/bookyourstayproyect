@@ -545,7 +545,7 @@ public class BookYourStay implements Serializable {
     }
 
     public void editarAlojamiento(String id, Tipo tipo, String nombre, Ciudad ciudad, String descripcion, float precioPorNoche,
-                                  int capacidadMax, String imagen) {
+                                  int capacidadMax, String imagen, float cosotoAdicional) {
 
         for (int i = 0; i < alojamientos.size(); i++) {
 
@@ -559,6 +559,15 @@ public class BookYourStay implements Serializable {
                 alojamientoGuardado.setPrecioPorNoche(precioPorNoche);
                 alojamientoGuardado.setCapacidadMax(capacidadMax);
                 alojamientoGuardado.setImagen(imagen);
+                // Si es un apartamento, actualizar el costo de mantenimiento
+                if (alojamientoGuardado instanceof Apartamento) {
+                    ((Apartamento) alojamientoGuardado).setCostoMantenimiento(cosotoAdicional);
+                }
+                // Si es una casa, actualizar el costo de aseo
+                if (alojamientoGuardado instanceof Casa) {
+                    ((Casa) alojamientoGuardado).setCostoAseo(cosotoAdicional);
+                }
+
                 //alojamientoGuardado.setServicio(servicio);
 
 
@@ -746,7 +755,7 @@ public class BookYourStay implements Serializable {
 
         for (Alojamiento alojamiento : alojamientos) {
             List<Reserva> reservas = alojamiento.getReservas();
-            if (reservas == null) continue;  // <-- Aquí validas que no sea null
+            if (reservas == null) continue;
 
             for (Reserva reserva : reservas) {
                 long noches = ChronoUnit.DAYS.between(
@@ -762,7 +771,23 @@ public class BookYourStay implements Serializable {
                 } else if (alojamiento instanceof Apartamento) {
                     nochesApartamento += noches;
                 } else if (alojamiento instanceof Hotel) {
-                    nochesHotel += noches;
+                        Hotel hotel = (Hotel) alojamiento;
+                        if (hotel.getHabitaciones() != null) {
+                            for (Habitacion habitacion : hotel.getHabitaciones()) {
+                                if (habitacion.getReservas() != null) {
+                                    for (Reserva reservaHabitacion : habitacion.getReservas()) {
+                                        long nochesHabitacion = ChronoUnit.DAYS.between(
+                                                reservaHabitacion.getFechaIngreso(),
+                                                reservaHabitacion.getFechaSalida()
+                                        );
+                                        if (nochesHabitacion > 0) {
+                                            nochesHotel += nochesHabitacion;
+                                            nochesTotales += nochesHabitacion;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                 }
             }
         }
@@ -904,7 +929,6 @@ public class BookYourStay implements Serializable {
         if (ingreso == null || salida == null || !ingreso.isBefore(salida)) {
             throw new Exception("Fechas inválidas.");
         }
-
 
         // Inicializar la lista de reservas si es nula
         if (alojamiento.getReservas() == null) {

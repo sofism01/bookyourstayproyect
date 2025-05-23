@@ -23,7 +23,15 @@ public class Reserva implements Serializable {
     private Alojamiento alojamiento;
     private Factura factura;
     private float costoTotal;
+    private Habitacion habitacionSeleccionada;
 
+    public Habitacion getHabitacionSeleccionada() {
+        return habitacionSeleccionada;
+    }
+
+    public void setHabitacionSeleccionada(Habitacion habitacionSeleccionada) {
+        this.habitacionSeleccionada = habitacionSeleccionada;
+    }
 
     @Builder
     public Reserva(LocalDate fechaIngreso, LocalDate fechaSalida, Cliente cliente, Alojamiento alojamiento, int numeroPersonas, float costoTotal) {

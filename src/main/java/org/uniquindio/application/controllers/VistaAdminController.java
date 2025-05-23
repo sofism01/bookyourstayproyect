@@ -11,10 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.CheckComboBox;
 import org.uniquindio.application.Main;
-import org.uniquindio.application.domain.Alojamiento;
-import org.uniquindio.application.domain.BookYourStay;
-import org.uniquindio.application.domain.Habitacion;
-import org.uniquindio.application.domain.Hotel;
+import org.uniquindio.application.domain.*;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
@@ -82,6 +79,10 @@ public class VistaAdminController implements Observable {
     @FXML
     private TableColumn<Alojamiento, String> colCapacidad;
 
+
+    @FXML
+    private TableColumn<Alojamiento, String> colCostoAdicional;
+
     @FXML
     private TableColumn<Alojamiento, String> colTipo;
 
@@ -131,7 +132,8 @@ public class VistaAdminController implements Observable {
                          txtDescripcion.getText(),
                          Float.parseFloat(txtPrecio.getText()),
                          Integer.parseInt(cmbCapacidad.getValue()),
-                         imageView.getImage().getUrl()
+                         imageView.getImage().getUrl(),
+                        Float.parseFloat(txtCostoAdicional.getText())
                 //cmbServicios.getCheckModel().getCheckedItems()
                         );
 
@@ -312,7 +314,16 @@ public class VistaAdminController implements Observable {
         colServicios.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getServicio().toString()));
         colPrecio.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPrecioPorNoche())));
         colCapacidad.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getCapacidadMax())));
-
+        colCostoAdicional.setCellValueFactory(cellData -> {
+            Alojamiento alojamiento = cellData.getValue();
+            if (alojamiento instanceof Casa) {
+                return new SimpleStringProperty(String.valueOf(((Casa) alojamiento).getCostoAseo()));
+            } else if (alojamiento instanceof Apartamento) {
+                return new SimpleStringProperty(String.valueOf(((Apartamento) alojamiento).getCostoMantenimiento()));
+            } else {
+                return new SimpleStringProperty("");
+            }
+        });
         //Inicializar lista observable y cargar alojamientos
         alojamientosObservable = FXCollections.observableArrayList();
         cargarAlojamientos();
@@ -347,6 +358,13 @@ public class VistaAdminController implements Observable {
                 txtPrecio.setText(String.valueOf(alojamientoSeleccionado.getPrecioPorNoche()));
                 cmbCapacidad.setValue(String.valueOf(alojamientoSeleccionado.getCapacidadMax()));
                 imageView.setImage(new Image(alojamientoSeleccionado.getImagen()));
+                if (alojamientoSeleccionado instanceof Casa) {
+                    txtCostoAdicional.setText(String.valueOf(((Casa) alojamientoSeleccionado).getCostoAseo()));
+                } else if (alojamientoSeleccionado instanceof Apartamento) {
+                    txtCostoAdicional.setText(String.valueOf(((Apartamento) alojamientoSeleccionado).getCostoMantenimiento()));
+                } else {
+                    txtCostoAdicional.setText("");
+                }
             }
 
         });

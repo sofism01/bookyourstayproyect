@@ -2,6 +2,7 @@ package org.uniquindio.application.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.uniquindio.application.enums.Ciudad;
 import org.uniquindio.application.enums.Servicio;
 import org.uniquindio.application.enums.Tipo;
@@ -9,6 +10,7 @@ import javax.sound.midi.MidiMessage;
 import java.io.Serializable;
 import java.util.List;
 @Getter
+@Setter
 public class Casa extends Alojamiento implements Serializable {
     private double costoAseo;
 

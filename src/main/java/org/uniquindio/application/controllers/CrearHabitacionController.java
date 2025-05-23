@@ -105,7 +105,7 @@ public class CrearHabitacionController {
         String descripcion = txtDescripcion.getText();
 
         try {
-            Habitacion habitacion = new Habitacion(numero, Float.parseFloat(precio), capacidad, descripcion);
+            Habitacion habitacion = new Habitacion(numero, Float.parseFloat(precio), capacidad, descripcion, new ArrayList<>());
             habitaciones.add(habitacion);
             actualizarAlojamiento();
             Main.mostrarMensaje("Habitación creada corectamente", Alert.AlertType.INFORMATION);

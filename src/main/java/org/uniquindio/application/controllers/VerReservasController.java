@@ -105,6 +105,13 @@ public class VerReservasController {
                 precio += ((Casa) alojamiento).getCostoAseo();
             } else if(alojamiento instanceof Apartamento){
                 precio += ((Apartamento) alojamiento).getCostoMantenimiento();
+            }  else if (alojamiento instanceof Hotel) {
+                Habitacion habitacion = cellData.getValue().getHabitacionSeleccionada();
+                if (habitacion != null) {
+                    precio = habitacion.getPrecio();
+                } else {
+                    precio = 0;
+                }
             }
             long dias = cellData.getValue().getTotalDias();
             float finalPrecio = precio;

@@ -121,7 +121,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin></Label>
                         <TextField fx:id="txtCostoAdicional" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Button fx:id="btnAgregarHabitacion" mnemonicParsing="false" onAction="#irAAgregarHabitacion" prefHeight="26.0" prefWidth="137.0" text="Agregar habitación" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Button fx:id="btnAgregarHabitacion" mnemonicParsing="false" onAction="#irAAgregarHabitacion" prefHeight="26.0" prefWidth="137.0" text="Gestionar habitaciones" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                      </children>
                   </GridPane>
                   <VBox prefHeight="418.0" prefWidth="454.0">
@@ -135,6 +135,7 @@
                               <TableColumn fx:id="colServicios" prefWidth="75.0" text="Servicios" />
                               <TableColumn fx:id="colPrecio" prefWidth="75.0" text="Precio" />
                               <TableColumn fx:id="colCapacidad" prefWidth="75.0" text="Capacidad" />
+                              <TableColumn fx:id="colCostoAdicional" prefWidth="75.0" text="Costo Adicional" />
                           </columns>
                            <VBox.margin>
                               <Insets top="25.0" />
